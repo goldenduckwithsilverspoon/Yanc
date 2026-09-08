@@ -8,7 +8,9 @@
   "scripts": {
     "build": "python3 scripts/build.py && node scripts/vendor-tailwind.mjs && node scripts/vendor-fonts.mjs",
     "serve": "python3 -m http.server -d docs 8000",
-    "test": "node scripts/smoke.mjs"
+    "test": "node scripts/smoke.mjs",
+    "bundle": "npm run build && node scripts/bundle-single.mjs",
+    "test:single": "node scripts/smoke-single.mjs"
   },
   "repository": {
     "type": "git",

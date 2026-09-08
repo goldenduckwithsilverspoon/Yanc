@@ -69,7 +69,9 @@ src/reference/          original export screenshots + the source flowchart
 scripts/build.py        injects the shell, emits docs/
 scripts/vendor-tailwind.mjs  compiles each page's Tailwind config (drops the CDN)
 scripts/vendor-fonts.mjs     self-hosts the fonts and subsets the icon font
+scripts/bundle-single.mjs    bundles docs/ into one self-contained HTML file
 scripts/smoke.mjs       Playwright walk-through of the whole journey
+scripts/smoke-single.mjs     the same walk-through against the single-file bundle
 ```
 
 The shell is namespaced so it never collides with a screen's own styling — the exports ship
@@ -125,10 +127,24 @@ with no build step on the hosting side; CI rebuilds it on every push so it canno
 
 Open <http://localhost:8000>.
 
+### Single-file build
+
+```bash
+npm run bundle    # -> docs-single/yanc-connect-demo.html
+```
+
+For hosts that take one file rather than a directory. Every stylesheet, script, font and image
+is inlined, and each screen renders into a same-origin `srcdoc` iframe — iframes rather than one
+merged document because the exports ship four incompatible Tailwind colour systems that would
+otherwise fight. Sharing the parent's origin is what keeps `sessionStorage` carrying the demo
+state between screens exactly as it does on the static site. The current screen is reflected in
+the URL hash, so views are linkable and the back button steps through the walkthrough.
+
 ### Tests
 
 ```bash
-npm test
+npm test          # the static site
+npm run test:single   # the single-file bundle
 ```
 
 The smoke test serves `docs/`, walks the full journey in Chromium, and fails on any console

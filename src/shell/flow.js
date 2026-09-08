@@ -184,17 +184,46 @@
     toast(String(msg), { title: 'Simulated', tone: 'info', sticky: true });
   };
 
-  /* ---------- navigation helpers ---------------------------------- */
+  /* ---------- navigation helpers ----------------------------------
+     The demo runs two ways: as separate pages on a static host, and as a
+     single self-contained file where each screen is rendered into a srcdoc
+     iframe (see scripts/bundle-single.mjs). In the second case there is no
+     real URL to navigate or read query parameters from, so both go through
+     the shell in the parent frame. */
 
-  function go(href) { window.location.href = href; }
+  var shell = null;
+  try {
+    if (window.parent !== window && window.parent.YANC_SHELL) shell = window.parent.YANC_SHELL;
+  } catch (e) { shell = null; }
+
+  function go(href) {
+    if (shell) shell.show(href);
+    else window.location.href = href;
+  }
 
   function currentId() {
     return document.body.getAttribute('data-yanc-screen') || 'index';
   }
 
   function param(name) {
-    var m = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.search);
+    var search = shell ? shell.search() : window.location.search;
+    var m = new RegExp('[?&]' + name + '=([^&#]*)').exec(search);
     return m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : null;
+  }
+
+  // In frame mode a relative href would resolve against about:srcdoc, so
+  // intercept links that point at another screen and route them instead.
+  function captureScreenLinks() {
+    if (!shell) return;
+    document.addEventListener('click', function (ev) {
+      var a = ev.target.closest && ev.target.closest('a[href]');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (!href || /^(#|https?:|mailto:|data:)/.test(href)) return;
+      if (!shell.has(href)) return;
+      ev.preventDefault();
+      go(href);
+    }, true);
   }
 
   /* ---------- chrome bar ------------------------------------------ */
@@ -900,6 +929,7 @@
   function boot() {
     buildChrome();
     rewireLinks();
+    captureScreenLinks();
     guardAvatars();
     fixVaultTab();
     var fn = screens[currentId()];
