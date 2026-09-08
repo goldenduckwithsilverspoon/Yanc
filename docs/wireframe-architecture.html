@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="stylesheet" href="assets/tw/wireframe-architecture.css"/>
+<title>YANC 1-on-1 Connect | Master Platform Architecture</title>
+<!-- Tailwind CSS v3 with Forms & Container Plugins -->
+<!-- BEGIN: Custom CSS -->
+<style data-purpose="base-styling">
+    body {
+      background-color: #f5f5f7;
+      color: #1d1d1f;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    /* Custom thin scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #9ca3af;
+    }
+  </style>
+<style data-purpose="micro-interactions">
+    .smooth-transition {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .pill-active {
+      background-color: #1d1d1f !important;
+      color: #ffffff !important;
+    }
+  </style>
+<!-- END: Custom CSS -->
+<link rel="stylesheet" href="assets/flow.css"/>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+<meta name="robots" content="noindex"/>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-black selection:text-white" data-yanc-screen="wireframe-architecture">
+<!-- BEGIN: PersonaRoleBar -->
+<!-- Top global role simulation selector required by specification -->
+<header class="bg-white border-b border-gray-200 sticky top-0 z-50 backdrop-blur-md bg-white/90" data-purpose="role-switcher-bar">
+<div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-4">
+<!-- Brand & Architecture Flow Indicator -->
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-lg bg-black flex items-center justify-center text-white font-bold text-base tracking-tighter">
+          Y
+        </div>
+<div>
+<div class="flex items-center space-x-2">
+<span class="font-semibold text-sm tracking-tight text-gray-950">YANC 1-on-1 Connect</span>
+<span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 border border-gray-200">v2.4 Spec Flow</span>
+</div>
+<p class="text-[11px] text-gray-500 leading-none mt-0.5">Master - Mentee Module Architecture</p>
+</div>
+</div>
+<!-- Live Role Simulator (7 Roles as requested) -->
+<div class="flex items-center gap-1.5 p-1 bg-gray-100/80 rounded-xl border border-gray-200/80 overflow-x-auto" data-purpose="role-buttons">
+<span class="text-[11px] font-medium text-gray-400 uppercase tracking-wider px-2">Role:</span>
+<button class="role-pill text-xs font-medium px-3 py-1.5 rounded-lg bg-white shadow-xs text-gray-900 border border-black/5 smooth-transition" id="role-member" onclick="switchRole('member')">Member Founder</button>
+<button class="role-pill text-xs font-medium px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 smooth-transition" id="role-nonmember" onclick="switchRole('nonmember')">Non-Member</button>
+<button class="role-pill text-xs font-medium px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 smooth-transition" id="role-mentor" onclick="switchRole('mentor')">Mentor / Investor</button>
+<button class="role-pill text-xs font-medium px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 smooth-transition" id="role-advisors" onclick="switchRole('advisors')">Advisors Only</button>
+<button class="role-pill text-xs font-medium px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 smooth-transition" id="role-ops" onclick="switchRole('ops')">Ops Admin</button>
+<button class="role-pill text-xs font-medium px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 smooth-transition" id="role-fin" onclick="switchRole('fin')">Finance Admin</button>
+<button class="role-pill text-xs font-medium px-3 py-1.5 rounded-lg text-gray-600 hover:text-gray-900 smooth-transition" id="role-tech" onclick="switchRole('tech')">Tech / Super Admin</button>
+</div>
+<!-- User Info & Credits Profile -->
+<div class="flex items-center space-x-3 text-xs">
+<div class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium flex items-center gap-1.5" id="credit-badge">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+<span>Credits: <strong>4 Allocated</strong></span>
+</div>
+<div class="h-4 w-px bg-gray-200"></div>
+<div class="flex items-center space-x-2">
+<div class="w-7 h-7 rounded-full bg-gradient-to-tr from-gray-900 to-gray-600 text-white flex items-center justify-center font-medium text-xs">
+            JD
+          </div>
+<span class="text-gray-700 font-medium hidden sm:inline" id="user-display-name">Jay Doe (Founder)</span>
+</div>
+</div>
+</div>
+</header>
+<!-- END: PersonaRoleBar -->
+<!-- BEGIN: AppContainer -->
+<div class="max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col lg:flex-row gap-6">
+<!-- BEGIN: SideTabNavigation -->
+<!-- Side Tab with all options: Mentors, Investors, Advisory Board, etc. -->
+<aside class="w-full lg:w-64 shrink-0" data-purpose="side-tab-navigation">
+<div class="bg-white rounded-2xl border border-gray-200 p-4 shadow-subtle sticky top-20">
+<!-- Onboarding Summary Indicator -->
+<div class="pb-4 mb-4 border-b border-gray-100">
+<p class="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Account State</p>
+<div class="mt-2 flex items-center justify-between">
+<span class="text-xs font-semibold text-gray-800" id="user-stage-label">Seed Founder</span>
+<span class="text-[10px] px-2 py-0.5 rounded bg-blue-50 text-blue-600 font-medium">Verified</span>
+</div>
+<div class="w-full bg-gray-100 h-1.5 rounded-full mt-2 overflow-hidden">
+<div class="bg-black h-1.5 rounded-full w-4/5"></div>
+</div>
+<span class="text-[10px] text-gray-400 block mt-1">Profile Onboarding Complete</span>
+</div>
+<nav aria-label="Primary Navigation" class="space-y-1">
+<button class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium bg-black text-white smooth-transition" id="tab-nav-mentors" onclick="switchTab('mentors')">
+<div class="flex items-center gap-2.5">
+<svg class="w-4 h-4 opacity-90" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Mentors Directory</span>
+</div>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-white/20 text-white font-mono">142</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 smooth-transition" id="tab-nav-investors" onclick="switchTab('investors')">
+<div class="flex items-center gap-2.5">
+<svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Investors Portal</span>
+</div>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 font-mono">48</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 smooth-transition" id="tab-nav-advisory" onclick="switchTab('advisory')">
+<div class="flex items-center gap-2.5">
+<svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Advisory Board</span>
+</div>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-500 font-mono">19</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 smooth-transition" id="tab-nav-bookings" onclick="switchTab('bookings')">
+<div class="flex items-center gap-2.5">
+<svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Bookings &amp; Slots</span>
+</div>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 font-semibold">2 Active</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 smooth-transition" id="tab-nav-vault" onclick="switchTab('vault')">
+<div class="flex items-center gap-2.5">
+<svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Pitch Decks &amp; Vault</span>
+</div>
+</button>
+<!-- Divider for Administrative Console -->
+<div class="pt-4 mt-4 border-t border-gray-100">
+<span class="text-[11px] font-medium text-gray-400 uppercase tracking-wider px-3">Governance</span>
+<button class="mt-2 w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 smooth-transition" id="tab-nav-governance" onclick="switchTab('governance')">
+<div class="flex items-center gap-2.5">
+<svg class="w-4 h-4 opacity-70 text-amber-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Admin Consoles</span>
+</div>
+<span class="text-[10px] px-1 py-0.5 rounded bg-amber-50 text-amber-700 font-mono">HQ</span>
+</button>
+</div>
+</nav>
+<!-- Whiteboard Flow Visual Summary Pill -->
+<div class="mt-6 p-3 rounded-xl bg-gray-50 border border-gray-100">
+<p class="text-[11px] font-medium text-gray-500 uppercase tracking-tight">Active Engine Rule</p>
+<p class="text-xs text-gray-700 mt-1 font-medium leading-tight" id="engine-rule-desc">
+            Member: 1 Credit/Call • Non-Member: Direct Checkout (INR)
+          </p>
+</div>
+</div>
+</aside>
+<!-- END: SideTabNavigation -->
+<!-- BEGIN: MainContentArea -->
+<main class="flex-1 min-w-0 flex flex-col space-y-6" data-purpose="primary-workspace">
+<!-- BEGIN: OnboardingTutorialBanner -->
+<!-- Whiteboard Spec: Home Page -> Personalize 1st module based on how to use platform + add tutorial -->
+<section class="bg-white rounded-2xl border border-gray-200 p-5 lg:p-6 shadow-subtle" data-purpose="personalization-walkthrough">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="space-y-1">
+<div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-100">
+<span>Personalized Onboarding</span>
+<span class="w-1 h-1 rounded-full bg-blue-500"></span>
+<span>Category: Tech Founder</span>
+</div>
+<h1 class="text-xl font-semibold tracking-tight text-gray-950">
+              Welcome to YANC 1-on-1 Connect Platform
+            </h1>
+<p class="text-xs sm:text-sm text-gray-500 max-w-2xl leading-relaxed">
+              Tailored flow: Connect directly with vetted domain mentors for strategic advisory or submit your investor dossier for direct fund introductions.
+            </p>
+</div>
+<!-- Whiteboard Signup / User Check / Tutorial Trigger -->
+<div class="flex items-center gap-2.5 shrink-0">
+<button class="px-3.5 py-2 text-xs font-medium rounded-xl border border-gray-200 text-gray-700 bg-white hover:bg-gray-50 shadow-xs flex items-center gap-1.5 smooth-transition" onclick="toggleTutorialModal()">
+<svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Platform Tutorial</span>
+</button>
+<button class="px-3.5 py-2 text-xs font-medium rounded-xl bg-black text-white hover:bg-gray-800 shadow-xs smooth-transition flex items-center gap-1.5" onclick="openOnboardingForm()">
+<span>Edit Onboarding Details</span>
+</button>
+</div>
+</div>
+<!-- Inline Whiteboard Flow Steps Tracker -->
+<div class="mt-5 pt-4 border-t border-gray-100 grid grid-cols-1 sm:grid-cols-4 gap-3">
+<div class="p-2.5 rounded-xl bg-gray-50 border border-gray-100 text-xs">
+<span class="text-[10px] font-semibold text-gray-400 block uppercase tracking-wider">Step 1</span>
+<p class="font-medium text-gray-800 mt-0.5">User Check &amp; Login</p>
+<p class="text-[11px] text-emerald-600 mt-0.5">✓ Authenticated</p>
+</div>
+<div class="p-2.5 rounded-xl bg-gray-50 border border-gray-100 text-xs">
+<span class="text-[10px] font-semibold text-gray-400 block uppercase tracking-wider">Step 2</span>
+<p class="font-medium text-gray-800 mt-0.5">Select Category</p>
+<p class="text-[11px] text-gray-500 mt-0.5">Founder / Seed Stage</p>
+</div>
+<div class="p-2.5 rounded-xl bg-gray-50 border border-gray-100 text-xs">
+<span class="text-[10px] font-semibold text-gray-400 block uppercase tracking-wider">Step 3</span>
+<p class="font-medium text-gray-800 mt-0.5">Find &amp; Filter Need</p>
+<p class="text-[11px] text-gray-500 mt-0.5">Sector, Stage &amp; Model</p>
+</div>
+<div class="p-2.5 rounded-xl bg-gray-50 border border-gray-100 text-xs">
+<span class="text-[10px] font-semibold text-gray-400 block uppercase tracking-wider">Step 4</span>
+<p class="font-medium text-gray-800 mt-0.5">Book Slot or Pitch</p>
+<p class="text-[11px] text-gray-500 mt-0.5">Online/Offline • Credits/INR</p>
+</div>
+</div>
+</section>
+<!-- END: OnboardingTutorialBanner -->
+<!-- BEGIN: MentorsTabModule -->
+<!-- Whiteboard: Find mentors (sort/filter based on need) -> Choose Suitable Mentor -> Add Details (why, what they need) -> Choose Slot (offline or online) -> Pay/Credits -->
+<section class="space-y-6 block" data-purpose="mentors-module" id="view-mentors">
+<!-- Filter & Search Toolbar -->
+<div class="bg-white rounded-2xl border border-gray-200 p-4 shadow-subtle flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
+<div>
+<label class="block text-[11px] font-medium text-gray-500 mb-1">Expertise / Sector</label>
+<select class="w-full text-xs rounded-xl border-gray-200 py-1.5 focus:ring-black focus:border-black bg-gray-50" id="mentor-filter-sector" onchange="applyFilters()">
+<option value="all">All Sectors (Fintech, SaaS, AI)</option>
+<option value="fintech">Fintech &amp; Payments</option>
+<option value="saas">Enterprise SaaS</option>
+<option value="consumer">Consumer Tech &amp; D2C</option>
+<option value="deeptech">AI / DeepTech</option>
+</select>
+</div>
+<div>
+<label class="block text-[11px] font-medium text-gray-500 mb-1">Target Need</label>
+<select class="w-full text-xs rounded-xl border-gray-200 py-1.5 focus:ring-black focus:border-black bg-gray-50" id="mentor-filter-need" onchange="applyFilters()">
+<option value="all">All Needs</option>
+<option value="gtm">Go-To-Market &amp; Growth</option>
+<option value="fundraising">Fundraising &amp; Term Sheets</option>
+<option value="product">0-to-1 Product Architecture</option>
+<option value="hiring">Executive Hiring</option>
+</select>
+</div>
+<div>
+<label class="block text-[11px] font-medium text-gray-500 mb-1">Format Available</label>
+<select class="w-full text-xs rounded-xl border-gray-200 py-1.5 focus:ring-black focus:border-black bg-gray-50" id="mentor-filter-format" onchange="applyFilters()">
+<option value="all">Both Online &amp; Offline Slots</option>
+<option value="online">Online Video (Google Meet)</option>
+<option value="offline">Offline Coffee / In-Person</option>
+</select>
+</div>
+</div>
+<div class="shrink-0 flex items-center justify-end">
+<span class="text-xs text-gray-500 font-medium">Sorted by: <strong>Highest Match</strong></span>
+</div>
+</div>
+<!-- Mentors Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="mentors-card-container">
+<!-- Mentor Card 1 -->
+<article class="bg-white rounded-2xl border border-gray-200 p-5 shadow-subtle hover:shadow-card smooth-transition flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-12 h-12 rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center font-bold text-gray-800 text-sm">
+                    AK
+                  </div>
+<div>
+<h3 class="text-sm font-semibold text-gray-900">Arjun Kulkarni</h3>
+<p class="text-xs text-gray-500">Ex-Head of Growth, Razorpay</p>
+</div>
+</div>
+<span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-100">4.9 ★ (38)</span>
+</div>
+<div class="mt-3.5 space-y-2">
+<div class="flex flex-wrap gap-1.5">
+<span class="text-[10px] px-2 py-0.5 rounded-md bg-gray-100 text-gray-700 font-medium">Fintech</span>
+<span class="text-[10px] px-2 py-0.5 rounded-md bg-gray-100 text-gray-700 font-medium">B2B SaaS</span>
+<span class="text-[10px] px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-medium">GTM Strategy</span>
+</div>
+<p class="text-xs text-gray-600 line-clamp-2 leading-relaxed">
+                  Helps early-stage founders scale from $10k to $100k MRR with playbook customer acquisition and inbound funnels.
+                </p>
+</div>
+<div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
+<div>
+<span class="text-gray-400 block text-[10px] uppercase">Online Rate</span>
+<span class="font-semibold text-gray-900">₹500 / 45 min</span>
+</div>
+<div>
+<span class="text-gray-400 block text-[10px] uppercase">Offline Rate</span>
+<span class="font-semibold text-gray-900">₹1,500 / In-person</span>
+</div>
+</div>
+</div>
+<!-- Booking Trigger Button -->
+<div class="mt-5">
+<button class="w-full py-2 px-3 rounded-xl bg-black text-white hover:bg-gray-800 text-xs font-medium smooth-transition flex items-center justify-center gap-1.5" onclick="openMentorBookingModal('Arjun Kulkarni', 'Ex-Head of Growth, Razorpay', 500, 1500)">
+<span>Book Suitable Slot</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</article>
+<!-- Mentor Card 2 -->
+<article class="bg-white rounded-2xl border border-gray-200 p-5 shadow-subtle hover:shadow-card smooth-transition flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 flex items-center justify-center font-bold text-sm">
+                    PS
+                  </div>
+<div>
+<h3 class="text-sm font-semibold text-gray-900">Pooja Sharma</h3>
+<p class="text-xs text-gray-500">VP Engineering, Postman Alum</p>
+</div>
+</div>
+<span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-100">5.0 ★ (52)</span>
+</div>
+<div class="mt-3.5 space-y-2">
+<div class="flex flex-wrap gap-1.5">
+<span class="text-[10px] px-2 py-0.5 rounded-md bg-gray-100 text-gray-700 font-medium">System Design</span>
+<span class="text-[10px] px-2 py-0.5 rounded-md bg-gray-100 text-gray-700 font-medium">DevTools</span>
+<span class="text-[10px] px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-medium">Tech Hiring</span>
+</div>
+<p class="text-xs text-gray-600 line-clamp-2 leading-relaxed">
+                  Advises on scaling architecture, cloud cost optimization, and establishing engineering culture for pre-Series A startups.
+                </p>
+</div>
+<div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
+<div>
+<span class="text-gray-400 block text-[10px] uppercase">Online Rate</span>
+<span class="font-semibold text-gray-900">₹500 / 45 min</span>
+</div>
+<div>
+<span class="text-gray-400 block text-[10px] uppercase">Offline Rate</span>
+<span class="font-semibold text-gray-900">₹1,500 / In-person</span>
+</div>
+</div>
+</div>
+<div class="mt-5">
+<button class="w-full py-2 px-3 rounded-xl bg-black text-white hover:bg-gray-800 text-xs font-medium smooth-transition flex items-center justify-center gap-1.5" onclick="openMentorBookingModal('Pooja Sharma', 'VP Engineering, Postman Alum', 500, 1500)">
+<span>Book Suitable Slot</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</article>
+<!-- Mentor Card 3 -->
+<article class="bg-white rounded-2xl border border-gray-200 p-5 shadow-subtle hover:shadow-card smooth-transition flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-200 text-indigo-900 flex items-center justify-center font-bold text-sm">
+                    RR
+                  </div>
+<div>
+<h3 class="text-sm font-semibold text-gray-900">Rohan Roy</h3>
+<p class="text-xs text-gray-500">Angel Investor &amp; 2x Founder</p>
+</div>
+</div>
+<span class="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-100">4.8 ★ (29)</span>
+</div>
+<div class="mt-3.5 space-y-2">
+<div class="flex flex-wrap gap-1.5">
+<span class="text-[10px] px-2 py-0.5 rounded-md bg-gray-100 text-gray-700 font-medium">Consumer</span>
+<span class="text-[10px] px-2 py-0.5 rounded-md bg-gray-100 text-gray-700 font-medium">D2C Brand</span>
+<span class="text-[10px] px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-medium">Unit Economics</span>
+</div>
+<p class="text-xs text-gray-600 line-clamp-2 leading-relaxed">
+                  Deep focus on CAC-to-LTV levers, retail omnichannel distribution, and institutional fundraising preparations.
+                </p>
+</div>
+<div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
+<div>
+<span class="text-gray-400 block text-[10px] uppercase">Online Rate</span>
+<span class="font-semibold text-gray-900">₹500 / 45 min</span>
+</div>
+<div>
+<span class="text-gray-400 block text-[10px] uppercase">Offline Rate</span>
+<span class="font-semibold text-gray-900">₹1,500 / In-person</span>
+</div>
+</div>
+</div>
+<div class="mt-5">
+<button class="w-full py-2 px-3 rounded-xl bg-black text-white hover:bg-gray-800 text-xs font-medium smooth-transition flex items-center justify-center gap-1.5" onclick="openMentorBookingModal('Rohan Roy', 'Angel Investor &amp; 2x Founder', 500, 1500)">
+<span>Book Suitable Slot</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</article>
+</div>
+</section>
+<!-- END: MentorsTabModule -->
+<!-- BEGIN: InvestorsTabModule -->
+<!-- Whiteboard: Find Investors (sort/filter) -> Choose Suitable Investor -> Add in details (Short pitch, How much looking for, Upload pitch deck) -> Non-Member Pay / Member use Credits -->
+<section class="space-y-6 hidden" data-purpose="investors-module" id="view-investors">
+<!-- Investors Header Filter -->
+<div class="bg-white rounded-2xl border border-gray-200 p-4 shadow-subtle flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
+<div>
+<label class="block text-[11px] font-medium text-gray-500 mb-1">Check Size / Ticket Range</label>
+<select class="w-full text-xs rounded-xl border-gray-200 py-1.5 focus:ring-black focus:border-black bg-gray-50">
+<option>₹25L – ₹75L (Pre-Seed)</option>
+<option>₹75L – ₹1.5 Cr (Seed Angel)</option>
+<option>₹1.5 Cr – ₹5 Cr (Institutional Seed)</option>
+</select>
+</div>
+<div>
+<label class="block text-[11px] font-medium text-gray-500 mb-1">Investment Thesis</label>
+<select class="w-full text-xs rounded-xl border-gray-200 py-1.5 focus:ring-black focus:border-black bg-gray-50">
+<option>All Fund Theses</option>
+<option>B2B SaaS / Global Infrastructure</option>
+<option>Fintech, Insurtech &amp; Lending</option>
+<option>Direct-to-Consumer Brands</option>
+</select>
+</div>
+<div>
+<label class="block text-[11px] font-medium text-gray-500 mb-1">Geography Focus</label>
+<select class="w-full text-xs rounded-xl border-gray-200 py-1.5 focus:ring-black focus:border-black bg-gray-50">
+<option>India &amp; Southeast Asia</option>
+<option>US-India Cross-Border</option>
+<option>Pan-India Tier 1/2</option>
+</select>
+</div>
+</div>
+<div class="shrink-0 flex items-center justify-end">
+<span class="text-xs text-gray-500 font-medium">Direct Pitch Flow • Active Partners</span>
+</div>
+</div>
+<!-- Investors Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+<!-- Investor Card 1 -->
+<article class="bg-white rounded-2xl border border-gray-200 p-5 shadow-subtle flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-sm font-semibold text-gray-900">Elevation Micro-Fund</h3>
+<p class="text-xs text-gray-500">Partner: Sameer Varma</p>
+</div>
+<span class="text-[10px] px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-semibold border border-emerald-100">Direct Deck Review</span>
+</div>
+<div class="mt-3 space-y-2">
+<div class="flex flex-wrap gap-1.5">
+<span class="text-[10px] px-2 py-0.5 rounded bg-gray-100 text-gray-700 font-medium">Seed Stage</span>
+<span class="text-[10px] px-2 py-0.5 rounded bg-gray-100 text-gray-700 font-medium">₹50L - ₹2 Cr</span>
+<span class="text-[10px] px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-medium">SaaS / Fintech</span>
+</div>
+<p class="text-xs text-gray-600 leading-relaxed">
+                  Looking for founders with proven customer discovery and high retention signals. Typical lead ticket ₹1.2 Crore.
+                </p>
+</div>
+</div>
+<div class="mt-5">
+<button class="w-full py-2 px-3 rounded-xl bg-black text-white hover:bg-gray-800 text-xs font-medium smooth-transition flex items-center justify-center gap-1.5" onclick="openInvestorPitchModal('Elevation Micro-Fund', '₹50L - ₹2 Cr')">
+<span>Submit Pitch &amp; Deck</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</article>
+<!-- Investor Card 2 -->
+<article class="bg-white rounded-2xl border border-gray-200 p-5 shadow-subtle flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-sm font-semibold text-gray-900">FirstCheck Syndicate</h3>
+<p class="text-xs text-gray-500">Lead Angel: Neha Singhal</p>
+</div>
+<span class="text-[10px] px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-semibold border border-blue-100">48-Hr SLA</span>
+</div>
+<div class="mt-3 space-y-2">
+<div class="flex flex-wrap gap-1.5">
+<span class="text-[10px] px-2 py-0.5 rounded bg-gray-100 text-gray-700 font-medium">Pre-Seed</span>
+<span class="text-[10px] px-2 py-0.5 rounded bg-gray-100 text-gray-700 font-medium">₹25L - ₹60L</span>
+<span class="text-[10px] px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-medium">Consumer &amp; AI</span>
+</div>
+<p class="text-xs text-gray-600 leading-relaxed">
+                  Backing exceptional technical operators building early AI automation tools or high-velocity consumer apps.
+                </p>
+</div>
+</div>
+<div class="mt-5">
+<button class="w-full py-2 px-3 rounded-xl bg-black text-white hover:bg-gray-800 text-xs font-medium smooth-transition flex items-center justify-center gap-1.5" onclick="openInvestorPitchModal('FirstCheck Syndicate', '₹25L - ₹60L')">
+<span>Submit Pitch &amp; Deck</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</article>
+<!-- Investor Card 3 -->
+<article class="bg-white rounded-2xl border border-gray-200 p-5 shadow-subtle flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-sm font-semibold text-gray-900">AlphaWave Growth Angel Group</h3>
+<p class="text-xs text-gray-500">CIO: Vikram Mehta</p>
+</div>
+<span class="text-[10px] px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-semibold border border-purple-100">Institutional</span>
+</div>
+<div class="mt-3 space-y-2">
+<div class="flex flex-wrap gap-1.5">
+<span class="text-[10px] px-2 py-0.5 rounded bg-gray-100 text-gray-700 font-medium">Seed &amp; Pre-Series A</span>
+<span class="text-[10px] px-2 py-0.5 rounded bg-gray-100 text-gray-700 font-medium">₹1 Cr - ₹4 Cr</span>
+<span class="text-[10px] px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-medium">Health &amp; Supply</span>
+</div>
+<p class="text-xs text-gray-600 leading-relaxed">
+                  Focus on profitable unit economics, strong working capital discipline, and enterprise distribution partnerships.
+                </p>
+</div>
+</div>
+<div class="mt-5">
+<button class="w-full py-2 px-3 rounded-xl bg-black text-white hover:bg-gray-800 text-xs font-medium smooth-transition flex items-center justify-center gap-1.5" onclick="openInvestorPitchModal('AlphaWave Growth Angel Group', '₹1 Cr - ₹4 Cr')">
+<span>Submit Pitch &amp; Deck</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</article>
+</div>
+</section>
+<!-- END: InvestorsTabModule -->
+<!-- BEGIN: AdvisoryBoardModule -->
+<section class="space-y-6 hidden" data-purpose="advisory-board-module" id="view-advisory">
+<div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-subtle">
+<div class="max-w-2xl">
+<h2 class="text-base font-semibold text-gray-900">YANC Advisory Board</h2>
+<p class="text-xs text-gray-500 mt-1">
+              Distinguished institutional leaders offering quarterly fractional governance, board seat observation, and capital restructuring.
+            </p>
+</div>
+<div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="p-4 rounded-xl border border-gray-200 bg-gray-50/50 flex items-start space-x-4">
+<div class="w-10 h-10 rounded-xl bg-black text-white flex items-center justify-center font-bold text-xs">SV</div>
+<div>
+<h4 class="text-xs font-semibold text-gray-900">Dr. Suresh Venkat</h4>
+<p class="text-[11px] text-gray-500">Former Managing Director, Carlyle India</p>
+<p class="text-xs text-gray-600 mt-2">Specializes in corporate governance, public listing readiness, and cross-border M&amp;A.</p>
+<div class="mt-3 flex items-center gap-2">
+<span class="text-[10px] px-2 py-0.5 rounded bg-white border border-gray-200 text-gray-700 font-medium">Board Retainer</span>
+<button class="text-xs text-blue-600 hover:underline font-medium">Request Introduction</button>
+</div>
+</div>
+</div>
+<div class="p-4 rounded-xl border border-gray-200 bg-gray-50/50 flex items-start space-x-4">
+<div class="w-10 h-10 rounded-xl bg-gray-800 text-white flex items-center justify-center font-bold text-xs">MN</div>
+<div>
+<h4 class="text-xs font-semibold text-gray-900">Meenakshi Natarajan</h4>
+<p class="text-[11px] text-gray-500">Senior Partner, Khaitan Legal Associates</p>
+<p class="text-xs text-gray-600 mt-2">Specializes in ESOP pool designs, founder vesting protections, and RBI regulatory approvals.</p>
+<div class="mt-3 flex items-center gap-2">
+<span class="text-[10px] px-2 py-0.5 rounded bg-white border border-gray-200 text-gray-700 font-medium">Legal Advisory</span>
+<button class="text-xs text-blue-600 hover:underline font-medium">Request Introduction</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: AdvisoryBoardModule -->
+<!-- BEGIN: BookingsTrackerModule -->
+<section class="space-y-6 hidden" data-purpose="bookings-tracker-module" id="view-bookings">
+<div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-subtle">
+<div class="flex items-center justify-between pb-4 border-b border-gray-100">
+<div>
+<h2 class="text-base font-semibold text-gray-900">Active Bookings &amp; Slotted Consultations</h2>
+<p class="text-xs text-gray-500 mt-0.5">Track your confirmed sessions, meeting links, and offline café coordinates.</p>
+</div>
+<span class="text-xs px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 font-medium">2 Upcoming</span>
+</div>
+<div class="mt-4 divide-y divide-gray-100">
+<!-- Confirmed Session 1 (Online) -->
+<div class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-start space-x-3">
+<div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-semibold text-xs shrink-0">
+                  VID
+                </div>
+<div>
+<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 uppercase tracking-wide">● Confirmed • Online Google Meet</span>
+<h4 class="text-xs sm:text-sm font-semibold text-gray-900">Product Growth Sync with Arjun Kulkarni</h4>
+<p class="text-xs text-gray-500 mt-0.5">Tomorrow, 11:30 AM – 12:15 PM IST (45 mins)</p>
+<p class="text-[11px] text-gray-600 mt-1 italic">"Discussing viral loop optimization and pricing teardown for Seed stage."</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg border border-gray-200 text-xs text-gray-700 hover:bg-gray-50 font-medium">Reschedule</button>
+<a class="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-medium hover:bg-blue-700" href="#">Join Video Room</a>
+</div>
+</div>
+<!-- Confirmed Session 2 (Offline) -->
+<div class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-start space-x-3">
+<div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-semibold text-xs shrink-0">
+                  OFF
+                </div>
+<div>
+<span class="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-600 uppercase tracking-wide">● Confirmed • Offline In-Person</span>
+<h4 class="text-xs sm:text-sm font-semibold text-gray-900">Term Sheet Strategy with Rohan Roy</h4>
+<p class="text-xs text-gray-500 mt-0.5">Friday, 04:00 PM IST (60 mins)</p>
+<p class="text-xs text-gray-700 font-medium mt-1">Location: Starbucks Reserve, Indiranagar, Bengaluru</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg border border-gray-200 text-xs text-gray-700 hover:bg-gray-50 font-medium">Directions</button>
+<button class="px-3 py-1.5 rounded-lg bg-black text-white text-xs font-medium hover:bg-gray-800">Booking Pass</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: BookingsTrackerModule -->
+<!-- BEGIN: GovernanceAdminConsoles -->
+<!-- Spec: Section for Ops Admin, Finance Admin, Tech Admin, Super Admin -->
+<section class="space-y-6 hidden" data-purpose="admin-governance-consoles" id="view-governance">
+<div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-subtle">
+<div class="border-b border-gray-200 pb-4">
+<h2 class="text-base font-semibold text-gray-900">YANC Multi-Role Operational Governance Consoles</h2>
+<p class="text-xs text-gray-500 mt-1">Live administration consoles for Operations, Finance, Tech sync, and Super Admin master access control.</p>
+</div>
+<!-- Ops Admin Console -->
+<div class="mt-6 p-4 rounded-xl border border-gray-200 bg-white" id="console-ops">
+<div class="flex items-center justify-between pb-3 border-b border-gray-100">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+<h3 class="text-xs font-semibold uppercase tracking-wider text-gray-800">Operations Admin Console</h3>
+</div>
+<span class="text-[11px] text-gray-500">Queue: 4 Sessions Pending Confirmation</span>
+</div>
+<div class="mt-3 overflow-x-auto">
+<table class="w-full text-left text-xs">
+<thead>
+<tr class="text-gray-400 border-b border-gray-100 font-medium">
+<th class="pb-2">Session ID</th>
+<th class="pb-2">Mentee / Founder</th>
+<th class="pb-2">Mentor / Investor</th>
+<th class="pb-2">Type</th>
+<th class="pb-2">Location / Link</th>
+<th class="pb-2 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100 text-gray-700">
+<tr>
+<td class="py-2.5 font-mono text-[11px]">#SES-9204</td>
+<td>Aditya Roy (Finflow)</td>
+<td>Arjun Kulkarni</td>
+<td><span class="px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 text-[10px]">Online</span></td>
+<td class="text-gray-500">Google Meet (Auto-generated)</td>
+<td class="text-right"><button class="text-xs text-emerald-600 hover:underline font-medium">Approve Slot</button></td>
+</tr>
+<tr>
+<td class="py-2.5 font-mono text-[11px]">#SES-9205</td>
+<td>Kavita Nair (BuildBot)</td>
+<td>Rohan Roy</td>
+<td><span class="px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 text-[10px]">Offline</span></td>
+<td class="text-gray-500">Third Wave Coffee, Koramangala</td>
+<td class="text-right"><button class="text-xs text-emerald-600 hover:underline font-medium">Approve Slot</button></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Finance Admin Console -->
+<div class="mt-4 p-4 rounded-xl border border-gray-200 bg-white" id="console-fin">
+<div class="flex items-center justify-between pb-3 border-b border-gray-100">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+<h3 class="text-xs font-semibold uppercase tracking-wider text-gray-800">Finance Admin Ledger &amp; Escrow Settlement</h3>
+</div>
+<span class="text-[11px] text-emerald-700 font-medium">Escrow Balance: ₹42,500 held</span>
+</div>
+<div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+<div class="p-3 bg-gray-50 rounded-xl">
+<span class="text-[10px] uppercase text-gray-400 font-semibold block">Member Credit Burn</span>
+<p class="text-sm font-semibold text-gray-900 mt-1">18 Credits Cleared</p>
+<span class="text-[10px] text-gray-500">Subsidized by YANC Base</span>
+</div>
+<div class="p-3 bg-gray-50 rounded-xl">
+<span class="text-[10px] uppercase text-gray-400 font-semibold block">Direct Non-Member Pay</span>
+<p class="text-sm font-semibold text-gray-900 mt-1">₹34,500 Gross</p>
+<span class="text-[10px] text-gray-500">GST + Gateway Deductions Settled</span>
+</div>
+<div class="p-3 bg-gray-50 rounded-xl">
+<span class="text-[10px] uppercase text-gray-400 font-semibold block">Mentor Payout Queue</span>
+<p class="text-sm font-semibold text-gray-900 mt-1">₹28,000 Due</p>
+<button class="mt-1 text-[11px] text-blue-600 font-medium hover:underline">Execute Batch Wire →</button>
+</div>
+</div>
+</div>
+<!-- Tech & Super Admin Console -->
+<div class="mt-4 p-4 rounded-xl border border-gray-200 bg-white" id="console-tech">
+<div class="flex items-center justify-between pb-3 border-b border-gray-100">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-purple-600"></span>
+<h3 class="text-xs font-semibold uppercase tracking-wider text-gray-800">Tech &amp; Super Admin Diagnostics</h3>
+</div>
+<span class="text-[11px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">System Nominal (99.98%)</span>
+</div>
+<div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+<div class="p-3 bg-gray-50 rounded-xl">
+<span class="text-gray-400 block text-[10px] uppercase">Auth Sync</span>
+<p class="font-semibold text-gray-800 mt-0.5">Direct Email + SSO Active</p>
+<p class="text-[11px] text-gray-500 mt-1">12,482 Identity Records</p>
+</div>
+<div class="p-3 bg-gray-50 rounded-xl">
+<span class="text-gray-400 block text-[10px] uppercase">Pitch Deck S3 Vault</span>
+<p class="font-semibold text-gray-800 mt-0.5">Encrypted AES-256</p>
+<p class="text-[11px] text-gray-500 mt-1">Zero public read permissions</p>
+</div>
+<div class="p-3 bg-gray-50 rounded-xl">
+<span class="text-gray-400 block text-[10px] uppercase">Webhook Health</span>
+<p class="font-semibold text-emerald-600 mt-0.5">Razorpay / Calendly 200 OK</p>
+<p class="text-[11px] text-gray-500 mt-1">Latency: 42ms</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: GovernanceAdminConsoles -->
+</main>
+<!-- END: MainContentArea -->
+</div>
+<!-- END: AppContainer -->
+<!-- BEGIN: MentorBookingModal -->
+<!-- Whiteboard: Mentor flow modal: Add details (Why, what they need) -> Choose Slot (offline or online) -> Pay/Credits -->
+<div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden flex items-center justify-center p-4" id="booking-modal">
+<div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-elevated border border-gray-100 overflow-hidden transform smooth-transition">
+<div class="flex items-center justify-between pb-3 border-b border-gray-100">
+<div>
+<span class="text-[10px] font-semibold uppercase tracking-wider text-blue-600">Whiteboard Spec Flow</span>
+<h3 class="text-base font-semibold text-gray-900" id="modal-mentor-name">Book Mentor Consultation</h3>
+</div>
+<button class="text-gray-400 hover:text-gray-700 text-lg" onclick="closeMentorModal()">✕</button>
+</div>
+<form class="mt-4 space-y-4" id="mentor-booking-form" onsubmit="handleBookingSubmission(event)">
+<!-- Whiteboard: Add in details (Why, what they need) -->
+<div>
+<label class="block text-xs font-semibold text-gray-700 mb-1">
+            Why &amp; What do you need? <span class="text-red-500">*</span>
+</label>
+<textarea class="w-full text-xs rounded-xl border-gray-200 focus:border-black focus:ring-black placeholder:text-gray-400" placeholder="Describe your exact bottleneck (e.g. evaluating term sheet valuation, scaling outbound GTM, tech architecture teardown)..." required="" rows="2"></textarea>
+</div>
+<!-- Whiteboard: Choose Slot (Offline or Online) -->
+<div>
+<label class="block text-xs font-semibold text-gray-700 mb-1">Choose Format &amp; Slot Type</label>
+<div class="grid grid-cols-2 gap-3">
+<label class="cursor-pointer border border-gray-200 rounded-xl p-3 flex flex-col justify-between hover:border-black has-[:checked]:border-black has-[:checked]:bg-gray-50 smooth-transition">
+<input checked="" class="text-black focus:ring-black" name="slot_type" onchange="updateModalPrice('online')" type="radio" value="online"/>
+<span class="text-xs font-medium text-gray-900 mt-2 block">Online Video Room</span>
+<span class="text-[11px] text-gray-500">Google Meet (45 mins)</span>
+<span class="text-xs font-semibold text-gray-900 mt-1" id="label-online-price">₹500 / 1 Credit</span>
+</label>
+<label class="cursor-pointer border border-gray-200 rounded-xl p-3 flex flex-col justify-between hover:border-black has-[:checked]:border-black has-[:checked]:bg-gray-50 smooth-transition">
+<input class="text-black focus:ring-black" name="slot_type" onchange="updateModalPrice('offline')" type="radio" value="offline"/>
+<span class="text-xs font-medium text-gray-900 mt-2 block">Offline In-Person</span>
+<span class="text-[11px] text-gray-500">Starbucks / Hub (60 mins)</span>
+<span class="text-xs font-semibold text-gray-900 mt-1" id="label-offline-price">₹1,500 / 2 Credits</span>
+</label>
+</div>
+</div>
+<!-- Slot Date / Time Picker -->
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="block text-[11px] font-medium text-gray-600 mb-1">Select Date</label>
+<input class="w-full text-xs rounded-xl border-gray-200 focus:border-black focus:ring-black" required="" type="date" value="2026-09-12"/>
+</div>
+<div>
+<label class="block text-[11px] font-medium text-gray-600 mb-1">Time Slot</label>
+<select class="w-full text-xs rounded-xl border-gray-200 focus:border-black focus:ring-black">
+<option>10:00 AM - 10:45 AM</option>
+<option>02:30 PM - 03:15 PM</option>
+<option>05:00 PM - 05:45 PM</option>
+</select>
+</div>
+</div>
+<!-- Whiteboard: Member / Non-Member Payment Trigger -->
+<!-- Non-members pay direct; Members use credits -->
+<div class="p-3.5 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-between" id="modal-payment-banner">
+<div>
+<span class="text-[10px] uppercase font-semibold text-gray-400 block" id="checkout-badge">Member Privilege</span>
+<span class="text-xs font-bold text-gray-900" id="checkout-amount-summary">1 Credit will be deducted</span>
+</div>
+<button class="px-4 py-2 rounded-xl bg-black text-white hover:bg-gray-800 text-xs font-medium smooth-transition" id="btn-modal-checkout" type="submit">
+            Confirm Booking
+          </button>
+</div>
+</form>
+</div>
+</div>
+<!-- END: MentorBookingModal -->
+<!-- BEGIN: InvestorPitchModal -->
+<!-- Whiteboard: Investor flow modal: Short pitch + How much looking for + Upload pitch deck -> Non-Member Pay / Member use credits -->
+<div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden flex items-center justify-center p-4" id="investor-modal">
+<div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-elevated border border-gray-100 overflow-hidden transform smooth-transition">
+<div class="flex items-center justify-between pb-3 border-b border-gray-100">
+<div>
+<span class="text-[10px] font-semibold uppercase tracking-wider text-emerald-600">Investor Access Flow</span>
+<h3 class="text-base font-semibold text-gray-900" id="investor-modal-name">Direct Pitch Submission</h3>
+</div>
+<button class="text-gray-400 hover:text-gray-700 text-lg" onclick="closeInvestorModal()">✕</button>
+</div>
+<form class="mt-4 space-y-4" id="investor-pitch-form" onsubmit="handlePitchSubmission(event)">
+<!-- Whiteboard: How much are they looking for -->
+<div>
+<label class="block text-xs font-semibold text-gray-700 mb-1">
+            Capital Ask / How much are you looking for? <span class="text-red-500">*</span>
+</label>
+<div class="relative rounded-xl shadow-xs">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500 text-xs font-medium">₹</span>
+<input class="w-full text-xs pl-7 rounded-xl border-gray-200 focus:border-black focus:ring-black" placeholder="e.g. 1.25 Crore" required="" type="text"/>
+</div>
+</div>
+<!-- Whiteboard: Short Pitch -->
+<div>
+<label class="block text-xs font-semibold text-gray-700 mb-1">
+            Short Pitch (Elevator Overview) <span class="text-red-500">*</span>
+</label>
+<textarea class="w-full text-xs rounded-xl border-gray-200 focus:border-black focus:ring-black placeholder:text-gray-400" placeholder="Provide problem statement, traction metrics (ARR / GMV), and defensible moat..." required="" rows="3"></textarea>
+</div>
+<!-- Whiteboard: Upload Pitch Deck -->
+<div>
+<label class="block text-xs font-semibold text-gray-700 mb-1">
+            Upload Pitch Deck (.pdf only, max 20MB) <span class="text-red-500">*</span>
+</label>
+<div class="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center hover:border-gray-400 smooth-transition bg-gray-50">
+<svg class="mx-auto h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<div class="mt-2 text-xs text-gray-600">
+<label class="cursor-pointer font-medium text-blue-600 hover:underline">
+<span>Select file from computer</span>
+<input accept=".pdf" class="sr-only" id="deck-upload-input" onchange="handleFileChosen(event)" required="" type="file"/>
+</label>
+</div>
+<p class="text-[11px] text-gray-400 mt-1" id="file-status-label">Seed_SeriesA_Dossier_2026.pdf (or click to replace)</p>
+</div>
+</div>
+<!-- Payment / Credit Resolution -->
+<div class="p-3.5 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-between" id="modal-investor-payment-banner">
+<div>
+<span class="text-[10px] uppercase font-semibold text-gray-400 block" id="investor-checkout-badge">Member Priority Queue</span>
+<span class="text-xs font-bold text-gray-900" id="investor-checkout-amount">Included in Membership</span>
+</div>
+<button class="px-4 py-2 rounded-xl bg-black text-white hover:bg-gray-800 text-xs font-medium smooth-transition" type="submit">
+            Submit Dossier
+          </button>
+</div>
+</form>
+</div>
+</div>
+<!-- END: InvestorPitchModal -->
+<!-- BEGIN: TutorialModal -->
+<!-- Interactive walkthrough modal as specified in whiteboard top section -->
+<div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden flex items-center justify-center p-4" id="tutorial-modal">
+<div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-elevated border border-gray-100 transform smooth-transition">
+<div class="flex items-center justify-between pb-3 border-b border-gray-100">
+<div>
+<span class="text-[10px] font-semibold uppercase tracking-wider text-purple-600">Platform Walkthrough</span>
+<h3 class="text-base font-semibold text-gray-900">How to use YANC 1-on-1 Connect</h3>
+</div>
+<button class="text-gray-400 hover:text-gray-700 text-lg" onclick="toggleTutorialModal()">✕</button>
+</div>
+<div class="mt-4 space-y-3.5 text-xs text-gray-600">
+<div class="flex items-start gap-3">
+<div class="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center shrink-0 text-[11px] font-bold">1</div>
+<div>
+<p class="font-semibold text-gray-900">Directory Matching</p>
+<p class="mt-0.5">Filter by sector (Fintech, SaaS, AI) and immediate need (Growth, Term Sheet, Engineering).</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center shrink-0 text-[11px] font-bold">2</div>
+<div>
+<p class="font-semibold text-gray-900">Session Mode: Online vs Offline</p>
+<p class="mt-0.5">Online slots trigger automated video conferencing. Offline sessions trigger curated meeting reservations at partner cafes.</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center shrink-0 text-[11px] font-bold">3</div>
+<div>
+<p class="font-semibold text-gray-900">Member Credits vs Non-Member INR Pay</p>
+<p class="mt-0.5">Members deduct monthly allocated platform credits directly without fees. Non-members pay session fees via direct escrow.</p>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-gray-100 flex justify-end">
+<button class="px-4 py-2 rounded-xl bg-black text-white text-xs font-medium hover:bg-gray-800" onclick="toggleTutorialModal()">
+          Got it, Proceed to App
+        </button>
+</div>
+</div>
+</div>
+<!-- END: TutorialModal -->
+<!-- BEGIN: CoreAppInteractivityScript -->
+<script data-purpose="platform-state-controller">
+    // Current simulated role state
+    let currentRole = 'member'; // 'member' | 'nonmember' | 'mentor' | 'advisors' | 'ops' | 'fin' | 'tech'
+    let selectedFormat = 'online';
+
+    // Tab switcher logic
+    function switchTab(tabKey) {
+      // List of tabs
+      const tabs = ['mentors', 'investors', 'advisory', 'bookings', 'vault', 'governance'];
+      tabs.forEach(t => {
+        const viewEl = document.getElementById(`view-${t}`);
+        const navEl = document.getElementById(`tab-nav-${t}`);
+        if (viewEl) viewEl.classList.add('hidden');
+        if (navEl) {
+          navEl.classList.remove('bg-black', 'text-white');
+          navEl.classList.add('text-gray-600');
+        }
+      });
+
+      const activeView = document.getElementById(`view-${tabKey}`);
+      const activeNav = document.getElementById(`tab-nav-${tabKey}`);
+      if (activeView) activeView.classList.remove('hidden');
+      if (activeNav) {
+        activeNav.classList.add('bg-black', 'text-white');
+        activeNav.classList.remove('text-gray-600');
+      }
+    }
+
+    // Role switcher logic responding to specifications
+    function switchRole(roleKey) {
+      currentRole = roleKey;
+      
+      // Update UI role buttons
+      document.querySelectorAll('.role-pill').forEach(btn => {
+        btn.classList.remove('bg-white', 'shadow-xs', 'text-gray-900', 'border', 'border-black/5', 'bg-black', 'text-white');
+        btn.classList.add('text-gray-600');
+      });
+
+      const activeBtn = document.getElementById(`role-${roleKey}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-gray-600');
+        activeBtn.classList.add('bg-white', 'shadow-xs', 'text-gray-900', 'border', 'border-black/5');
+      }
+
+      const creditBadge = document.getElementById('credit-badge');
+      const engineRule = document.getElementById('engine-rule-desc');
+      const userDisplay = document.getElementById('user-display-name');
+
+      if (roleKey === 'member') {
+        creditBadge.classList.remove('hidden');
+        creditBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span><span>Credits: <strong>4 Allocated</strong></span>`;
+        engineRule.textContent = 'Member: 1 Credit/Online Call • 2 Credits/Offline Session';
+        userDisplay.textContent = 'Jay Doe (Founder Member)';
+        switchTab('mentors');
+      } else if (roleKey === 'nonmember') {
+        creditBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span><span>Status: <strong>Non-Member (Pay As You Go)</strong></span>`;
+        engineRule.textContent = 'Non-Member: Direct Checkout (INR ₹500 Online / ₹1,500 Offline)';
+        userDisplay.textContent = 'Guest Founder (Non-Member)';
+        switchTab('mentors');
+      } else if (roleKey === 'mentor') {
+        creditBadge.innerHTML = `<span>Rating: <strong>4.9 ★</strong> • Active Mentor</span>`;
+        engineRule.textContent = 'Mentor Mode: Calendar Sync & Availability Controls';
+        userDisplay.textContent = 'Arjun Kulkarni (Mentor)';
+        switchTab('bookings');
+      } else if (roleKey === 'advisors') {
+        creditBadge.innerHTML = `<span>Board Status: <strong>Institutional Advisor</strong></span>`;
+        engineRule.textContent = 'Advisor Mode: Retainer & Governance Board Requests';
+        userDisplay.textContent = 'Dr. Suresh Venkat (Advisor)';
+        switchTab('advisory');
+      } else if (roleKey === 'ops' || roleKey === 'fin' || roleKey === 'tech') {
+        creditBadge.innerHTML = `<span class="text-purple-700">Privilege: <strong>Staff Operations</strong></span>`;
+        engineRule.textContent = `Active Administrative Console: ${roleKey.toUpperCase()}`;
+        userDisplay.textContent = 'Admin HQ Session';
+        switchTab('governance');
+      }
+    }
+
+    // Modal controllers
+    function openMentorBookingModal(mentorName, mentorRole, onlinePrice, offlinePrice) {
+      document.getElementById('modal-mentor-name').textContent = `Book Slot: ${mentorName}`;
+      document.getElementById('label-online-price').textContent = `₹${onlinePrice} / 1 Credit`;
+      document.getElementById('label-offline-price').textContent = `₹${offlinePrice} / 2 Credits`;
+      
+      updateModalPrice('online');
+      document.getElementById('booking-modal').classList.remove('hidden');
+    }
+
+    function closeMentorModal() {
+      document.getElementById('booking-modal').classList.add('hidden');
+    }
+
+    function updateModalPrice(type) {
+      selectedFormat = type;
+      const checkoutBadge = document.getElementById('checkout-badge');
+      const summary = document.getElementById('checkout-amount-summary');
+      const checkoutBtn = document.getElementById('btn-modal-checkout');
+
+      if (currentRole === 'member') {
+        checkoutBadge.textContent = 'Member Privilege';
+        if (type === 'online') {
+          summary.textContent = '1 Credit will be deducted';
+          checkoutBtn.textContent = 'Confirm with 1 Credit';
+        } else {
+          summary.textContent = '2 Credits will be deducted';
+          checkoutBtn.textContent = 'Confirm with 2 Credits';
+        }
+      } else {
+        checkoutBadge.textContent = 'Non-Member Checkout';
+        if (type === 'online') {
+          summary.textContent = '₹500 INR Direct Escrow';
+          checkoutBtn.textContent = 'Proceed to Pay ₹500';
+        } else {
+          summary.textContent = '₹1,500 INR Direct Escrow';
+          checkoutBtn.textContent = 'Proceed to Pay ₹1,500';
+        }
+      }
+    }
+
+    function openInvestorPitchModal(investorName, checkSize) {
+      document.getElementById('investor-modal-name').textContent = `Pitch Dossier: ${investorName}`;
+      const badge = document.getElementById('investor-checkout-badge');
+      const amount = document.getElementById('investor-checkout-amount');
+
+      if (currentRole === 'member') {
+        badge.textContent = 'Member Priority Queue';
+        amount.textContent = 'Included with Membership (0 Credits)';
+      } else {
+        badge.textContent = 'Non-Member Submission Fee';
+        amount.textContent = '₹999 INR Verification Fee';
+      }
+
+      document.getElementById('investor-modal').classList.remove('hidden');
+    }
+
+    function closeInvestorModal() {
+      document.getElementById('investor-modal').classList.add('hidden');
+    }
+
+    function toggleTutorialModal() {
+      const modal = document.getElementById('tutorial-modal');
+      modal.classList.toggle('hidden');
+    }
+
+    function openOnboardingForm() {
+      alert('Onboarding Configuration:\n\n1. Category: Founder (Seed)\n2. Domain: SaaS & AI\n3. Looking for: Mentor Guidance & Investor Introductions');
+    }
+
+    function handleFileChosen(e) {
+      if (e.target.files && e.target.files[0]) {
+        document.getElementById('file-status-label').textContent = `Selected: ${e.target.files[0].name}`;
+      }
+    }
+
+    function handleBookingSubmission(e) {
+      e.preventDefault();
+      alert(`Booking Confirmed! Slot booked in ${selectedFormat.toUpperCase()} mode. Details synchronized with YANC Calendar and Google Meet/Location Coordinates.`);
+      closeMentorModal();
+      switchTab('bookings');
+    }
+
+    function handlePitchSubmission(e) {
+      e.preventDefault();
+      alert('Pitch Dossier Successfully Uploaded! Forwarded to Investment Partner queue for 48-hour review.');
+      closeInvestorModal();
+    }
+
+    function applyFilters() {
+      // Dynamic filter feedback
+      const sector = document.getElementById('mentor-filter-sector').value;
+      console.log('Filters refreshed: Sector =', sector);
+    }
+  </script>
+<!-- END: CoreAppInteractivityScript -->
+<script src="assets/flow.js" defer></script>
+</body></html>

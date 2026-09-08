@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="stylesheet" href="assets/tw/wireframe-hifi.css"/>
+<title>YANC 1-on-1 Connect | Minimalist High-Fidelity Architecture</title>
+<link rel="stylesheet" href="assets/fonts.css"/>
+<!-- Tailwind CSS v3 with Forms & Container Plugins -->
+<style data-purpose="linear-wireframe-tokens">
+    body {
+      background-color: #FAFAFA;
+      color: #09090B;
+      letter-spacing: -0.015em;
+    }
+    .wire-border {
+      border: 1px solid #E4E4E7;
+    }
+    .wire-border-dashed {
+      border: 1px dashed #D4D4D8;
+    }
+    /* Clean micro-scrollbars */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #E4E4E7;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #D4D4D8;
+    }
+  </style>
+<link rel="stylesheet" href="assets/flow.css"/>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+<meta name="robots" content="noindex"/>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-zinc-900 selection:text-white antialiased" data-yanc-screen="wireframe-hifi">
+<!-- BEGIN: PersonaRoleBar (7 Roles as specified in Whiteboard) -->
+<header class="bg-white border-b border-[#E4E4E7] sticky top-0 z-50 shadow-wire-sm" data-purpose="role-switcher-bar">
+<div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+<!-- Brand / Architectural Stage ID -->
+<div class="flex items-center gap-3 shrink-0">
+<div class="w-7 h-7 rounded-md bg-zinc-950 flex items-center justify-center text-white font-semibold text-xs tracking-wider">
+        Y
+      </div>
+<div class="flex items-center gap-2">
+<span class="font-semibold text-xs tracking-tight text-zinc-900">YANC Connect</span>
+<span class="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-600 border border-zinc-200">v2.4 Spec Flow</span>
+</div>
+</div>
+<!-- 7-Persona System Switcher (Linear style toggle bar) -->
+<div class="flex items-center p-0.5 bg-zinc-100 rounded-lg border border-zinc-200/80 overflow-x-auto max-w-2xl text-[11px]" data-purpose="role-buttons">
+<span class="text-[10px] font-mono text-zinc-400 uppercase tracking-wider px-2 shrink-0">Role:</span>
+<button class="role-pill px-2.5 py-1 rounded-[6px] bg-white font-medium text-zinc-900 shadow-sm border border-zinc-200 shrink-0 transition-all" id="role-member" onclick="switchRole('member')">Member Founder</button>
+<button class="role-pill px-2.5 py-1 rounded-[6px] font-medium text-zinc-600 hover:text-zinc-900 shrink-0 transition-all" id="role-nonmember" onclick="switchRole('nonmember')">Non-Member</button>
+<button class="role-pill px-2.5 py-1 rounded-[6px] font-medium text-zinc-600 hover:text-zinc-900 shrink-0 transition-all" id="role-mentor" onclick="switchRole('mentor')">Mentor / Investor</button>
+<button class="role-pill px-2.5 py-1 rounded-[6px] font-medium text-zinc-600 hover:text-zinc-900 shrink-0 transition-all" id="role-advisors" onclick="switchRole('advisors')">Advisors Only</button>
+<button class="role-pill px-2.5 py-1 rounded-[6px] font-medium text-zinc-600 hover:text-zinc-900 shrink-0 transition-all" id="role-ops" onclick="switchRole('ops')">Ops Admin</button>
+<button class="role-pill px-2.5 py-1 rounded-[6px] font-medium text-zinc-600 hover:text-zinc-900 shrink-0 transition-all" id="role-fin" onclick="switchRole('fin')">Finance Admin</button>
+<button class="role-pill px-2.5 py-1 rounded-[6px] font-medium text-zinc-600 hover:text-zinc-900 shrink-0 transition-all" id="role-tech" onclick="switchRole('tech')">Tech / Super Admin</button>
+</div>
+<!-- Active State Badge & User Identification -->
+<div class="flex items-center gap-3 shrink-0">
+<div class="px-2.5 py-1 rounded-md bg-emerald-50/70 text-emerald-800 border border-emerald-200/80 text-[11px] font-medium font-mono flex items-center gap-1.5" id="credit-badge">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+<span>Balance: <strong class="font-semibold">4 Credits</strong></span>
+</div>
+<div class="h-4 w-px bg-zinc-200"></div>
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-zinc-200 border border-zinc-300 flex items-center justify-center font-mono text-[10px] text-zinc-800 font-medium">
+          JD
+        </div>
+<span class="text-xs text-zinc-700 font-medium hidden md:inline" id="user-display-name">Jay Doe (Founder)</span>
+</div>
+</div>
+</div>
+</header>
+<!-- END: PersonaRoleBar -->
+<!-- BEGIN: AppContainer -->
+<div class="max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 flex flex-col lg:flex-row gap-6">
+<!-- BEGIN: SideTabNavigation (Linear Docs Wireframe Style) -->
+<aside class="w-full lg:w-60 shrink-0" data-purpose="side-tab-navigation">
+<div class="bg-white rounded-xl border border-[#E4E4E7] p-3 sticky top-20 shadow-wire-sm space-y-4">
+<!-- Account State Cardlet -->
+<div class="p-3 bg-[#FAFAFA] rounded-lg border border-[#E4E4E7]">
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-mono text-zinc-400 uppercase tracking-wider">Account State</span>
+<span class="text-[10px] font-medium px-1.5 py-0.5 rounded bg-zinc-200/60 text-zinc-700 font-mono">KYC Done</span>
+</div>
+<div class="mt-2 flex items-baseline justify-between">
+<p class="text-xs font-semibold text-zinc-900" id="user-stage-label">Seed Stage Founder</p>
+</div>
+<div class="w-full bg-zinc-200 h-1 rounded-full mt-2 overflow-hidden">
+<div class="bg-zinc-900 h-1 rounded-full w-4/5"></div>
+</div>
+<span class="text-[10px] text-zinc-400 block mt-1">Profile Onboarding 100%</span>
+</div>
+<!-- Navigation Tree -->
+<div>
+<span class="text-[10px] font-mono text-zinc-400 uppercase tracking-wider px-2 block mb-1">Directory</span>
+<nav aria-label="Directory Navigation" class="space-y-0.5">
+<button class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium bg-zinc-900 text-white transition-colors" id="tab-nav-mentors" onclick="switchTab('mentors')">
+<div class="flex items-center gap-2">
+<svg class="w-3.5 h-3.5 opacity-80" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span>Mentors Directory</span>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-300">142</span>
+</button>
+<button class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 transition-colors" id="tab-nav-investors" onclick="switchTab('investors')">
+<div class="flex items-center gap-2">
+<svg class="w-3.5 h-3.5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span>Investors Portal</span>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-100 text-zinc-500">48</span>
+</button>
+<button class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 transition-colors" id="tab-nav-advisory" onclick="switchTab('advisory')">
+<div class="flex items-center gap-2">
+<svg class="w-3.5 h-3.5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span>Advisory Board</span>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-100 text-zinc-500">19</span>
+</button>
+<button class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 transition-colors" id="tab-nav-bookings" onclick="switchTab('bookings')">
+<div class="flex items-center gap-2">
+<svg class="w-3.5 h-3.5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span>Bookings &amp; Slots</span>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">2 Active</span>
+</button>
+</nav>
+</div>
+<!-- Governance Admin Trigger -->
+<div class="pt-2 border-t border-[#E4E4E7]">
+<span class="text-[10px] font-mono text-zinc-400 uppercase tracking-wider px-2 block mb-1">Ops HQ</span>
+<button class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-medium text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 transition-colors" id="tab-nav-governance" onclick="switchTab('governance')">
+<div class="flex items-center gap-2">
+<svg class="w-3.5 h-3.5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span>Admin Consoles</span>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-100 text-zinc-600">HQ</span>
+</button>
+</div>
+<!-- Active Settlement Rule (Whiteboard Logic summary) -->
+<div class="p-2.5 bg-[#FAFAFA] rounded-lg border border-[#E4E4E7] text-[11px] font-mono">
+<span class="text-[10px] text-zinc-400 block uppercase tracking-wider">Settlement Rule</span>
+<p class="text-zinc-700 mt-1 font-medium leading-snug" id="engine-rule-desc">
+          Member: 1 Credit/Online • 2 Credits/Offline
+        </p>
+</div>
+</div>
+</aside>
+<!-- END: SideTabNavigation -->
+<!-- BEGIN: MainContentArea -->
+<main class="flex-1 min-w-0 flex flex-col space-y-5" data-purpose="primary-workspace">
+<!-- BEGIN: 4-Step Whiteboard Flow Overview Card (Minimalist Linear Style) -->
+<section class="bg-white rounded-xl border border-[#E4E4E7] p-5 shadow-wire-sm" data-purpose="linear-wireframe-hero">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-[#E4E4E7]">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">Whiteboard Spec Flow</span>
+<span class="text-zinc-300">•</span>
+<span class="text-xs text-zinc-500 font-medium">Step-by-step matchmaking architecture</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight text-zinc-950 mt-1">
+            YANC 1-on-1 Connect Pipeline
+          </h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 text-xs font-medium rounded-lg border border-zinc-200 text-zinc-700 bg-white hover:bg-zinc-50 transition-colors flex items-center gap-1.5" onclick="toggleTutorialModal()">
+<svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span>Tutorial</span>
+</button>
+<button class="px-3 py-1.5 text-xs font-medium rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 transition-colors" onclick="openOnboardingForm()">
+            Edit Onboarding Details
+          </button>
+</div>
+</div>
+<!-- 4-Step Whiteboard Progression Cards -->
+<div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+<!-- Step 1 -->
+<div class="p-3 rounded-lg bg-[#FAFAFA] border border-[#E4E4E7]">
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-mono font-medium text-zinc-400 uppercase">Step 01</span>
+<span class="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">Done</span>
+</div>
+<p class="text-xs font-semibold text-zinc-900 mt-1">User Check &amp; Login</p>
+<p class="text-[11px] text-zinc-500 mt-0.5 leading-snug">Authenticated as Member Founder.</p>
+</div>
+<!-- Step 2 -->
+<div class="p-3 rounded-lg bg-[#FAFAFA] border border-[#E4E4E7]">
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-mono font-medium text-zinc-400 uppercase">Step 02</span>
+<span class="text-[10px] font-mono text-zinc-600 bg-zinc-100 px-1.5 py-0.2 rounded border border-zinc-200">Active</span>
+</div>
+<p class="text-xs font-semibold text-zinc-900 mt-1">Select Category</p>
+<p class="text-[11px] text-zinc-500 mt-0.5 leading-snug">Founders, Mentors, Investors or Advisors.</p>
+</div>
+<!-- Step 3 -->
+<div class="p-3 rounded-lg bg-[#FAFAFA] border border-[#E4E4E7]">
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-mono font-medium text-zinc-400 uppercase">Step 03</span>
+<span class="text-[10px] font-mono text-zinc-400 bg-white px-1.5 py-0.2 rounded border border-zinc-200">Filtered</span>
+</div>
+<p class="text-xs font-semibold text-zinc-900 mt-1">Find &amp; Filter Need</p>
+<p class="text-[11px] text-zinc-500 mt-0.5 leading-snug">GTM, Term Sheet, System Scaling.</p>
+</div>
+<!-- Step 4 -->
+<div class="p-3 rounded-lg bg-[#FAFAFA] border border-[#E4E4E7]">
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-mono font-medium text-zinc-400 uppercase">Step 04</span>
+<span class="text-[10px] font-mono text-zinc-400 bg-white px-1.5 py-0.2 rounded border border-zinc-200">Payment</span>
+</div>
+<p class="text-xs font-semibold text-zinc-900 mt-1">Book Slot / Pitch</p>
+<p class="text-[11px] text-zinc-500 mt-0.5 leading-snug">Credits deduction or direct INR checkout.</p>
+</div>
+</div>
+</section>
+<!-- END: 4-Step Whiteboard Flow Overview Card -->
+<!-- BEGIN: MentorsTabModule (Clean High-Fidelity Cards with Side-by-Side Online/Offline Pricing) -->
+<section class="space-y-4 block" data-purpose="mentors-module" id="view-mentors">
+<!-- Minimalist Filter Bar -->
+<div class="bg-white rounded-xl border border-[#E4E4E7] p-3 shadow-wire-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
+<div class="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+<div>
+<label class="block text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-1">Expertise / Sector</label>
+<select class="w-full text-xs rounded-lg border-[#E4E4E7] py-1.5 bg-[#FAFAFA] text-zinc-800 focus:border-zinc-900 focus:ring-zinc-900" id="mentor-filter-sector" onchange="applyFilters()">
+<option value="all">All Sectors (Fintech, SaaS, AI)</option>
+<option value="fintech">Fintech &amp; Payments</option>
+<option value="saas">Enterprise SaaS</option>
+<option value="consumer">Consumer &amp; D2C</option>
+<option value="deeptech">AI / DeepTech</option>
+</select>
+</div>
+<div>
+<label class="block text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-1">Target Need</label>
+<select class="w-full text-xs rounded-lg border-[#E4E4E7] py-1.5 bg-[#FAFAFA] text-zinc-800 focus:border-zinc-900 focus:ring-zinc-900" id="mentor-filter-need" onchange="applyFilters()">
+<option value="all">All Needs</option>
+<option value="gtm">GTM &amp; Outbound Growth</option>
+<option value="fundraising">Term Sheet Preparation</option>
+<option value="product">0-to-1 Architecture Scaling</option>
+</select>
+</div>
+<div>
+<label class="block text-[10px] font-mono text-zinc-400 uppercase tracking-wider mb-1">Meeting Format</label>
+<select class="w-full text-xs rounded-lg border-[#E4E4E7] py-1.5 bg-[#FAFAFA] text-zinc-800 focus:border-zinc-900 focus:ring-zinc-900" id="mentor-filter-format" onchange="applyFilters()">
+<option value="all">All (Online Video &amp; Offline In-Person)</option>
+<option value="online">Online Video (Google Meet)</option>
+<option value="offline">Offline Café / In-Person</option>
+</select>
+</div>
+</div>
+<div class="text-[11px] font-mono text-zinc-400 text-right shrink-0 pt-1 md:pt-0">
+          Rank: <strong class="text-zinc-700">Verified Match</strong>
+</div>
+</div>
+<!-- Mentors Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="mentors-card-container">
+<!-- Mentor 1 -->
+<article class="bg-white rounded-xl border border-[#E4E4E7] p-4 shadow-wire-sm flex flex-col justify-between hover:border-zinc-400 transition-colors">
+<div>
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-zinc-100 border border-zinc-200 flex items-center justify-center font-mono font-semibold text-xs text-zinc-800">
+                  AK
+                </div>
+<div>
+<h3 class="text-xs font-bold text-zinc-950">Arjun Kulkarni</h3>
+<p class="text-[11px] text-zinc-500">Ex-Head of Growth, Razorpay</p>
+</div>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">★ 4.9 (38)</span>
+</div>
+<!-- Tags -->
+<div class="mt-3 flex flex-wrap gap-1">
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#FAFAFA] border border-[#E4E4E7] text-zinc-600 font-mono">Fintech</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#FAFAFA] border border-[#E4E4E7] text-zinc-600 font-mono">B2B SaaS</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-800 font-mono">GTM Lead</span>
+</div>
+<p class="text-xs text-zinc-600 mt-2.5 leading-relaxed">
+              Playbook growth architecture: Scaling from early traction to $100k MRR via outbound systems and inbound conversion funnel.
+            </p>
+<!-- Side-by-side format pricing table -->
+<div class="mt-4 pt-3 border-t border-[#E4E4E7] grid grid-cols-2 gap-2 text-[11px]">
+<div class="p-2 rounded bg-[#FAFAFA] border border-[#E4E4E7]">
+<span class="text-[9px] font-mono text-zinc-400 uppercase block">Online Slot</span>
+<span class="font-semibold text-zinc-900">₹500 <span class="font-normal text-zinc-500">/ 45m</span></span>
+<span class="text-[10px] font-mono text-emerald-700 block mt-0.5">1 Member Credit</span>
+</div>
+<div class="p-2 rounded bg-[#FAFAFA] border border-[#E4E4E7]">
+<span class="text-[9px] font-mono text-zinc-400 uppercase block">Offline In-Person</span>
+<span class="font-semibold text-zinc-900">₹1,500 <span class="font-normal text-zinc-500">/ 60m</span></span>
+<span class="text-[10px] font-mono text-emerald-700 block mt-0.5">2 Member Credits</span>
+</div>
+</div>
+</div>
+<button class="mt-4 w-full py-2 px-3 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 text-xs font-medium transition-colors flex items-center justify-center gap-1" onclick="openMentorBookingModal('Arjun Kulkarni', 'Ex-Head of Growth, Razorpay', 500, 1500)">
+<span>Book Slot</span>
+<span class="text-zinc-400 text-[10px]">→</span>
+</button>
+</article>
+<!-- Mentor 2 -->
+<article class="bg-white rounded-xl border border-[#E4E4E7] p-4 shadow-wire-sm flex flex-col justify-between hover:border-zinc-400 transition-colors">
+<div>
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-zinc-100 border border-zinc-200 flex items-center justify-center font-mono font-semibold text-xs text-zinc-800">
+                  PS
+                </div>
+<div>
+<h3 class="text-xs font-bold text-zinc-950">Pooja Sharma</h3>
+<p class="text-[11px] text-zinc-500">VP Engineering, Postman Alum</p>
+</div>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">★ 5.0 (52)</span>
+</div>
+<!-- Tags -->
+<div class="mt-3 flex flex-wrap gap-1">
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#FAFAFA] border border-[#E4E4E7] text-zinc-600 font-mono">DevTools</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#FAFAFA] border border-[#E4E4E7] text-zinc-600 font-mono">Architecture</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-800 font-mono">Tech Team</span>
+</div>
+<p class="text-xs text-zinc-600 mt-2.5 leading-relaxed">
+              System resilience teardown: Cloud infrastructure cost reduction, engineering hiring rubrics, and API reliability models.
+            </p>
+<div class="mt-4 pt-3 border-t border-[#E4E4E7] grid grid-cols-2 gap-2 text-[11px]">
+<div class="p-2 rounded bg-[#FAFAFA] border border-[#E4E4E7]">
+<span class="text-[9px] font-mono text-zinc-400 uppercase block">Online Slot</span>
+<span class="font-semibold text-zinc-900">₹500 <span class="font-normal text-zinc-500">/ 45m</span></span>
+<span class="text-[10px] font-mono text-emerald-700 block mt-0.5">1 Member Credit</span>
+</div>
+<div class="p-2 rounded bg-[#FAFAFA] border border-[#E4E4E7]">
+<span class="text-[9px] font-mono text-zinc-400 uppercase block">Offline In-Person</span>
+<span class="font-semibold text-zinc-900">₹1,500 <span class="font-normal text-zinc-500">/ 60m</span></span>
+<span class="text-[10px] font-mono text-emerald-700 block mt-0.5">2 Member Credits</span>
+</div>
+</div>
+</div>
+<button class="mt-4 w-full py-2 px-3 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 text-xs font-medium transition-colors flex items-center justify-center gap-1" onclick="openMentorBookingModal('Pooja Sharma', 'VP Engineering, Postman Alum', 500, 1500)">
+<span>Book Slot</span>
+<span class="text-zinc-400 text-[10px]">→</span>
+</button>
+</article>
+<!-- Mentor 3 -->
+<article class="bg-white rounded-xl border border-[#E4E4E7] p-4 shadow-wire-sm flex flex-col justify-between hover:border-zinc-400 transition-colors">
+<div>
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-zinc-100 border border-zinc-200 flex items-center justify-center font-mono font-semibold text-xs text-zinc-800">
+                  RR
+                </div>
+<div>
+<h3 class="text-xs font-bold text-zinc-950">Rohan Roy</h3>
+<p class="text-[11px] text-zinc-500">Angel Investor &amp; 2x Founder</p>
+</div>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">★ 4.8 (29)</span>
+</div>
+<!-- Tags -->
+<div class="mt-3 flex flex-wrap gap-1">
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#FAFAFA] border border-[#E4E4E7] text-zinc-600 font-mono">D2C</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#FAFAFA] border border-[#E4E4E7] text-zinc-600 font-mono">Unit Econ</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-800 font-mono">Term Sheet</span>
+</div>
+<p class="text-xs text-zinc-600 mt-2.5 leading-relaxed">
+              Financial discipline advisory: Unit economics calibration, CAC reduction strategies, and institutional investor readiness.
+            </p>
+<div class="mt-4 pt-3 border-t border-[#E4E4E7] grid grid-cols-2 gap-2 text-[11px]">
+<div class="p-2 rounded bg-[#FAFAFA] border border-[#E4E4E7]">
+<span class="text-[9px] font-mono text-zinc-400 uppercase block">Online Slot</span>
+<span class="font-semibold text-zinc-900">₹500 <span class="font-normal text-zinc-500">/ 45m</span></span>
+<span class="text-[10px] font-mono text-emerald-700 block mt-0.5">1 Member Credit</span>
+</div>
+<div class="p-2 rounded bg-[#FAFAFA] border border-[#E4E4E7]">
+<span class="text-[9px] font-mono text-zinc-400 uppercase block">Offline In-Person</span>
+<span class="font-semibold text-zinc-900">₹1,500 <span class="font-normal text-zinc-500">/ 60m</span></span>
+<span class="text-[10px] font-mono text-emerald-700 block mt-0.5">2 Member Credits</span>
+</div>
+</div>
+</div>
+<button class="mt-4 w-full py-2 px-3 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 text-xs font-medium transition-colors flex items-center justify-center gap-1" onclick="openMentorBookingModal('Rohan Roy', 'Angel Investor &amp; 2x Founder', 500, 1500)">
+<span>Book Slot</span>
+<span class="text-zinc-400 text-[10px]">→</span>
+</button>
+</article>
+</div>
+</section>
+<!-- END: MentorsTabModule -->
+<!-- BEGIN: InvestorsTabModule (Whiteboard Flow: Short pitch + Ask + Pitch Deck) -->
+<section class="space-y-4 hidden" data-purpose="investors-module" id="view-investors">
+<div class="bg-white rounded-xl border border-[#E4E4E7] p-4 shadow-wire-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
+<div>
+<h2 class="text-xs font-bold uppercase tracking-wider text-zinc-900">Direct Institutional Investor Access</h2>
+<p class="text-[11px] text-zinc-500 mt-0.5">Submit curated pitch dossiers directly to active sector lead partners.</p>
+</div>
+<div class="flex items-center gap-2 text-xs">
+<span class="font-mono text-zinc-500 text-[11px]">SLA: 48h Partner Feedback</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Investor 1 -->
+<article class="bg-white rounded-xl border border-[#E4E4E7] p-4 shadow-wire-sm flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-xs font-bold text-zinc-900">Elevation Micro-Fund</h3>
+<p class="text-[11px] text-zinc-500">Partner: Sameer Varma</p>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">₹50L - ₹2 Cr</span>
+</div>
+<div class="mt-3 flex flex-wrap gap-1">
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#FAFAFA] border border-[#E4E4E7] text-zinc-600 font-mono">Fintech</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#FAFAFA] border border-[#E4E4E7] text-zinc-600 font-mono">B2B SaaS</span>
+</div>
+<p class="text-xs text-zinc-600 mt-2.5 leading-relaxed">
+              Pre-Seed &amp; Seed stage fund focusing on recurring SaaS revenue and defensible customer retention metrics.
+            </p>
+</div>
+<button class="mt-4 w-full py-2 px-3 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 text-xs font-medium transition-colors" onclick="openInvestorPitchModal('Elevation Micro-Fund', '₹50L - ₹2 Cr')">
+            Submit Pitch &amp; Deck
+          </button>
+</article>
+<!-- Investor 2 -->
+<article class="bg-white rounded-xl border border-[#E4E4E7] p-4 shadow-wire-sm flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-xs font-bold text-zinc-900">FirstCheck Syndicate</h3>
+<p class="text-[11px] text-zinc-500">Lead Angel: Neha Singhal</p>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">₹25L - ₹60L</span>
+</div>
+<div class="mt-3 flex flex-wrap gap-1">
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#FAFAFA] border border-[#E4E4E7] text-zinc-600 font-mono">AI Apps</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#FAFAFA] border border-[#E4E4E7] text-zinc-600 font-mono">Consumer</span>
+</div>
+<p class="text-xs text-zinc-600 mt-2.5 leading-relaxed">
+              Backing technical operators with first institutional cheque. Fast evaluation with high execution velocity.
+            </p>
+</div>
+<button class="mt-4 w-full py-2 px-3 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 text-xs font-medium transition-colors" onclick="openInvestorPitchModal('FirstCheck Syndicate', '₹25L - ₹60L')">
+            Submit Pitch &amp; Deck
+          </button>
+</article>
+<!-- Investor 3 -->
+<article class="bg-white rounded-xl border border-[#E4E4E7] p-4 shadow-wire-sm flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-xs font-bold text-zinc-900">AlphaWave Growth Group</h3>
+<p class="text-[11px] text-zinc-500">CIO: Vikram Mehta</p>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">₹1 Cr - ₹4 Cr</span>
+</div>
+<div class="mt-3 flex flex-wrap gap-1">
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#FAFAFA] border border-[#E4E4E7] text-zinc-600 font-mono">Supply Chain</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-[#FAFAFA] border border-[#E4E4E7] text-zinc-600 font-mono">Health</span>
+</div>
+<p class="text-xs text-zinc-600 mt-2.5 leading-relaxed">
+              Institutional growth check with deep network access into Indian enterprise distributions.
+            </p>
+</div>
+<button class="mt-4 w-full py-2 px-3 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 text-xs font-medium transition-colors" onclick="openInvestorPitchModal('AlphaWave Growth Group', '₹1 Cr - ₹4 Cr')">
+            Submit Pitch &amp; Deck
+          </button>
+</article>
+</div>
+</section>
+<!-- END: InvestorsTabModule -->
+<!-- BEGIN: AdvisoryBoardModule -->
+<section class="space-y-4 hidden" data-purpose="advisory-board-module" id="view-advisory">
+<div class="bg-white rounded-xl border border-[#E4E4E7] p-4 shadow-wire-sm">
+<h2 class="text-xs font-bold uppercase tracking-wider text-zinc-900">YANC Institutional Advisory Board</h2>
+<p class="text-[11px] text-zinc-500 mt-0.5">Quarterly governance retainers and board seat observers.</p>
+<div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+<div class="p-3 rounded-lg border border-[#E4E4E7] bg-[#FAFAFA] flex items-start gap-3">
+<div class="w-8 h-8 rounded bg-zinc-900 text-white flex items-center justify-center font-mono text-xs font-semibold shrink-0">SV</div>
+<div class="text-xs">
+<p class="font-bold text-zinc-900">Dr. Suresh Venkat</p>
+<p class="text-[11px] text-zinc-500">Ex-MD, Carlyle India • Board Governance &amp; Cross-border M&amp;A</p>
+<span class="text-[10px] font-mono text-zinc-600 mt-2 inline-block">Retainer: Institutional Advisory</span>
+</div>
+</div>
+<div class="p-3 rounded-lg border border-[#E4E4E7] bg-[#FAFAFA] flex items-start gap-3">
+<div class="w-8 h-8 rounded bg-zinc-800 text-white flex items-center justify-center font-mono text-xs font-semibold shrink-0">MN</div>
+<div class="text-xs">
+<p class="font-bold text-zinc-900">Meenakshi Natarajan</p>
+<p class="text-[11px] text-zinc-500">Senior Partner, Khaitan Legal • Regulatory &amp; ESOP Architecture</p>
+<span class="text-[10px] font-mono text-zinc-600 mt-2 inline-block">Retainer: Legal Counsel</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: AdvisoryBoardModule -->
+<!-- BEGIN: BookingsTrackerModule -->
+<section class="space-y-4 hidden" data-purpose="bookings-tracker-module" id="view-bookings">
+<div class="bg-white rounded-xl border border-[#E4E4E7] p-4 shadow-wire-sm">
+<div class="flex items-center justify-between pb-3 border-b border-[#E4E4E7]">
+<div>
+<h2 class="text-xs font-bold uppercase tracking-wider text-zinc-900">Active Consultations</h2>
+<p class="text-[11px] text-zinc-500 mt-0.5">Online Google Meet links &amp; Offline partner café reservations.</p>
+</div>
+<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">2 Confirmed</span>
+</div>
+<div class="divide-y divide-[#E4E4E7] text-xs">
+<!-- Session 1: Online -->
+<div class="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-100 text-zinc-700">ONLINE</span>
+<span class="font-semibold text-zinc-900">Growth Playbook Sync w/ Arjun Kulkarni</span>
+</div>
+<p class="text-[11px] text-zinc-500 mt-0.5">Tomorrow, 11:30 AM – 12:15 PM IST (45 mins) • 1 Member Credit Used</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 text-xs border border-zinc-200 rounded text-zinc-600 hover:bg-zinc-50">Reschedule</button>
+<button class="px-2.5 py-1 text-xs bg-zinc-900 text-white rounded hover:bg-zinc-800">Join Meet</button>
+</div>
+</div>
+<!-- Session 2: Offline -->
+<div class="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-900 text-white">OFFLINE</span>
+<span class="font-semibold text-zinc-900">Term Sheet Strategy w/ Rohan Roy</span>
+</div>
+<p class="text-[11px] text-zinc-500 mt-0.5">Friday, 04:00 PM IST • Starbucks Reserve, Indiranagar • 2 Member Credits</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 text-xs border border-zinc-200 rounded text-zinc-600 hover:bg-zinc-50">Directions</button>
+<button class="px-2.5 py-1 text-xs bg-zinc-900 text-white rounded hover:bg-zinc-800">View Pass</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: BookingsTrackerModule -->
+<!-- BEGIN: GovernanceAdminConsoles (For Ops, Finance, Tech & Super Admin) -->
+<section class="space-y-4 hidden" data-purpose="admin-governance-consoles" id="view-governance">
+<div class="bg-white rounded-xl border border-[#E4E4E7] p-4 shadow-wire-sm space-y-4">
+<div>
+<h2 class="text-xs font-bold uppercase tracking-wider text-zinc-900">HQ Administrative Governance Console</h2>
+<p class="text-[11px] text-zinc-500 mt-0.5">Consolidated wireframe view for Ops queue, Escrow settlement, and Super Admin.</p>
+</div>
+<!-- Ops Admin Panel -->
+<div class="p-3 rounded-lg border border-[#E4E4E7] bg-[#FAFAFA]">
+<div class="flex items-center justify-between pb-2 border-b border-[#E4E4E7]">
+<span class="text-[10px] font-mono font-bold uppercase text-zinc-700">1. Operations Queue</span>
+<span class="text-[10px] font-mono text-zinc-500">2 In-Person Slots Awaiting Venue Ping</span>
+</div>
+<table class="w-full text-left text-xs mt-2">
+<thead>
+<tr class="text-[10px] font-mono text-zinc-400 border-b border-zinc-200">
+<th class="pb-1">ID</th>
+<th class="pb-1">Mentee</th>
+<th class="pb-1">Mentor</th>
+<th class="pb-1">Format</th>
+<th class="pb-1 text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-zinc-200 font-mono text-[11px]">
+<tr>
+<td class="py-1.5 text-zinc-500">#9204</td>
+<td>Aditya Roy</td>
+<td>Arjun Kulkarni</td>
+<td>Online</td>
+<td class="text-right text-emerald-700">Auto-Linked</td>
+</tr>
+<tr>
+<td class="py-1.5 text-zinc-500">#9205</td>
+<td>Kavita Nair</td>
+<td>Rohan Roy</td>
+<td>Offline</td>
+<td class="text-right text-zinc-800">Reserved (Third Wave)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Finance Admin Panel -->
+<div class="p-3 rounded-lg border border-[#E4E4E7] bg-[#FAFAFA]">
+<div class="flex items-center justify-between pb-2 border-b border-[#E4E4E7]">
+<span class="text-[10px] font-mono font-bold uppercase text-zinc-700">2. Finance &amp; Escrow Ledger</span>
+<span class="text-[10px] font-mono text-zinc-700">Escrow Held: ₹42,500</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2 text-xs">
+<div class="p-2 rounded bg-white border border-[#E4E4E7]">
+<span class="text-[9px] font-mono text-zinc-400 uppercase block">Credit Burn Rate</span>
+<p class="font-bold text-zinc-900 mt-0.5">18 Cleared</p>
+<span class="text-[10px] text-zinc-500">Membership pool</span>
+</div>
+<div class="p-2 rounded bg-white border border-[#E4E4E7]">
+<span class="text-[9px] font-mono text-zinc-400 uppercase block">Non-Member Checkout</span>
+<p class="font-bold text-zinc-900 mt-0.5">₹34,500 Gross</p>
+<span class="text-[10px] text-zinc-500">INR Direct via Razorpay</span>
+</div>
+<div class="p-2 rounded bg-white border border-[#E4E4E7]">
+<span class="text-[9px] font-mono text-zinc-400 uppercase block">Mentor Payouts</span>
+<p class="font-bold text-zinc-900 mt-0.5">₹28,000 Due</p>
+<span class="text-[10px] text-blue-600 font-mono cursor-pointer hover:underline">Batch Process →</span>
+</div>
+</div>
+</div>
+<!-- Super Admin Panel -->
+<div class="p-3 rounded-lg border border-[#E4E4E7] bg-[#FAFAFA]">
+<div class="flex items-center justify-between pb-2 border-b border-[#E4E4E7]">
+<span class="text-[10px] font-mono font-bold uppercase text-zinc-700">3. Tech Diagnostics &amp; Security</span>
+<span class="text-[10px] font-mono text-emerald-700">Pitch S3 Vault: Encrypted</span>
+</div>
+<p class="text-[11px] font-mono text-zinc-600 mt-1">
+            SSO Auth: OK • Webhooks: 200 OK • Non-Member Stripe/Razorpay Escrow: Synchronized.
+          </p>
+</div>
+</div>
+</section>
+<!-- END: GovernanceAdminConsoles -->
+</main>
+<!-- END: MainContentArea -->
+</div>
+<!-- END: AppContainer -->
+<!-- BEGIN: MentorBookingModal (Whiteboard Spec: Details -> Slot format -> Member Credit vs INR direct Pay) -->
+<div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-[2px] hidden flex items-center justify-center p-4" id="booking-modal">
+<div class="bg-white rounded-xl max-w-md w-full p-5 shadow-wire-md border border-[#E4E4E7]">
+<div class="flex items-center justify-between pb-3 border-b border-[#E4E4E7]">
+<div>
+<span class="text-[10px] font-mono text-zinc-400 uppercase tracking-wider">Slot Scheduling</span>
+<h3 class="text-sm font-bold text-zinc-950" id="modal-mentor-name">Book Mentor Consultation</h3>
+</div>
+<button class="text-zinc-400 hover:text-zinc-900 text-sm font-mono" onclick="closeMentorModal()">✕</button>
+</div>
+<form class="mt-4 space-y-3.5" id="mentor-booking-form" onsubmit="handleBookingSubmission(event)">
+<!-- Reason & details as specified on whiteboard -->
+<div>
+<label class="block text-xs font-semibold text-zinc-800 mb-1">
+          Why &amp; What do you need? <span class="text-red-500">*</span>
+</label>
+<textarea class="w-full text-xs rounded-lg border-[#E4E4E7] focus:border-zinc-900 focus:ring-zinc-900 bg-[#FAFAFA]" placeholder="Outline your key bottleneck (e.g. term sheet review, B2B SaaS pricing, hiring CTO)..." required="" rows="2"></textarea>
+</div>
+<!-- Format selector (Side by Side) -->
+<div>
+<label class="block text-xs font-semibold text-zinc-800 mb-1">Select Consultation Format</label>
+<div class="grid grid-cols-2 gap-2">
+<label class="cursor-pointer border border-[#E4E4E7] rounded-lg p-2.5 flex flex-col justify-between hover:border-zinc-900 has-[:checked]:border-zinc-900 has-[:checked]:bg-[#FAFAFA] transition-all">
+<input checked="" class="text-zinc-900 focus:ring-zinc-900" name="slot_type" onchange="updateModalPrice('online')" type="radio" value="online"/>
+<span class="text-xs font-medium text-zinc-900 mt-1.5 block">Online Video</span>
+<span class="text-[10px] text-zinc-500">Google Meet (45m)</span>
+<span class="text-xs font-mono font-bold text-zinc-900 mt-1" id="label-online-price">₹500 / 1 Credit</span>
+</label>
+<label class="cursor-pointer border border-[#E4E4E7] rounded-lg p-2.5 flex flex-col justify-between hover:border-zinc-900 has-[:checked]:border-zinc-900 has-[:checked]:bg-[#FAFAFA] transition-all">
+<input class="text-zinc-900 focus:ring-zinc-900" name="slot_type" onchange="updateModalPrice('offline')" type="radio" value="offline"/>
+<span class="text-xs font-medium text-zinc-900 mt-1.5 block">Offline In-Person</span>
+<span class="text-[10px] text-zinc-500">Partner Café (60m)</span>
+<span class="text-xs font-mono font-bold text-zinc-900 mt-1" id="label-offline-price">₹1,500 / 2 Credits</span>
+</label>
+</div>
+</div>
+<!-- Slot Time & Date -->
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="block text-[10px] font-mono text-zinc-400 uppercase mb-1">Date</label>
+<input class="w-full text-xs rounded-lg border-[#E4E4E7] bg-[#FAFAFA] focus:border-zinc-900 focus:ring-zinc-900" required="" type="date" value="2026-09-15"/>
+</div>
+<div>
+<label class="block text-[10px] font-mono text-zinc-400 uppercase mb-1">Available Slot</label>
+<select class="w-full text-xs rounded-lg border-[#E4E4E7] bg-[#FAFAFA] focus:border-zinc-900 focus:ring-zinc-900">
+<option>10:00 AM - 10:45 AM</option>
+<option>02:30 PM - 03:15 PM</option>
+<option>05:00 PM - 05:45 PM</option>
+</select>
+</div>
+</div>
+<!-- Member Credit vs Non-Member INR Pay Banner -->
+<div class="p-3 rounded-lg bg-[#FAFAFA] border border-[#E4E4E7] flex items-center justify-between" id="modal-payment-banner">
+<div>
+<span class="text-[9px] font-mono uppercase text-zinc-400 block" id="checkout-badge">Payment Model</span>
+<span class="text-xs font-bold text-zinc-900 font-mono" id="checkout-amount-summary">1 Credit deduction</span>
+</div>
+<button class="px-3.5 py-1.5 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 text-xs font-medium transition-colors" id="btn-modal-checkout" type="submit">
+          Confirm Booking
+        </button>
+</div>
+</form>
+</div>
+</div>
+<!-- END: MentorBookingModal -->
+<!-- BEGIN: InvestorPitchModal (Short pitch + Amount ask + Pitch Deck Upload) -->
+<div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-[2px] hidden flex items-center justify-center p-4" id="investor-modal">
+<div class="bg-white rounded-xl max-w-md w-full p-5 shadow-wire-md border border-[#E4E4E7]">
+<div class="flex items-center justify-between pb-3 border-b border-[#E4E4E7]">
+<div>
+<span class="text-[10px] font-mono text-zinc-400 uppercase tracking-wider">Investor Submission Flow</span>
+<h3 class="text-sm font-bold text-zinc-950" id="investor-modal-name">Submit Pitch Dossier</h3>
+</div>
+<button class="text-zinc-400 hover:text-zinc-900 text-sm font-mono" onclick="closeInvestorModal()">✕</button>
+</div>
+<form class="mt-4 space-y-3.5" id="investor-pitch-form" onsubmit="handlePitchSubmission(event)">
+<!-- Capital Ask -->
+<div>
+<label class="block text-xs font-semibold text-zinc-800 mb-1">
+          Target Capital Ask <span class="text-red-500">*</span>
+</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-zinc-400 font-mono text-xs">₹</span>
+<input class="w-full text-xs pl-7 rounded-lg border-[#E4E4E7] bg-[#FAFAFA] focus:border-zinc-900 focus:ring-zinc-900" placeholder="e.g. 1.25 Crore" required="" type="text"/>
+</div>
+</div>
+<!-- Short Pitch -->
+<div>
+<label class="block text-xs font-semibold text-zinc-800 mb-1">
+          Elevator Pitch / Problem &amp; Moat <span class="text-red-500">*</span>
+</label>
+<textarea class="w-full text-xs rounded-lg border-[#E4E4E7] bg-[#FAFAFA] focus:border-zinc-900 focus:ring-zinc-900" placeholder="Summarize problem statement, current MRR / GMV, and proprietary defensibility..." required="" rows="2"></textarea>
+</div>
+<!-- Pitch Deck Upload Wireframe box -->
+<div>
+<label class="block text-xs font-semibold text-zinc-800 mb-1">Upload Pitch Deck (.pdf, max 20MB)</label>
+<div class="border border-dashed border-[#D4D4D8] rounded-lg p-3 text-center bg-[#FAFAFA]">
+<label class="cursor-pointer text-xs text-zinc-700 font-medium hover:text-zinc-950">
+<span class="underline">Upload deck PDF</span> or drag file here
+            <input accept=".pdf" class="sr-only" id="deck-upload-input" onchange="handleFileChosen(event)" required="" type="file"/>
+</label>
+<p class="text-[10px] font-mono text-zinc-400 mt-1" id="file-status-label">founder_pitch_deck_v2.pdf</p>
+</div>
+</div>
+<!-- Member vs Non-member submission routing -->
+<div class="p-3 rounded-lg bg-[#FAFAFA] border border-[#E4E4E7] flex items-center justify-between">
+<div>
+<span class="text-[9px] font-mono uppercase text-zinc-400 block" id="investor-checkout-badge">Routing Tier</span>
+<span class="text-xs font-bold text-zinc-900 font-mono" id="investor-checkout-amount">Included in Membership</span>
+</div>
+<button class="px-3.5 py-1.5 rounded-lg bg-zinc-900 text-white hover:bg-zinc-800 text-xs font-medium transition-colors" type="submit">
+          Send to Partner
+        </button>
+</div>
+</form>
+</div>
+</div>
+<!-- END: InvestorPitchModal -->
+<!-- BEGIN: TutorialModal (Platform Walkthrough) -->
+<div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-[2px] hidden flex items-center justify-center p-4" id="tutorial-modal">
+<div class="bg-white rounded-xl max-w-md w-full p-5 shadow-wire-md border border-[#E4E4E7]">
+<div class="flex items-center justify-between pb-3 border-b border-[#E4E4E7]">
+<h3 class="text-xs font-bold uppercase tracking-wider text-zinc-950">Whiteboard Workflow Summary</h3>
+<button class="text-zinc-400 hover:text-zinc-900 text-sm font-mono" onclick="toggleTutorialModal()">✕</button>
+</div>
+<div class="mt-3 space-y-2.5 text-xs text-zinc-600">
+<div class="p-2 rounded border border-[#E4E4E7] bg-[#FAFAFA]">
+<strong class="text-zinc-900 font-mono text-[11px] block">1. Authentication &amp; Categorization</strong>
+<p class="text-[11px] text-zinc-500 mt-0.5">Determine role (Founder, Mentor, Investor, Advisor) and stage requirements.</p>
+</div>
+<div class="p-2 rounded border border-[#E4E4E7] bg-[#FAFAFA]">
+<strong class="text-zinc-900 font-mono text-[11px] block">2. Directory Filtering</strong>
+<p class="text-[11px] text-zinc-500 mt-0.5">Sort mentors by expertise (Fintech/SaaS) and target need (GTM, Funding, Architecture).</p>
+</div>
+<div class="p-2 rounded border border-[#E4E4E7] bg-[#FAFAFA]">
+<strong class="text-zinc-900 font-mono text-[11px] block">3. Slot Booking &amp; Settlement</strong>
+<p class="text-[11px] text-zinc-500 mt-0.5">Choose Online Video (1 credit) or Offline in-person café session (2 credits). Non-members pay direct INR.</p>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-[#E4E4E7] flex justify-end">
+<button class="px-3 py-1.5 rounded-lg bg-zinc-900 text-white text-xs font-medium" onclick="toggleTutorialModal()">
+        Close Tutorial
+      </button>
+</div>
+</div>
+</div>
+<!-- END: TutorialModal -->
+<!-- BEGIN: CoreAppInteractivityScript -->
+<script data-purpose="platform-state-controller">
+  let currentRole = 'member'; // 'member' | 'nonmember' | 'mentor' | 'advisors' | 'ops' | 'fin' | 'tech'
+  let selectedFormat = 'online';
+
+  function switchTab(tabKey) {
+    const tabs = ['mentors', 'investors', 'advisory', 'bookings', 'governance'];
+    tabs.forEach(t => {
+      const viewEl = document.getElementById(`view-${t}`);
+      const navEl = document.getElementById(`tab-nav-${t}`);
+      if (viewEl) viewEl.classList.add('hidden');
+      if (navEl) {
+        navEl.classList.remove('bg-zinc-900', 'text-white');
+        navEl.classList.add('text-zinc-600');
+      }
+    });
+
+    const activeView = document.getElementById(`view-${tabKey}`);
+    const activeNav = document.getElementById(`tab-nav-${tabKey}`);
+    if (activeView) activeView.classList.remove('hidden');
+    if (activeNav) {
+      activeNav.classList.add('bg-zinc-900', 'text-white');
+      activeNav.classList.remove('text-zinc-600');
+    }
+  }
+
+  function switchRole(roleKey) {
+    currentRole = roleKey;
+    
+    document.querySelectorAll('.role-pill').forEach(btn => {
+      btn.classList.remove('bg-white', 'shadow-sm', 'text-zinc-900', 'border', 'border-zinc-200');
+      btn.classList.add('text-zinc-600');
+    });
+
+    const activeBtn = document.getElementById(`role-${roleKey}`);
+    if (activeBtn) {
+      activeBtn.classList.remove('text-zinc-600');
+      activeBtn.classList.add('bg-white', 'shadow-sm', 'text-zinc-900', 'border', 'border-zinc-200');
+    }
+
+    const creditBadge = document.getElementById('credit-badge');
+    const engineRule = document.getElementById('engine-rule-desc');
+    const userDisplay = document.getElementById('user-display-name');
+
+    if (roleKey === 'member') {
+      creditBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span><span>Balance: <strong class="font-semibold">4 Credits</strong></span>`;
+      engineRule.textContent = 'Member: 1 Credit/Online • 2 Credits/Offline';
+      userDisplay.textContent = 'Jay Doe (Founder Member)';
+      switchTab('mentors');
+    } else if (roleKey === 'nonmember') {
+      creditBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span><span>Status: <strong class="font-semibold">Pay-As-You-Go</strong></span>`;
+      engineRule.textContent = 'Non-Member: Direct Checkout (₹500 Online / ₹1,500 Offline)';
+      userDisplay.textContent = 'Guest Founder (Direct INR)';
+      switchTab('mentors');
+    } else if (roleKey === 'mentor') {
+      creditBadge.innerHTML = `<span class="font-mono text-zinc-700">Rating: <strong>4.9 ★</strong> Mentor</span>`;
+      engineRule.textContent = 'Mentor Mode: Calendar Sync & Availability Controls';
+      userDisplay.textContent = 'Arjun Kulkarni (Mentor)';
+      switchTab('bookings');
+    } else if (roleKey === 'advisors') {
+      creditBadge.innerHTML = `<span class="font-mono text-zinc-700">Status: <strong>Advisory Board</strong></span>`;
+      engineRule.textContent = 'Advisor Mode: Fractional Governance Retainers';
+      userDisplay.textContent = 'Dr. Suresh Venkat (Advisor)';
+      switchTab('advisory');
+    } else if (roleKey === 'ops' || roleKey === 'fin' || roleKey === 'tech') {
+      creditBadge.innerHTML = `<span class="font-mono text-zinc-700">HQ Console: <strong>${roleKey.toUpperCase()}</strong></span>`;
+      engineRule.textContent = `Governance Mode: Operational Ledger & Admin Hub`;
+      userDisplay.textContent = `HQ Admin (${roleKey.toUpperCase()})`;
+      switchTab('governance');
+    }
+  }
+
+  function openMentorBookingModal(mentorName, mentorRole, onlinePrice, offlinePrice) {
+    document.getElementById('modal-mentor-name').textContent = `Book Slot: ${mentorName}`;
+    document.getElementById('label-online-price').textContent = `₹${onlinePrice} / 1 Credit`;
+    document.getElementById('label-offline-price').textContent = `₹${offlinePrice} / 2 Credits`;
+    
+    updateModalPrice('online');
+    document.getElementById('booking-modal').classList.remove('hidden');
+  }
+
+  function closeMentorModal() {
+    document.getElementById('booking-modal').classList.add('hidden');
+  }
+
+  function updateModalPrice(type) {
+    selectedFormat = type;
+    const checkoutBadge = document.getElementById('checkout-badge');
+    const summary = document.getElementById('checkout-amount-summary');
+    const checkoutBtn = document.getElementById('btn-modal-checkout');
+
+    if (currentRole === 'member') {
+      checkoutBadge.textContent = 'Member Deduct';
+      if (type === 'online') {
+        summary.textContent = '1 Credit will be deducted';
+        checkoutBtn.textContent = 'Confirm with 1 Credit';
+      } else {
+        summary.textContent = '2 Credits will be deducted';
+        checkoutBtn.textContent = 'Confirm with 2 Credits';
+      }
+    } else {
+      checkoutBadge.textContent = 'Direct Escrow Payment';
+      if (type === 'online') {
+        summary.textContent = '₹500 INR Direct Checkout';
+        checkoutBtn.textContent = 'Pay ₹500 via Razorpay';
+      } else {
+        summary.textContent = '₹1,500 INR Direct Checkout';
+        checkoutBtn.textContent = 'Pay ₹1,500 via Razorpay';
+      }
+    }
+  }
+
+  function openInvestorPitchModal(investorName, checkSize) {
+    document.getElementById('investor-modal-name').textContent = `Pitch: ${investorName}`;
+    const badge = document.getElementById('investor-checkout-badge');
+    const amount = document.getElementById('investor-checkout-amount');
+
+    if (currentRole === 'member') {
+      badge.textContent = 'Member Priority Queue';
+      amount.textContent = 'Included with Membership (0 Credits)';
+    } else {
+      badge.textContent = 'Non-Member Review Fee';
+      amount.textContent = '₹999 INR Direct Verification';
+    }
+
+    document.getElementById('investor-modal').classList.remove('hidden');
+  }
+
+  function closeInvestorModal() {
+    document.getElementById('investor-modal').classList.add('hidden');
+  }
+
+  function toggleTutorialModal() {
+    const modal = document.getElementById('tutorial-modal');
+    modal.classList.toggle('hidden');
+  }
+
+  function openOnboardingForm() {
+    alert('Onboarding Profile:\n\n1. Category: Founder (Seed)\n2. Domain: SaaS & AI\n3. Need: GTM Architecture & Investor Deck Review');
+  }
+
+  function handleFileChosen(e) {
+    if (e.target.files && e.target.files[0]) {
+      document.getElementById('file-status-label').textContent = `Loaded: ${e.target.files[0].name}`;
+    }
+  }
+
+  function handleBookingSubmission(e) {
+    e.preventDefault();
+    alert(`Consultation booked! Format: ${selectedFormat.toUpperCase()}. Calendar ping sent to mentor.`);
+    closeMentorModal();
+    switchTab('bookings');
+  }
+
+  function handlePitchSubmission(e) {
+    e.preventDefault();
+    alert('Pitch dossier successfully submitted for 48-hr partner review.');
+    closeInvestorModal();
+  }
+
+  function applyFilters() {
+    const sector = document.getElementById('mentor-filter-sector').value;
+    console.log('Filtered by sector:', sector);
+  }
+</script>
+<!-- END: CoreAppInteractivityScript -->
+<script src="assets/flow.js" defer></script>
+</body></html>

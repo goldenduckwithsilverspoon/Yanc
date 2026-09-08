@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>YANC 1-on-1 Connect — User Flow Demo</title>
+<meta name="description" content="Interactive walkthrough of the YANC 1-on-1 Connect advisory platform: role gateway, founder workspace, booking console, mentor escrow release and governance."/>
+<link rel="stylesheet" href="assets/fonts.css"/>
+<link rel="stylesheet" href="assets/flow.css"/>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+<meta name="robots" content="noindex"/>
+<style>
+  /* Venture Human Interface — the executive/achromatic direction from
+     src/design/venture-human-interface.md. */
+  :root {
+    --ink: #090a0d;
+    --ink-2: #1e293b;
+    --muted: #5b6b7f;
+    --muted-2: #8a97a8;
+    --canvas: #f8fafc;
+    --card: #ffffff;
+    --hairline: rgba(15, 23, 42, 0.07);
+    --hairline-strong: rgba(15, 23, 42, 0.14);
+    --indigo: #4338ca;
+    --emerald: #059669;
+    --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.02), 0 4px 12px rgba(0, 0, 0, 0.015);
+    --shadow-2: 0 8px 24px rgba(15, 23, 42, 0.06);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- top bar ---------- */
+
+  .topbar {
+    position: sticky; top: 0; z-index: 40;
+    background: rgba(248, 250, 252, 0.82);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar__inner { display: flex; align-items: center; gap: 16px; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+  .brand__mark {
+    width: 34px; height: 34px; border-radius: 10px; background: var(--ink);
+    color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 17px;
+  }
+  .brand__name { font-weight: 700; font-size: 15px; letter-spacing: -0.01em; line-height: 1.15; }
+  .brand__sub { font-size: 11.5px; color: var(--muted); line-height: 1.15; }
+  .topbar__spacer { flex: 1; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 11.5px; font-weight: 600; color: var(--muted);
+    border: 1px solid var(--hairline); border-radius: 999px;
+    background: rgba(15, 23, 42, 0.02); padding: 5px 12px; white-space: nowrap;
+  }
+  .pill__dot { width: 6px; height: 6px; border-radius: 999px; background: var(--emerald); }
+
+  /* ---------- hero ---------- */
+
+  .hero { padding: 72px 0 48px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--indigo);
+    border: 1px solid rgba(67, 56, 202, 0.18); background: rgba(67, 56, 202, 0.05);
+    border-radius: 999px; padding: 6px 13px;
+  }
+  h1 {
+    font-size: 44px; line-height: 52px; letter-spacing: -0.03em; font-weight: 700;
+    margin: 20px 0 0; max-width: 20ch;
+  }
+  .lede { font-size: 17px; line-height: 28px; color: var(--muted); max-width: 66ch; margin: 16px 0 0; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    border-radius: 10px; padding: 12px 20px;
+    font-size: 14px; font-weight: 600; text-decoration: none;
+    border: 1px solid var(--hairline-strong);
+    background: rgba(15, 23, 42, 0.03); color: var(--ink);
+    transition: transform 0.14s ease, background 0.14s ease, border-color 0.14s ease;
+  }
+  .btn:hover { background: rgba(15, 23, 42, 0.06); transform: translateY(-1px); }
+  .btn:active { transform: scale(0.985); }
+  .btn--primary {
+    background: var(--ink); color: #fff; border-color: var(--ink);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  .btn--primary:hover { background: #1b1b1f; border-color: #1b1b1f; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 44px;
+           background: var(--card); border: 1px solid var(--hairline); border-radius: 16px;
+           box-shadow: var(--shadow-1); overflow: hidden; }
+  .stat { padding: 20px 22px; border-right: 1px solid var(--hairline); }
+  .stat:last-child { border-right: 0; }
+  .stat__k { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .stat__v { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-top: 6px; }
+  .stat__n { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+
+  /* ---------- sections ---------- */
+
+  section { padding: 56px 0; border-top: 1px solid var(--hairline); }
+  .sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 28px; }
+  h2 { font-size: 32px; line-height: 40px; letter-spacing: -0.02em; font-weight: 600; margin: 0; }
+  .sec-head p { margin: 8px 0 0; color: var(--muted); font-size: 15px; max-width: 62ch; }
+  .label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--muted-2); margin: 0 0 10px;
+  }
+
+  /* ---------- flow chain ---------- */
+
+  .chain { display: grid; gap: 14px; grid-template-columns: repeat(5, 1fr); align-items: stretch; }
+  .node {
+    position: relative; display: flex; flex-direction: column;
+    background: var(--card); border: 1px solid var(--hairline); border-radius: 16px;
+    padding: 18px; text-decoration: none; color: inherit;
+    box-shadow: var(--shadow-1);
+    transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+  }
+  .node:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); border-color: var(--hairline-strong); }
+  .node::after {
+    content: ""; position: absolute; top: 50%; right: -14px; width: 14px; height: 1px;
+    background: var(--hairline-strong);
+  }
+  .node:last-child::after { display: none; }
+  .node__step {
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--indigo);
+  }
+  .node__title { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; margin: 8px 0 6px; }
+  .node__desc { font-size: 12.5px; line-height: 19px; color: var(--muted); flex: 1; }
+  .node__carry {
+    margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--hairline-strong);
+    font-size: 11px; color: var(--muted-2);
+  }
+  .node__carry b { color: var(--ink-2); font-weight: 600; }
+  .node__go { margin-top: 10px; font-size: 12px; font-weight: 700; color: var(--ink); }
+
+  /* ---------- personas ---------- */
+
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .card {
+    background: var(--card); border: 1px solid var(--hairline); border-radius: 16px;
+    padding: 18px 20px; box-shadow: var(--shadow-1); text-decoration: none; color: inherit; display: block;
+    transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+  }
+  a.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); border-color: var(--hairline-strong); }
+  .card__row { display: flex; align-items: center; gap: 12px; }
+  .avatar {
+    width: 40px; height: 40px; border-radius: 12px; background: rgba(15, 23, 42, 0.05);
+    border: 1px solid var(--hairline); display: grid; place-items: center;
+    font-size: 13px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink-2); flex: none;
+  }
+  .card__name { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+  .card__role { font-size: 12px; color: var(--muted); }
+  .card__body { font-size: 13px; line-height: 20px; color: var(--muted); margin-top: 12px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 12px;
+    font-size: 11px; font-weight: 600; color: var(--ink-2);
+    border: 1px solid var(--hairline); background: rgba(15, 23, 42, 0.03);
+    border-radius: 999px; padding: 4px 11px;
+  }
+
+  /* ---------- reference feature ---------- */
+
+  .feature {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0; align-items: stretch;
+    background: var(--card); border: 1px solid var(--hairline); border-radius: 16px;
+    box-shadow: var(--shadow-1); overflow: hidden; text-decoration: none; color: inherit;
+    margin-bottom: 14px;
+    transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+  }
+  .feature:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); border-color: var(--hairline-strong); }
+  .feature__copy { display: flex; flex-direction: column; padding: 26px 28px; }
+  .feature__title { display: block; font-size: 22px; font-weight: 600; letter-spacing: -0.015em; margin: 4px 0 10px; }
+  .feature__desc { display: block; font-size: 13.5px; line-height: 21px; color: var(--muted); flex: 1; }
+  .feature__shot { background: #0b1020; border-left: 1px solid var(--hairline); overflow: hidden; display: grid; place-items: center; padding: 18px; }
+  .feature__shot img { width: 100%; height: auto; max-height: 100%; object-fit: contain; display: block; border-radius: 8px; }
+
+  /* ---------- reference gallery ---------- */
+
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .shot {
+    display: block; text-decoration: none; color: inherit;
+    background: var(--card); border: 1px solid var(--hairline); border-radius: 16px;
+    overflow: hidden; box-shadow: var(--shadow-1);
+    transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+  }
+  .shot:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); border-color: var(--hairline-strong); }
+  .shot__frame { display: block; aspect-ratio: 4 / 3; overflow: hidden; background: #eef1f5; border-bottom: 1px solid var(--hairline); }
+  .shot__frame img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+  .shot__meta { display: block; padding: 14px 16px; }
+  .shot__title { display: block; font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
+  .shot__note { display: block; font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  /* ---------- wiring notes ---------- */
+
+  .notes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .note {
+    background: var(--card); border: 1px solid var(--hairline); border-radius: 16px;
+    padding: 18px 20px; box-shadow: var(--shadow-1);
+  }
+  .note h3 { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 8px; }
+  .note p { margin: 0; font-size: 13.5px; line-height: 21px; color: var(--muted); }
+  .note code {
+    font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12px;
+    background: rgba(15, 23, 42, 0.04); border: 1px solid var(--hairline);
+    border-radius: 4px; padding: 1px 5px;
+  }
+
+  footer { border-top: 1px solid var(--hairline); padding: 32px 0 96px; }
+  .foot { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+          font-size: 12.5px; color: var(--muted); }
+
+  @media (max-width: 1080px) {
+    .chain { grid-template-columns: repeat(2, 1fr); }
+    .node::after { display: none; }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .feature { grid-template-columns: 1fr; }
+    .feature__shot { border-left: 0; border-top: 1px solid var(--hairline); min-height: 240px; }
+  }
+  @media (max-width: 760px) {
+    h1 { font-size: 32px; line-height: 38px; letter-spacing: -0.025em; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat { border-bottom: 1px solid var(--hairline); }
+    .chain, .grid-3, .grid-4, .notes { grid-template-columns: 1fr; }
+    .hero { padding: 48px 0 32px; }
+  }
+</style>
+</head>
+<body data-yanc-screen="index">
+
+<div class="topbar">
+  <div class="wrap topbar__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__mark">Y</span>
+      <span>
+        <span class="brand__name">YANC 1-on-1 Connect</span><br/>
+        <span class="brand__sub">connect.yanc.in · user-flow demo</span>
+      </span>
+    </a>
+    <span class="topbar__spacer"></span>
+    <span class="pill"><span class="pill__dot"></span>10 screens wired end to end</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="eyebrow">Interactive prototype</span>
+    <h1>Nine wireframes, connected into one working journey.</h1>
+    <p class="lede">
+      YANC 1-on-1 Connect is institutional-grade advisory infrastructure: founders book verified
+      mentors and angels, money sits in escrow until the session is proven, and every release is
+      written to an immutable ledger. This demo walks that journey across five role-aware screens —
+      state you create on one screen shows up on the next.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn--primary" href="gateway.html">Start the walkthrough →</a>
+      <a class="btn" href="console.html?role=nonmember&amp;tab=mentors">Skip to the booking console</a>
+      <a class="btn" href="architecture.html">See the ecosystem flowchart</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat__k">Personas modelled</div>
+        <div class="stat__v">6</div>
+        <div class="stat__n">Member · Founder · Mentor · Investor · Ops · Finance</div>
+      </div>
+      <div class="stat">
+        <div class="stat__k">Journey steps</div>
+        <div class="stat__v">5</div>
+        <div class="stat__n">Gateway through dispute remediation</div>
+      </div>
+      <div class="stat">
+        <div class="stat__k">Session pricing</div>
+        <div class="stat__v">₹500 / ₹1,500</div>
+        <div class="stat__n">45m online · 60m offline (1–2 credits for members)</div>
+      </div>
+      <div class="stat">
+        <div class="stat__k">Escrow release</div>
+        <div class="stat__v">Dual-key</div>
+        <div class="stat__n">Founder venue code + advisor confirmation</div>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-head">
+      <div>
+        <p class="label">The happy path</p>
+        <h2>Follow the money through one session</h2>
+        <p>Each card opens a live screen. The demo bar at the bottom of every screen steps you forward
+           and back, and shows which persona you are signed in as.</p>
+      </div>
+      <a class="btn" href="gateway.html">Begin at step 1 →</a>
+    </div>
+
+    <div class="chain">
+      <a class="node" href="gateway.html">
+        <span class="node__step">Step 1</span>
+        <span class="node__title">Role gateway</span>
+        <span class="node__desc">Pick one of five security personas and sign in. Each persona routes to a different console.</span>
+        <span class="node__carry">Sets <b>persona</b> + <b>credit wallet</b></span>
+        <span class="node__go">Open gateway →</span>
+      </a>
+      <a class="node" href="founder.html">
+        <span class="node__step">Step 2</span>
+        <span class="node__title">Founder workspace</span>
+        <span class="node__desc">Escrow status, signed NDAs, the document vault and matched advisors for a seed-stage founder.</span>
+        <span class="node__carry">Reads <b>persona</b>, shows <b>bookings</b></span>
+        <span class="node__go">Open workspace →</span>
+      </a>
+      <a class="node" href="console.html?tab=mentors">
+        <span class="node__step">Step 3</span>
+        <span class="node__title">Advisory console</span>
+        <span class="node__desc">Filter the mentor directory, pick online or offline, and confirm a slot with credits or INR.</span>
+        <span class="node__carry">Writes a <b>booking</b>, spends <b>credits</b></span>
+        <span class="node__go">Open console →</span>
+      </a>
+      <a class="node" href="mentor.html">
+        <span class="node__step">Step 4</span>
+        <span class="node__title">Mentor board</span>
+        <span class="node__desc">The advisor sees the inbound request, runs the session, and releases escrow against a 4-digit venue code.</span>
+        <span class="node__carry">Releases <b>escrow</b></span>
+        <span class="node__go">Open advisor board →</span>
+      </a>
+      <a class="node" href="governance.html">
+        <span class="node__step">Step 5</span>
+        <span class="node__title">Governance</span>
+        <span class="node__desc">Root clearance: approve advisors, grant credits, resolve the open dispute, read the immutable audit log.</span>
+        <span class="node__carry">Writes to the <b>audit ledger</b></span>
+        <span class="node__go">Open governance →</span>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div>
+        <p class="label">Role-aware routing</p>
+        <h2>Six personas, six destinations</h2>
+        <p>Straight from the ecosystem flowchart. The gateway is a real fork, not a mockup — sign in as
+           any of these and the demo lands you in that role's console with the right onboarding gate and
+           pricing rules applied.</p>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <a class="card" href="gateway.html?persona=member">
+        <div class="card__row">
+          <span class="avatar">PN</span>
+          <span>
+            <span class="card__name">Priya Nair</span><br/>
+            <span class="card__role">YANC Member — YC W26</span>
+          </span>
+        </div>
+        <p class="card__body">Whitelist verification then an OTP challenge. Spends cohort credits —
+           1 credit for a 45-minute online call, 2 for a 60-minute offline session. This is the persona
+           the main walkthrough follows.</p>
+        <span class="chip">Lands on the founder workspace</span>
+      </a>
+
+      <a class="card" href="gateway.html?persona=founder">
+        <div class="card__row">
+          <span class="avatar">AM</span>
+          <span>
+            <span class="card__name">Arjun Mehta</span><br/>
+            <span class="card__role">Non-Member Founder</span>
+          </span>
+        </div>
+        <p class="card__body">Gets in through application review, with no credit wallet. Pays ₹500 online
+           or ₹1,500 offline per session at direct checkout — 100% held in escrow before the slot is
+           confirmed.</p>
+        <span class="chip">Lands on the booking console</span>
+      </a>
+
+      <a class="card" href="gateway.html?persona=mentor">
+        <div class="card__row">
+          <span class="avatar">VR</span>
+          <span>
+            <span class="card__name">Vikramaditya Roy</span><br/>
+            <span class="card__role">Verified Mentor — Ex-CTO @ FinFlow</span>
+          </span>
+        </div>
+        <p class="card__body">Credential-vetted before listing. Sets availability, rates and approved
+           venues, answers within a 48-hour SLA, and releases escrow with the founder's 4-digit venue
+           code once the session is done.</p>
+        <span class="chip">Lands on the advisor board</span>
+      </a>
+
+      <a class="card" href="gateway.html?persona=investor">
+        <div class="card__row">
+          <span class="avatar">AS</span>
+          <span>
+            <span class="card__name">Aarav Singhania</span><br/>
+            <span class="card__role">Tiered Investor — Singhania Ventures</span>
+          </span>
+        </div>
+        <p class="card__body">Cheque-size tier decides which dossiers are visible. Reads watermarked decks
+           under Safe Harbor NDA and files a 3-point teardown memo after each founder meeting.</p>
+        <span class="chip">Lands on the advisor board</span>
+      </a>
+
+      <a class="card" href="console.html?role=ops&amp;tab=governance">
+        <div class="card__row">
+          <span class="avatar">OA</span>
+          <span>
+            <span class="card__name">Ops Admin</span><br/>
+            <span class="card__role">Staff — session pipeline</span>
+          </span>
+        </div>
+        <p class="card__body">Works the confirmation queue: approves slots, resolves venue and scheduling
+           conflicts, and keeps the 48-hour SLA from lapsing into an auto-reversal.</p>
+        <span class="chip">Lands on the ops console</span>
+      </a>
+
+      <a class="card" href="console.html?role=fin&amp;tab=governance">
+        <div class="card__row">
+          <span class="avatar">FA</span>
+          <span>
+            <span class="card__name">Finance Admin</span><br/>
+            <span class="card__role">Staff — escrow &amp; payouts</span>
+          </span>
+        </div>
+        <p class="card__body">Runs the escrow release audit and executes batch wires to provider wallets.
+           Everything it touches lands in the immutable ledger.</p>
+        <span class="chip">Lands on the finance console</span>
+      </a>
+    </div>
+
+    <div class="notes" style="margin-top: 14px;">
+      <div class="note">
+        <h3>Above all six: Super Admin</h3>
+        <p>Devansh Malhotra holds root custody clearance — advisor vetting, credit minting, force-release
+           of escrow and dispute remediation, each gated behind a multi-sig quorum.
+           <a href="gateway.html?persona=admin" style="color: var(--indigo); font-weight: 600;">Sign in as Super Admin →</a></p>
+      </div>
+      <div class="note">
+        <h3>Switch any time</h3>
+        <p>The bar pinned to the bottom of every screen shows your current persona, steps through the
+           journey, jumps to any screen, and resets the session. Reset clears bookings, credits and
+           escrow state.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div>
+        <p class="label">Reference</p>
+        <h2>Specs and design directions</h2>
+        <p>The same product drawn four ways — the interactive booking spec plus three fidelity levels
+           the console was designed against. All reachable from the demo bar's screen menu.</p>
+      </div>
+    </div>
+
+    <a class="feature" href="architecture.html">
+      <span class="feature__copy">
+        <span class="label">Reference model</span>
+        <span class="feature__title">Startup ecosystem &amp; multi-persona flowchart</span>
+        <span class="feature__desc">
+          The three-layer model the demo is built against: how each of the six personas gets in,
+          what each one sees, and the four core services underneath — RBAC, the escrow &amp; credit
+          ledger at 1&nbsp;credit&nbsp;=&nbsp;₹100, the event-driven audit stream, and the advisory
+          board governance engine. Redrawn as a live page; every card opens the screen that implements it.
+        </span>
+        <span class="node__go">Open the flowchart →</span>
+      </span>
+      <span class="feature__shot">
+        <img alt="YANC Connect ecosystem and multi-persona flowchart" src="reference/ecosystem-flowchart.jpg"/>
+      </span>
+    </a>
+
+    <div class="grid-4">
+      <a class="shot" href="journey.html">
+        <span class="shot__frame"><img alt="Booking journey diagram" src="reference/yanc_connect_architectural_flow_wireframe.png"/></span>
+        <span class="shot__meta">
+          <span class="shot__title">Booking journey diagram</span>
+          <span class="shot__note">Interactive: entry → category → matching → escrow terminal</span>
+        </span>
+      </a>
+      <a class="shot" href="wireframe-lofi.html">
+        <span class="shot__frame"><img alt="Low-fidelity blueprint wireframe" src="reference/yanc_connect_low_fi_blueprint_wireframe.png"/></span>
+        <span class="shot__meta">
+          <span class="shot__title">Low-fi blueprint</span>
+          <span class="shot__note">Structure only — grid, hierarchy, states</span>
+        </span>
+      </a>
+      <a class="shot" href="wireframe-hifi.html">
+        <span class="shot__frame"><img alt="High-fidelity minimalist wireframe" src="reference/yanc_connect_clean_hi_fi_minimalist_wireframe.png"/></span>
+        <span class="shot__meta">
+          <span class="shot__title">Hi-fi minimalist</span>
+          <span class="shot__note">Venture Human Interface direction</span>
+        </span>
+      </a>
+      <a class="shot" href="wireframe-architecture.html">
+        <span class="shot__frame"><img alt="Role architecture console" src="reference/yanc_connect_master_wireframe_role_architecture_console.png"/></span>
+        <span class="shot__meta">
+          <span class="shot__title">Role architecture console</span>
+          <span class="shot__note">Every role and admin console in one view</span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <div>
+        <p class="label">Under the hood</p>
+        <h2>What actually carries across screens</h2>
+        <p>The exports arrived as nine unlinked pages whose buttons ended in <code>alert()</code>.
+           A shared shell wires them together without editing the wireframes themselves.</p>
+      </div>
+    </div>
+
+    <div class="notes">
+      <div class="note">
+        <h3>Shared session state</h3>
+        <p>Persona, credit balance, bookings, escrow release and dispute outcome live in
+           <code>sessionStorage</code>. Book a mentor in step 3 and the booking appears on the founder
+           workspace and on the mentor's inbound queue.</p>
+      </div>
+      <div class="note">
+        <h3>Real navigation</h3>
+        <p>Every <code>href="#"</code> nav item — Gateway, Founder Deck, Advisory Board, Governance,
+           Audit Ledger — now resolves to the screen it names. Links with no destination in scope say so
+           instead of doing nothing.</p>
+      </div>
+      <div class="note">
+        <h3>Fixed: the empty vault tab</h3>
+        <p>Two consoles shipped a “Pitch Decks &amp; Vault” tab with no matching view, so selecting it
+           blanked the workspace. The shell builds the missing view, styled to match.</p>
+      </div>
+      <div class="note">
+        <h3>Non-blocking feedback</h3>
+        <p>Blocking <code>alert()</code> dialogs are replaced by toasts that name the next step and link
+           to the screen where it happens — so the walkthrough never dead-ends.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap foot">
+    <span>YANC 1-on-1 Connect · prototype only — no real capital, custody or personal data.</span>
+    <span>Safe Harbor Protocol v2.4 · Simulated escrow mode</span>
+  </div>
+</footer>
+
+<script src="assets/flow.js" defer></script>
+</body>
+</html>

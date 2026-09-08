@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>YANC 1-on-1 Connect | Architectural Blueprint Wireframe</title>
+<!-- Tailwind CSS v3 with Forms & Container Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['SF Mono', 'ui-monospace', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+          },
+          colors: {
+            blueprint: {
+              bg: '#f8fafc',
+              grid: '#e2e8f0',
+              wire: '#0f172a',
+              wireMuted: '#64748b',
+              panel: '#ffffff',
+              box: '#f1f5f9'
+            }
+          }
+        }
+      }
+    };
+  </script>
+<style data-purpose="wireframe-blueprint-styling">
+    /* Blueprint dot grid canvas background */
+    body {
+      background-color: #f8fafc;
+      background-image: radial-gradient(#cbd5e1 1.2px, transparent 1.2px);
+      background-size: 24px 24px;
+      color: #0f172a;
+    }
+    /* Blueprint crossed placeholder box */
+    .wire-placeholder {
+      position: relative;
+      background: #f8fafc;
+      overflow: hidden;
+    }
+    .wire-placeholder::before, .wire-placeholder::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+    }
+    .wire-placeholder::before {
+      background: linear-gradient(to top right, transparent calc(50% - 0.75px), #94a3b8 calc(50% - 0.75px), #94a3b8 calc(50% + 0.75px), transparent calc(50% + 0.75px));
+    }
+    .wire-placeholder::after {
+      background: linear-gradient(to bottom right, transparent calc(50% - 0.75px), #94a3b8 calc(50% - 0.75px), #94a3b8 calc(50% + 0.75px), transparent calc(50% + 0.75px));
+    }
+    /* Sharp borders and wireframe markers */
+    .wire-border-2 {
+      border: 2px solid #0f172a;
+    }
+    .wire-border-1 {
+      border: 1px solid #334155;
+    }
+    .wire-border-dashed {
+      border: 1.5px dashed #64748b;
+    }
+    /* Monospace tag badges */
+    .wire-tag {
+      font-family: 'SF Mono', ui-monospace, Menlo, Monaco, Consolas, monospace;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-slate-900 selection:text-white font-mono">
+<!-- BEGIN: Blueprint Header / Role & State Simulator -->
+<header class="bg-white border-b-2 border-slate-900 sticky top-0 z-50">
+<div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-4">
+<!-- Title & Architectural Spec Tag -->
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 wire-border-2 bg-slate-900 text-white flex items-center justify-center font-bold text-sm tracking-widest">
+          Y
+        </div>
+<div>
+<div class="flex items-center space-x-2">
+<span class="font-bold text-xs uppercase tracking-tight text-slate-900">[SPEC-01] YANC 1-ON-1 CONNECT</span>
+<span class="wire-tag px-1.5 py-0.5 border border-slate-900 bg-slate-100 text-slate-900">WF_REV_1.0</span>
+</div>
+<p class="text-[10px] text-slate-500 font-mono tracking-tight mt-0.5">FLOW: ARCHITECTURAL WIREFRAME // WHITEBOARD SPEC</p>
+</div>
+</div>
+<!-- Persona Role Bar (Simulation Switcher) -->
+<div class="flex items-center gap-1 p-1 bg-slate-100 border border-slate-900" data-purpose="role-buttons">
+<span class="wire-tag text-slate-500 px-1.5 uppercase font-bold text-[9px]">ROLE:</span>
+<button class="role-pill wire-tag px-2.5 py-1 bg-slate-900 text-white border border-slate-900 uppercase transition-all" id="role-member" onclick="switchRole('member')">Member Founder</button>
+<button class="role-pill wire-tag px-2.5 py-1 bg-white text-slate-700 border border-transparent hover:border-slate-400 uppercase transition-all" id="role-nonmember" onclick="switchRole('nonmember')">Non-Member</button>
+<button class="role-pill wire-tag px-2.5 py-1 bg-white text-slate-700 border border-transparent hover:border-slate-400 uppercase transition-all" id="role-mentor" onclick="switchRole('mentor')">Mentor / Investor</button>
+<button class="role-pill wire-tag px-2.5 py-1 bg-white text-slate-700 border border-transparent hover:border-slate-400 uppercase transition-all" id="role-advisors" onclick="switchRole('advisors')">Advisors</button>
+<button class="role-pill wire-tag px-2.5 py-1 bg-white text-slate-700 border border-transparent hover:border-slate-400 uppercase transition-all" id="role-ops" onclick="switchRole('ops')">Ops Admin</button>
+<button class="role-pill wire-tag px-2.5 py-1 bg-white text-slate-700 border border-transparent hover:border-slate-400 uppercase transition-all" id="role-fin" onclick="switchRole('fin')">Finance</button>
+<button class="role-pill wire-tag px-2.5 py-1 bg-white text-slate-700 border border-transparent hover:border-slate-400 uppercase transition-all" id="role-tech" onclick="switchRole('tech')">Tech HQ</button>
+</div>
+<!-- Engine State Indicators -->
+<div class="flex items-center space-x-3 text-xs">
+<div class="px-2.5 py-1 border border-slate-900 bg-slate-50 text-slate-900 wire-tag flex items-center gap-1.5 font-bold" id="credit-badge">
+<span class="w-1.5 h-1.5 bg-slate-900 inline-block"></span>
+<span>ALLOCATION: 4 CREDITS</span>
+</div>
+<div class="h-4 w-px bg-slate-300"></div>
+<div class="flex items-center space-x-2">
+<div class="w-6 h-6 wire-placeholder wire-border-1 flex items-center justify-center text-[10px] font-bold bg-white text-slate-700">JD</div>
+<span class="text-slate-800 font-mono text-xs hidden sm:inline" id="user-display-name">Jay Doe (Founder)</span>
+</div>
+</div>
+</div>
+</header>
+<!-- END: Blueprint Header -->
+<!-- BEGIN: Main Wireframe Container -->
+<div class="max-w-[1600px] w-full mx-auto px-4 sm:px-6 py-6 flex-1 flex flex-col lg:flex-row gap-6">
+<!-- BEGIN: SideTabNavigation (Whiteboard: Side Tab with All Options, excluding ABAS) -->
+<aside class="w-full lg:w-64 shrink-0" data-purpose="side-tab-navigation">
+<div class="bg-white wire-border-2 p-4 space-y-4 shadow-sm sticky top-16">
+<!-- Account State / Onboarding Profile Spec Box -->
+<div class="pb-3 border-b-2 border-slate-200">
+<div class="flex justify-between items-center text-[10px] text-slate-500 font-mono">
+<span>[SYS_STATE]</span>
+<span class="wire-tag border border-slate-800 px-1 bg-slate-100 text-slate-900 font-bold">VERIFIED</span>
+</div>
+<div class="mt-1 flex items-baseline justify-between">
+<span class="text-xs font-bold uppercase tracking-tight text-slate-900" id="user-stage-label">Seed Founder</span>
+<span class="text-[10px] text-slate-500">STAGE_01</span>
+</div>
+<div class="w-full bg-slate-200 h-1.5 mt-2 border border-slate-400">
+<div class="bg-slate-900 h-full w-4/5"></div>
+</div>
+<span class="text-[9px] text-slate-500 block mt-1 uppercase font-mono">Profile &amp; Email Synced (100%)</span>
+</div>
+<!-- Primary Navigation Links -->
+<nav aria-label="Primary Navigation" class="space-y-1.5 font-mono text-xs">
+<!-- Mentors Tab -->
+<button class="w-full flex items-center justify-between px-3 py-2 wire-border-1 bg-slate-900 text-white font-bold tracking-tight text-left" id="tab-nav-mentors" onclick="switchTab('mentors')">
+<span class="flex items-center gap-2">
+<span class="text-[10px]">■</span>
+<span>1. Mentors</span>
+</span>
+<span class="wire-tag border border-white px-1 text-[10px]">142</span>
+</button>
+<!-- Investors Portal -->
+<button class="w-full flex items-center justify-between px-3 py-2 wire-border-1 bg-white hover:bg-slate-100 text-slate-800 font-medium tracking-tight text-left" id="tab-nav-investors" onclick="switchTab('investors')">
+<span class="flex items-center gap-2">
+<span class="text-[10px]">□</span>
+<span>2. Investors</span>
+</span>
+<span class="wire-tag border border-slate-400 px-1 text-[10px]">48</span>
+</button>
+<!-- Advisory Board -->
+<button class="w-full flex items-center justify-between px-3 py-2 wire-border-1 bg-white hover:bg-slate-100 text-slate-800 font-medium tracking-tight text-left" id="tab-nav-advisory" onclick="switchTab('advisory')">
+<span class="flex items-center gap-2">
+<span class="text-[10px]">□</span>
+<span>3. Advisory Board</span>
+</span>
+<span class="wire-tag border border-slate-400 px-1 text-[10px]">19</span>
+</button>
+<!-- Bookings & Slots -->
+<button class="w-full flex items-center justify-between px-3 py-2 wire-border-1 bg-white hover:bg-slate-100 text-slate-800 font-medium tracking-tight text-left" id="tab-nav-bookings" onclick="switchTab('bookings')">
+<span class="flex items-center gap-2">
+<span class="text-[10px]">□</span>
+<span>4. Bookings &amp; Slots</span>
+</span>
+<span class="wire-tag border border-slate-800 bg-slate-100 px-1 text-[10px]">2 ACTIVE</span>
+</button>
+<!-- Pitch Decks & Vault -->
+<button class="w-full flex items-center justify-between px-3 py-2 wire-border-1 bg-white hover:bg-slate-100 text-slate-800 font-medium tracking-tight text-left" id="tab-nav-vault" onclick="switchTab('vault')">
+<span class="flex items-center gap-2">
+<span class="text-[10px]">□</span>
+<span>5. Vault / Decks</span>
+</span>
+<span class="wire-tag text-slate-400">ENC</span>
+</button>
+<!-- Divider: Governance & Admin -->
+<div class="pt-3 mt-3 border-t-2 border-slate-200">
+<span class="wire-tag text-slate-400 uppercase tracking-widest block mb-1.5">[GOVERNANCE]</span>
+<button class="w-full flex items-center justify-between px-3 py-2 wire-border-dashed bg-white hover:bg-slate-100 text-slate-800 font-medium text-left" id="tab-nav-governance" onclick="switchTab('governance')">
+<span class="flex items-center gap-2">
+<span class="text-[10px]">⚙</span>
+<span>Admin Consoles</span>
+</span>
+<span class="wire-tag border border-slate-800 px-1 text-[9px]">HQ</span>
+</button>
+</div>
+</nav>
+<!-- Whiteboard Schematic Legend / Rule Box -->
+<div class="p-3 bg-slate-50 wire-border-1 space-y-1 text-[10px]">
+<span class="wire-tag text-slate-500 font-bold block">[ENGINE_CHECKOUT_LOGIC]</span>
+<p class="text-slate-800 leading-tight font-mono" id="engine-rule-desc">
+            Member: 1 Credit (Online) / 2 Credits (Offline)<br/>
+            Non-Member: ₹500 (Online) / ₹1,500 (Offline) Direct
+          </p>
+</div>
+</div>
+</aside>
+<!-- END: SideTabNavigation -->
+<!-- BEGIN: Primary Blueprint Workspace -->
+<main class="flex-1 min-w-0 space-y-6" data-purpose="primary-workspace">
+<!-- BEGIN: Whiteboard 4-Step Architecture Schematic Banner -->
+<section class="bg-white wire-border-2 p-5 space-y-4" data-purpose="architectural-flow-spec">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b-2 border-slate-200">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="wire-tag px-1.5 py-0.5 border border-slate-900 bg-slate-100 text-slate-900 font-bold">DIAGRAM: MASTER MENTEE MODULE</span>
+<span class="wire-tag text-slate-400">// LOW-FI WIREFRAME</span>
+</div>
+<h1 class="text-lg font-bold uppercase tracking-tight text-slate-950 font-mono">
+              Module Execution Schematic &amp; Directory Engine
+            </h1>
+<p class="text-xs text-slate-600 font-sans mt-0.5">
+              Architectural wireframe modeling: User check → Profile categorization → Query filter → Dual-path booking (Credit / INR Escrow).
+            </p>
+</div>
+<!-- Schematic Actions -->
+<div class="flex items-center gap-2 shrink-0">
+<button class="px-3 py-1.5 text-xs font-mono wire-border-1 bg-white hover:bg-slate-100 uppercase tracking-tight" onclick="toggleTutorialModal()">
+              [?] Platform Tutorial
+            </button>
+<button class="px-3 py-1.5 text-xs font-mono wire-border-2 bg-slate-900 text-white uppercase tracking-tight hover:bg-slate-800" onclick="openOnboardingForm()">
+              Edit Onboarding Details
+            </button>
+</div>
+</div>
+<!-- 4-STEP WHITEBOARD FLOW DIAGRAM -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+<!-- Step 1: User Check & Login -->
+<div class="p-3 bg-slate-50 wire-border-1 relative">
+<div class="flex justify-between items-center">
+<span class="wire-tag text-slate-500 font-bold">NODE_01</span>
+<span class="text-[9px] wire-tag bg-slate-900 text-white px-1">COMPLETED</span>
+</div>
+<p class="text-xs font-bold text-slate-900 mt-1 uppercase">1. User Check &amp; Login</p>
+<p class="text-[11px] text-slate-600 font-sans mt-1">
+              Input: Email ID → Registered Check. Direct Login or New Signup.
+            </p>
+</div>
+<!-- Step 2: Category & Basic Details -->
+<div class="p-3 bg-slate-50 wire-border-1 relative">
+<div class="flex justify-between items-center">
+<span class="wire-tag text-slate-500 font-bold">NODE_02</span>
+<span class="text-[9px] wire-tag border border-slate-400 px-1 text-slate-700">ASSIGNED</span>
+</div>
+<p class="text-xs font-bold text-slate-900 mt-1 uppercase">2. Category &amp; Details</p>
+<p class="text-[11px] text-slate-600 font-sans mt-1">
+              Class: Founder / Learner / Mentee. Specific stage: Seed / Pre-A.
+            </p>
+</div>
+<!-- Step 3: Find & Filter Need -->
+<div class="p-3 bg-slate-50 wire-border-1 relative">
+<div class="flex justify-between items-center">
+<span class="wire-tag text-slate-500 font-bold">NODE_03</span>
+<span class="text-[9px] wire-tag border border-slate-400 px-1 text-slate-700">ACTIVE</span>
+</div>
+<p class="text-xs font-bold text-slate-900 mt-1 uppercase">3. Filter &amp; Find Need</p>
+<p class="text-[11px] text-slate-600 font-sans mt-1">
+              Sort by sector, immediate pain points, and Online / Offline format.
+            </p>
+</div>
+<!-- Step 4: Book Slot / Pitch -->
+<div class="p-3 bg-slate-50 wire-border-1 relative">
+<div class="flex justify-between items-center">
+<span class="wire-tag text-slate-500 font-bold">NODE_04</span>
+<span class="text-[9px] wire-tag border border-slate-400 px-1 text-slate-700">GATEWAY</span>
+</div>
+<p class="text-xs font-bold text-slate-900 mt-1 uppercase">4. Book Slot / Pitch</p>
+<p class="text-[11px] text-slate-600 font-sans mt-1">
+              Pay via Member Credits or Non-Member direct INR checkout.
+            </p>
+</div>
+</div>
+</section>
+<!-- END: 4-Step Architecture Schematic Banner -->
+<!-- BEGIN: Mentors Module (View Tab 1) -->
+<section class="space-y-6 block" data-purpose="mentors-module" id="view-mentors">
+<!-- Wireframe Filter Matrix Toolbar -->
+<div class="bg-white wire-border-2 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
+<div>
+<label class="wire-tag text-slate-600 block mb-1 uppercase font-bold">[FILTER: SECTOR / DOMAIN]</label>
+<select class="w-full text-xs font-mono wire-border-1 bg-slate-50 py-1.5 focus:ring-0 focus:border-slate-900" id="mentor-filter-sector" onchange="applyFilters()">
+<option value="all">All Sectors (Fintech, SaaS, AI)</option>
+<option value="fintech">Fintech &amp; Payments</option>
+<option value="saas">Enterprise SaaS</option>
+<option value="consumer">Consumer &amp; D2C</option>
+<option value="deeptech">AI / DeepTech</option>
+</select>
+</div>
+<div>
+<label class="wire-tag text-slate-600 block mb-1 uppercase font-bold">[FILTER: TARGET NEED]</label>
+<select class="w-full text-xs font-mono wire-border-1 bg-slate-50 py-1.5 focus:ring-0 focus:border-slate-900" id="mentor-filter-need" onchange="applyFilters()">
+<option value="all">All Bottlenecks</option>
+<option value="gtm">Go-To-Market &amp; Growth</option>
+<option value="fundraising">Fundraising &amp; Term Sheets</option>
+<option value="product">0-to-1 Architecture</option>
+<option value="hiring">Tech &amp; Leadership Hiring</option>
+</select>
+</div>
+<div>
+<label class="wire-tag text-slate-600 block mb-1 uppercase font-bold">[FILTER: FORMAT]</label>
+<select class="w-full text-xs font-mono wire-border-1 bg-slate-50 py-1.5 focus:ring-0 focus:border-slate-900" id="mentor-filter-format" onchange="applyFilters()">
+<option value="all">Any Format (Online + Offline)</option>
+<option value="online">Online Video Room</option>
+<option value="offline">Offline Coffee / In-Person</option>
+</select>
+</div>
+</div>
+<div class="shrink-0 flex items-center justify-end font-mono text-xs text-slate-500">
+<span>INDEX: <strong>142 MATCHES</strong></span>
+</div>
+</div>
+<!-- Mentors Schematic Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="mentors-card-container">
+<!-- Mentor Wireframe Card 1 -->
+<article class="bg-white wire-border-2 p-4 flex flex-col justify-between hover:bg-slate-50/50 transition-all">
+<div>
+<!-- Header with crossed placeholder box -->
+<div class="flex items-start justify-between pb-3 border-b border-slate-200">
+<div class="flex items-center space-x-3">
+<div class="w-12 h-12 wire-placeholder wire-border-1 flex items-center justify-center font-bold text-xs bg-white text-slate-700">
+                    [IMG]
+                  </div>
+<div>
+<h3 class="text-xs font-bold uppercase tracking-tight text-slate-900 font-mono">Arjun Kulkarni</h3>
+<p class="text-[11px] text-slate-500 font-sans">Ex-Head of Growth, Razorpay</p>
+</div>
+</div>
+<span class="wire-tag border border-slate-800 px-1 py-0.5 bg-slate-100 text-slate-900 font-bold">4.9 ★ (38)</span>
+</div>
+<!-- Functional Tags & Blueprint annotations -->
+<div class="mt-3 space-y-2">
+<div class="flex flex-wrap gap-1">
+<span class="wire-tag border border-slate-400 px-1.5 py-0.5 bg-slate-50">FINTECH</span>
+<span class="wire-tag border border-slate-400 px-1.5 py-0.5 bg-slate-50">SAAS</span>
+<span class="wire-tag border border-slate-900 px-1.5 py-0.5 bg-slate-200 font-bold">GTM_STRATEGY</span>
+</div>
+<p class="text-xs text-slate-600 font-sans leading-relaxed line-clamp-2">
+                  Helps early-stage founders scale MRR with inbound pipelines, unit economics verification, and customer onboarding teardowns.
+                </p>
+</div>
+<!-- Price breakdown (Dual schematic: Online vs Offline) -->
+<div class="mt-4 pt-3 border-t border-slate-200 grid grid-cols-2 gap-2 text-xs">
+<div class="p-1.5 bg-slate-50 wire-border-1">
+<span class="wire-tag text-slate-500 block uppercase">[ONLINE_SLOT]</span>
+<span class="font-bold text-slate-900">₹500 / 1 Credit</span>
+<span class="text-[10px] text-slate-500 block font-sans">45 min video</span>
+</div>
+<div class="p-1.5 bg-slate-50 wire-border-1">
+<span class="wire-tag text-slate-500 block uppercase">[OFFLINE_SLOT]</span>
+<span class="font-bold text-slate-900">₹1,500 / 2 Credits</span>
+<span class="text-[10px] text-slate-500 block font-sans">60 min in-person</span>
+</div>
+</div>
+</div>
+<!-- Booking trigger button -->
+<div class="mt-4 pt-2">
+<button class="w-full py-2 px-3 wire-border-2 bg-slate-900 text-white hover:bg-slate-800 text-xs font-mono uppercase tracking-tight flex items-center justify-center gap-1.5" onclick="openMentorBookingModal('Arjun Kulkarni', 'Ex-Head of Growth, Razorpay', 500, 1500)">
+<span>Select &amp; Book Slot →</span>
+</button>
+</div>
+</article>
+<!-- Mentor Wireframe Card 2 -->
+<article class="bg-white wire-border-2 p-4 flex flex-col justify-between hover:bg-slate-50/50 transition-all">
+<div>
+<div class="flex items-start justify-between pb-3 border-b border-slate-200">
+<div class="flex items-center space-x-3">
+<div class="w-12 h-12 wire-placeholder wire-border-1 flex items-center justify-center font-bold text-xs bg-white text-slate-700">
+                    [IMG]
+                  </div>
+<div>
+<h3 class="text-xs font-bold uppercase tracking-tight text-slate-900 font-mono">Pooja Sharma</h3>
+<p class="text-[11px] text-slate-500 font-sans">VP Engineering, Postman Alum</p>
+</div>
+</div>
+<span class="wire-tag border border-slate-800 px-1 py-0.5 bg-slate-100 text-slate-900 font-bold">5.0 ★ (52)</span>
+</div>
+<div class="mt-3 space-y-2">
+<div class="flex flex-wrap gap-1">
+<span class="wire-tag border border-slate-400 px-1.5 py-0.5 bg-slate-50">SYSTEM_DESIGN</span>
+<span class="wire-tag border border-slate-400 px-1.5 py-0.5 bg-slate-50">DEVTOOLS</span>
+<span class="wire-tag border border-slate-900 px-1.5 py-0.5 bg-slate-200 font-bold">TECH_HIRING</span>
+</div>
+<p class="text-xs text-slate-600 font-sans leading-relaxed line-clamp-2">
+                  Advises on scaling technical architecture, cloud cost optimization, engineering culture, and pre-Series A tech stack audits.
+                </p>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-200 grid grid-cols-2 gap-2 text-xs">
+<div class="p-1.5 bg-slate-50 wire-border-1">
+<span class="wire-tag text-slate-500 block uppercase">[ONLINE_SLOT]</span>
+<span class="font-bold text-slate-900">₹500 / 1 Credit</span>
+<span class="text-[10px] text-slate-500 block font-sans">45 min video</span>
+</div>
+<div class="p-1.5 bg-slate-50 wire-border-1">
+<span class="wire-tag text-slate-500 block uppercase">[OFFLINE_SLOT]</span>
+<span class="font-bold text-slate-900">₹1,500 / 2 Credits</span>
+<span class="text-[10px] text-slate-500 block font-sans">60 min in-person</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-2">
+<button class="w-full py-2 px-3 wire-border-2 bg-slate-900 text-white hover:bg-slate-800 text-xs font-mono uppercase tracking-tight flex items-center justify-center gap-1.5" onclick="openMentorBookingModal('Pooja Sharma', 'VP Engineering, Postman Alum', 500, 1500)">
+<span>Select &amp; Book Slot →</span>
+</button>
+</div>
+</article>
+<!-- Mentor Wireframe Card 3 -->
+<article class="bg-white wire-border-2 p-4 flex flex-col justify-between hover:bg-slate-50/50 transition-all">
+<div>
+<div class="flex items-start justify-between pb-3 border-b border-slate-200">
+<div class="flex items-center space-x-3">
+<div class="w-12 h-12 wire-placeholder wire-border-1 flex items-center justify-center font-bold text-xs bg-white text-slate-700">
+                    [IMG]
+                  </div>
+<div>
+<h3 class="text-xs font-bold uppercase tracking-tight text-slate-900 font-mono">Rohan Roy</h3>
+<p class="text-[11px] text-slate-500 font-sans">Angel Investor &amp; 2x Founder</p>
+</div>
+</div>
+<span class="wire-tag border border-slate-800 px-1 py-0.5 bg-slate-100 text-slate-900 font-bold">4.8 ★ (29)</span>
+</div>
+<div class="mt-3 space-y-2">
+<div class="flex flex-wrap gap-1">
+<span class="wire-tag border border-slate-400 px-1.5 py-0.5 bg-slate-50">CONSUMER</span>
+<span class="wire-tag border border-slate-400 px-1.5 py-0.5 bg-slate-50">D2C</span>
+<span class="wire-tag border border-slate-900 px-1.5 py-0.5 bg-slate-200 font-bold">UNIT_ECONOMICS</span>
+</div>
+<p class="text-xs text-slate-600 font-sans leading-relaxed line-clamp-2">
+                  Deep focus on CAC-to-LTV levers, omnichannel retail distribution, inventory financing, and institutional fundraising preparations.
+                </p>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-200 grid grid-cols-2 gap-2 text-xs">
+<div class="p-1.5 bg-slate-50 wire-border-1">
+<span class="wire-tag text-slate-500 block uppercase">[ONLINE_SLOT]</span>
+<span class="font-bold text-slate-900">₹500 / 1 Credit</span>
+<span class="text-[10px] text-slate-500 block font-sans">45 min video</span>
+</div>
+<div class="p-1.5 bg-slate-50 wire-border-1">
+<span class="wire-tag text-slate-500 block uppercase">[OFFLINE_SLOT]</span>
+<span class="font-bold text-slate-900">₹1,500 / 2 Credits</span>
+<span class="text-[10px] text-slate-500 block font-sans">60 min in-person</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-2">
+<button class="w-full py-2 px-3 wire-border-2 bg-slate-900 text-white hover:bg-slate-800 text-xs font-mono uppercase tracking-tight flex items-center justify-center gap-1.5" onclick="openMentorBookingModal('Rohan Roy', 'Angel Investor &amp; 2x Founder', 500, 1500)">
+<span>Select &amp; Book Slot →</span>
+</button>
+</div>
+</article>
+</div>
+</section>
+<!-- END: Mentors Module -->
+<!-- BEGIN: Investors Module (View Tab 2) -->
+<!-- Whiteboard: Find Investors -> Choose Suitable Investor -> Add Details (Short Pitch, How much looking for, Upload Pitch Deck) -> Non-Member Pay / Member Credits -->
+<section class="space-y-6 hidden" data-purpose="investors-module" id="view-investors">
+<div class="bg-white wire-border-2 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono">
+<div>
+<label class="wire-tag text-slate-600 block mb-1 uppercase font-bold">[CHECK SIZE FILTER]</label>
+<select class="w-full text-xs wire-border-1 bg-slate-50 py-1.5">
+<option>₹25L – ₹75L (Pre-Seed)</option>
+<option>₹75L – ₹1.5 Cr (Seed Angel)</option>
+<option>₹1.5 Cr – ₹5 Cr (Institutional)</option>
+</select>
+</div>
+<div>
+<label class="wire-tag text-slate-600 block mb-1 uppercase font-bold">[THESIS FILTER]</label>
+<select class="w-full text-xs wire-border-1 bg-slate-50 py-1.5">
+<option>All Fund Theses</option>
+<option>B2B SaaS / Infra</option>
+<option>Fintech &amp; Lending</option>
+<option>AI &amp; Automation</option>
+</select>
+</div>
+<div>
+<label class="wire-tag text-slate-600 block mb-1 uppercase font-bold">[GEO TARGET]</label>
+<select class="w-full text-xs wire-border-1 bg-slate-50 py-1.5">
+<option>India &amp; Southeast Asia</option>
+<option>US-India Cross-Border</option>
+</select>
+</div>
+</div>
+<div class="shrink-0 text-xs font-mono text-slate-500">
+<span>FLOW: <strong>DOSSIER_UPLOAD → REVIEW</strong></span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 font-mono">
+<!-- Investor Card 1 -->
+<article class="bg-white wire-border-2 p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between pb-3 border-b border-slate-200">
+<div>
+<h3 class="text-xs font-bold uppercase text-slate-900">Elevation Micro-Fund</h3>
+<p class="text-[11px] text-slate-500 font-sans">Partner: Sameer Varma</p>
+</div>
+<span class="wire-tag border border-slate-800 px-1 bg-slate-100">DIRECT REVIEW</span>
+</div>
+<div class="mt-3 space-y-2 text-xs">
+<div class="flex flex-wrap gap-1">
+<span class="wire-tag border border-slate-400 px-1 bg-slate-50">SEED</span>
+<span class="wire-tag border border-slate-400 px-1 bg-slate-50">₹50L - ₹2 Cr</span>
+<span class="wire-tag border border-slate-900 px-1 bg-slate-200">SAAS/FINTECH</span>
+</div>
+<p class="text-xs text-slate-600 font-sans mt-2">
+                  Actively deploying pre-Series A capital with 48h deck feedback SLA. Looking for high retention numbers.
+                </p>
+</div>
+</div>
+<div class="mt-4 pt-2">
+<button class="w-full py-2 px-3 wire-border-2 bg-slate-900 text-white text-xs uppercase hover:bg-slate-800" onclick="openInvestorPitchModal('Elevation Micro-Fund', '₹50L - ₹2 Cr')">
+                Submit Pitch &amp; Deck →
+              </button>
+</div>
+</article>
+<!-- Investor Card 2 -->
+<article class="bg-white wire-border-2 p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between pb-3 border-b border-slate-200">
+<div>
+<h3 class="text-xs font-bold uppercase text-slate-900">FirstCheck Syndicate</h3>
+<p class="text-[11px] text-slate-500 font-sans">Lead: Neha Singhal</p>
+</div>
+<span class="wire-tag border border-slate-800 px-1 bg-slate-100">ANGEL NETWORK</span>
+</div>
+<div class="mt-3 space-y-2 text-xs">
+<div class="flex flex-wrap gap-1">
+<span class="wire-tag border border-slate-400 px-1 bg-slate-50">PRE-SEED</span>
+<span class="wire-tag border border-slate-400 px-1 bg-slate-50">₹25L - ₹60L</span>
+<span class="wire-tag border border-slate-900 px-1 bg-slate-200">AI / CONSUMER</span>
+</div>
+<p class="text-xs text-slate-600 font-sans mt-2">
+                  Backing solo technical operators building developer software, AI automation agents, or micro-SaaS tools.
+                </p>
+</div>
+</div>
+<div class="mt-4 pt-2">
+<button class="w-full py-2 px-3 wire-border-2 bg-slate-900 text-white text-xs uppercase hover:bg-slate-800" onclick="openInvestorPitchModal('FirstCheck Syndicate', '₹25L - ₹60L')">
+                Submit Pitch &amp; Deck →
+              </button>
+</div>
+</article>
+<!-- Investor Card 3 -->
+<article class="bg-white wire-border-2 p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-start justify-between pb-3 border-b border-slate-200">
+<div>
+<h3 class="text-xs font-bold uppercase text-slate-900">AlphaWave Capital</h3>
+<p class="text-[11px] text-slate-500 font-sans">CIO: Vikram Mehta</p>
+</div>
+<span class="wire-tag border border-slate-800 px-1 bg-slate-100">INSTITUTIONAL</span>
+</div>
+<div class="mt-3 space-y-2 text-xs">
+<div class="flex flex-wrap gap-1">
+<span class="wire-tag border border-slate-400 px-1 bg-slate-50">SERIES A</span>
+<span class="wire-tag border border-slate-400 px-1 bg-slate-50">₹1 Cr - ₹4 Cr</span>
+<span class="wire-tag border border-slate-900 px-1 bg-slate-200">SUPPLY / HEALTH</span>
+</div>
+<p class="text-xs text-slate-600 font-sans mt-2">
+                  Focus on working capital discipline, verified audited financials, and proven enterprise distribution networks.
+                </p>
+</div>
+</div>
+<div class="mt-4 pt-2">
+<button class="w-full py-2 px-3 wire-border-2 bg-slate-900 text-white text-xs uppercase hover:bg-slate-800" onclick="openInvestorPitchModal('AlphaWave Capital', '₹1 Cr - ₹4 Cr')">
+                Submit Pitch &amp; Deck →
+              </button>
+</div>
+</article>
+</div>
+</section>
+<!-- END: Investors Module -->
+<!-- BEGIN: Advisory Board Module (View Tab 3) -->
+<section class="space-y-6 hidden font-mono" data-purpose="advisory-board-module" id="view-advisory">
+<div class="bg-white wire-border-2 p-5 space-y-4">
+<div class="pb-3 border-b-2 border-slate-200">
+<span class="wire-tag text-slate-500">[BOARD_RETAINERS]</span>
+<h2 class="text-base font-bold uppercase text-slate-900 mt-0.5">YANC Institutional Advisory Board</h2>
+<p class="text-xs text-slate-600 font-sans mt-0.5">Quarterly fractional governance, board seat observation, ESOP structuring, and legal advisory.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="p-4 wire-border-1 bg-slate-50 flex items-start space-x-3">
+<div class="w-10 h-10 wire-placeholder wire-border-1 bg-white text-slate-700 flex items-center justify-center font-bold text-xs shrink-0">SV</div>
+<div>
+<h4 class="text-xs font-bold uppercase text-slate-900">Dr. Suresh Venkat</h4>
+<p class="text-[11px] text-slate-500 font-sans">Former Managing Director, Carlyle India</p>
+<p class="text-xs text-slate-600 font-sans mt-2">Corporate governance, IPO readiness, cross-border restructuring, and cap-table cleanups.</p>
+<div class="mt-3 flex items-center gap-2">
+<span class="wire-tag border border-slate-800 bg-white px-1.5">BOARD_RETAINER</span>
+<button class="text-xs font-bold underline">Request Intro →</button>
+</div>
+</div>
+</div>
+<div class="p-4 wire-border-1 bg-slate-50 flex items-start space-x-3">
+<div class="w-10 h-10 wire-placeholder wire-border-1 bg-white text-slate-700 flex items-center justify-center font-bold text-xs shrink-0">MN</div>
+<div>
+<h4 class="text-xs font-bold uppercase text-slate-900">Meenakshi Natarajan</h4>
+<p class="text-[11px] text-slate-500 font-sans">Senior Partner, Khaitan Legal Associates</p>
+<p class="text-xs text-slate-600 font-sans mt-2">Founder vesting agreements, cross-border IP holding structures, and RBI compliance approvals.</p>
+<div class="mt-3 flex items-center gap-2">
+<span class="wire-tag border border-slate-800 bg-white px-1.5">LEGAL_ADVISORY</span>
+<button class="text-xs font-bold underline">Request Intro →</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Advisory Board Module -->
+<!-- BEGIN: Bookings & Slots Module (View Tab 4) -->
+<section class="space-y-6 hidden font-mono" data-purpose="bookings-tracker-module" id="view-bookings">
+<div class="bg-white wire-border-2 p-5">
+<div class="flex items-center justify-between pb-3 border-b-2 border-slate-200">
+<div>
+<span class="wire-tag text-slate-500">[SCHEDULE_DISPATCH]</span>
+<h2 class="text-base font-bold uppercase text-slate-900">Active Bookings &amp; Slotted Consultations</h2>
+<p class="text-xs text-slate-600 font-sans mt-0.5">Automated video link dispatch and physical coordinate passes.</p>
+</div>
+<span class="wire-tag border border-slate-900 bg-slate-100 px-2 py-1 font-bold">2 CONFIRMED</span>
+</div>
+<div class="mt-4 divide-y divide-slate-200">
+<!-- Confirmed Online Session -->
+<div class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-start space-x-3">
+<div class="w-10 h-10 wire-placeholder wire-border-1 bg-white text-slate-900 flex items-center justify-center font-bold text-xs shrink-0">
+                  VID
+                </div>
+<div>
+<span class="wire-tag text-slate-700 font-bold block">[ONLINE: GOOGLE MEET // 1 CREDIT DEDUCTED]</span>
+<h4 class="text-xs font-bold uppercase text-slate-900 mt-0.5">Product Growth Sync with Arjun Kulkarni</h4>
+<p class="text-[11px] text-slate-500">Tomorrow, 11:30 AM – 12:15 PM IST (45 mins)</p>
+<p class="text-xs text-slate-600 font-sans italic mt-1">"Discussing viral loop optimization and pricing teardown for Seed stage."</p>
+</div>
+</div>
+<div class="flex items-center gap-2 text-xs">
+<button class="px-3 py-1.5 wire-border-1 bg-white hover:bg-slate-100 uppercase">Reschedule</button>
+<a class="px-3 py-1.5 wire-border-2 bg-slate-900 text-white uppercase hover:bg-slate-800" href="#">Join Room →</a>
+</div>
+</div>
+<!-- Confirmed Offline Session -->
+<div class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-start space-x-3">
+<div class="w-10 h-10 wire-placeholder wire-border-1 bg-white text-slate-900 flex items-center justify-center font-bold text-xs shrink-0">
+                  OFF
+                </div>
+<div>
+<span class="wire-tag text-slate-700 font-bold block">[OFFLINE: IN-PERSON // 2 CREDITS DEDUCTED]</span>
+<h4 class="text-xs font-bold uppercase text-slate-900 mt-0.5">Term Sheet Strategy with Rohan Roy</h4>
+<p class="text-[11px] text-slate-500">Friday, 04:00 PM IST (60 mins)</p>
+<p class="text-xs text-slate-700 font-mono mt-1">COORDINATES: Starbucks Reserve, Indiranagar, Bengaluru</p>
+</div>
+</div>
+<div class="flex items-center gap-2 text-xs">
+<button class="px-3 py-1.5 wire-border-1 bg-white hover:bg-slate-100 uppercase">Directions</button>
+<button class="px-3 py-1.5 wire-border-2 bg-slate-900 text-white uppercase hover:bg-slate-800">Booking Pass →</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Bookings & Slots Module -->
+<!-- BEGIN: Pitch Decks & Vault Module (View Tab 5) -->
+<section class="space-y-6 hidden font-mono" data-purpose="pitch-vault-module" id="view-vault">
+<div class="bg-white wire-border-2 p-5 space-y-4">
+<div class="pb-3 border-b-2 border-slate-200">
+<span class="wire-tag text-slate-500">[ENCRYPTED_VAULT]</span>
+<h2 class="text-base font-bold uppercase text-slate-900 mt-0.5">Pitch Decks &amp; Sensitive Dossier Storage</h2>
+<p class="text-xs text-slate-600 font-sans mt-0.5">AES-256 cloud encryption with access logs and watermarked view-only tokens.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="p-4 wire-border-1 bg-slate-50 space-y-2">
+<div class="flex justify-between items-center text-xs">
+<span class="font-bold">Finflow_Seed_PitchDeck_v4.pdf</span>
+<span class="wire-tag border border-slate-400 px-1">14.2 MB</span>
+</div>
+<p class="text-xs text-slate-500 font-sans">Uploaded on Sep 02, 2026 • Shared with 3 Investors</p>
+<div class="flex items-center gap-2 pt-2">
+<button class="px-2.5 py-1 wire-border-1 bg-white text-[11px] uppercase">Download</button>
+<button class="px-2.5 py-1 wire-border-2 bg-slate-900 text-white text-[11px] uppercase">Revoke Access</button>
+</div>
+</div>
+<div class="p-4 wire-border-dashed bg-white flex flex-col items-center justify-center text-center">
+<div class="w-8 h-8 wire-placeholder wire-border-1 mb-2"></div>
+<span class="text-xs font-bold uppercase">Upload New Confidential File</span>
+<span class="text-[10px] text-slate-400 font-sans mt-0.5">PDF or PPTX up to 50MB</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Pitch Decks & Vault Module -->
+<!-- BEGIN: Governance & Admin Consoles (View Tab 6) -->
+<section class="space-y-6 hidden font-mono" data-purpose="governance-module" id="view-governance">
+<div class="bg-white wire-border-2 p-5 space-y-4">
+<div class="pb-3 border-b-2 border-slate-200">
+<span class="wire-tag text-slate-500">[SYS_ADMIN_ROLES]</span>
+<h2 class="text-base font-bold uppercase text-slate-900 mt-0.5">Administrative &amp; Operations Consoles</h2>
+<p class="text-xs text-slate-600 font-sans mt-0.5">Ops Admin Queue, Finance Escrow Settlement, and Super Admin Telemetry.</p>
+</div>
+<!-- Ops Admin Console -->
+<div class="p-4 wire-border-1 bg-white space-y-3">
+<div class="flex justify-between items-center pb-2 border-b border-slate-200 text-xs font-bold">
+<span>■ OPS ADMIN // SESSION DISPATCH QUEUE</span>
+<span class="wire-tag border border-slate-800 px-1 bg-slate-100">4 PENDING</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-xs">
+<thead>
+<tr class="border-b border-slate-200 text-slate-500 font-mono text-[10px]">
+<th class="pb-1">SES_ID</th>
+<th class="pb-1">MENTEE</th>
+<th class="pb-1">MENTOR</th>
+<th class="pb-1">FORMAT</th>
+<th class="pb-1">COORDINATES</th>
+<th class="pb-1 text-right">ACTION</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 text-[11px]">
+<tr>
+<td class="py-2 font-bold">#S-9204</td>
+<td>Aditya Roy</td>
+<td>Arjun Kulkarni</td>
+<td><span class="wire-tag border border-slate-400 px-1">ONLINE</span></td>
+<td class="text-slate-500">Google Meet Link Auto</td>
+<td class="text-right"><button class="wire-tag underline font-bold">APPROVE</button></td>
+</tr>
+<tr>
+<td class="py-2 font-bold">#S-9205</td>
+<td>Kavita Nair</td>
+<td>Rohan Roy</td>
+<td><span class="wire-tag border border-slate-800 px-1 bg-slate-100">OFFLINE</span></td>
+<td class="text-slate-500">Third Wave, Koramangala</td>
+<td class="text-right"><button class="wire-tag underline font-bold">APPROVE</button></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Finance Admin Console -->
+<div class="p-4 wire-border-1 bg-white space-y-3">
+<div class="flex justify-between items-center pb-2 border-b border-slate-200 text-xs font-bold">
+<span>■ FINANCE ADMIN // ESCROW &amp; CREDIT LEDGER</span>
+<span class="wire-tag border border-slate-800 px-1 bg-slate-100">ESCROW: ₹42,500</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+<div class="p-2 bg-slate-50 wire-border-1">
+<span class="wire-tag text-slate-500 block">[MEMBER_CREDITS]</span>
+<p class="font-bold text-slate-900 mt-1">18 Credits Cleared</p>
+<span class="text-[10px] text-slate-500">Subsidized by Platform Base</span>
+</div>
+<div class="p-2 bg-slate-50 wire-border-1">
+<span class="wire-tag text-slate-500 block">[DIRECT_NONMEMBER]</span>
+<p class="font-bold text-slate-900 mt-1">₹34,500 Gross</p>
+<span class="text-[10px] text-slate-500">GST + Razorpay Escrow Settled</span>
+</div>
+<div class="p-2 bg-slate-50 wire-border-1">
+<span class="wire-tag text-slate-500 block">[PAYOUT_BATCH]</span>
+<p class="font-bold text-slate-900 mt-1">₹28,000 Due</p>
+<button class="wire-tag underline font-bold mt-1 block">EXECUTE WIRE →</button>
+</div>
+</div>
+</div>
+<!-- Tech Super Admin -->
+<div class="p-4 wire-border-1 bg-white space-y-2">
+<div class="flex justify-between items-center text-xs font-bold">
+<span>■ TECH SUPER ADMIN // TELEMETRY</span>
+<span class="wire-tag border border-slate-800 px-1 bg-slate-100">SYSTEM NOMINAL</span>
+</div>
+<p class="text-xs text-slate-600 font-sans">Auth Sync: Email OTP / Google OAuth • Pitch S3 Vault: Encrypted AES-256 • Calendly/Razorpay Webhooks: 200 OK (Latency: 38ms)</p>
+</div>
+</div>
+</section>
+<!-- END: Governance & Admin Consoles -->
+</main>
+<!-- END: Primary Blueprint Workspace -->
+</div>
+<!-- END: Main Wireframe Container -->
+<!-- BEGIN: MentorBookingModal (Whiteboard Spec: Details -> Slot Type Online/Offline -> Member Credit vs Non-Member INR) -->
+<div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-none hidden flex items-center justify-center p-4 font-mono" id="booking-modal">
+<div class="bg-white wire-border-2 max-w-lg w-full p-5 space-y-4 shadow-2xl">
+<!-- Modal Header -->
+<div class="flex items-center justify-between pb-3 border-b-2 border-slate-900">
+<div>
+<span class="wire-tag text-slate-500 block uppercase">[SCHEMATIC_FLOW: STEP 4]</span>
+<h3 class="text-sm font-bold uppercase text-slate-900" id="modal-mentor-name">Book Mentor Consultation</h3>
+</div>
+<button class="text-sm font-bold px-2 py-0.5 wire-border-1 bg-slate-100 hover:bg-slate-200" onclick="closeMentorModal()">[X]</button>
+</div>
+<form class="space-y-4 text-xs" id="mentor-booking-form" onsubmit="handleBookingSubmission(event)">
+<!-- Step 4a: Why & What do you need -->
+<div>
+<label class="wire-tag text-slate-700 block mb-1 uppercase font-bold">
+            1. Why &amp; What do you need? <span class="text-red-600">*</span>
+</label>
+<textarea class="w-full text-xs font-mono wire-border-1 bg-slate-50 p-2 focus:ring-0 focus:border-slate-900" placeholder="Specify your primary bottleneck (e.g. term sheet review, B2B sales playbook, infra teardown)..." required="" rows="2"></textarea>
+</div>
+<!-- Step 4b: Slot Selection (Online vs Offline) -->
+<div>
+<label class="wire-tag text-slate-700 block mb-1 uppercase font-bold">
+            2. Choose Format (Online or Offline) <span class="text-red-600">*</span>
+</label>
+<div class="grid grid-cols-2 gap-3">
+<label class="cursor-pointer wire-border-1 p-2.5 flex flex-col justify-between hover:bg-slate-50 has-[:checked]:wire-border-2 has-[:checked]:bg-slate-100">
+<div class="flex items-center justify-between">
+<span class="font-bold text-[11px] uppercase">Online Video</span>
+<input checked="" class="text-slate-900 focus:ring-0" name="slot_type" onchange="updateModalPrice('online')" type="radio" value="online"/>
+</div>
+<span class="text-[10px] text-slate-500 font-sans mt-1">Google Meet (45 mins)</span>
+<span class="wire-tag font-bold text-slate-900 mt-2 block" id="label-online-price">₹500 / 1 Credit</span>
+</label>
+<label class="cursor-pointer wire-border-1 p-2.5 flex flex-col justify-between hover:bg-slate-50 has-[:checked]:wire-border-2 has-[:checked]:bg-slate-100">
+<div class="flex items-center justify-between">
+<span class="font-bold text-[11px] uppercase">Offline Café</span>
+<input class="text-slate-900 focus:ring-0" name="slot_type" onchange="updateModalPrice('offline')" type="radio" value="offline"/>
+</div>
+<span class="text-[10px] text-slate-500 font-sans mt-1">In-person (60 mins)</span>
+<span class="wire-tag font-bold text-slate-900 mt-2 block" id="label-offline-price">₹1,500 / 2 Credits</span>
+</label>
+</div>
+</div>
+<!-- Step 4c: Date & Slot -->
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="wire-tag text-slate-600 block mb-1 uppercase font-bold">Select Date</label>
+<input class="w-full text-xs font-mono wire-border-1 bg-slate-50 p-1.5 focus:ring-0 focus:border-slate-900" required="" type="date" value="2026-09-12"/>
+</div>
+<div>
+<label class="wire-tag text-slate-600 block mb-1 uppercase font-bold">Time Window</label>
+<select class="w-full text-xs font-mono wire-border-1 bg-slate-50 p-1.5 focus:ring-0 focus:border-slate-900">
+<option>10:00 AM - 10:45 AM</option>
+<option>02:30 PM - 03:15 PM</option>
+<option>05:00 PM - 05:45 PM</option>
+</select>
+</div>
+</div>
+<!-- Step 4d: Payment Resolution (Member Credits vs Non-Member INR) -->
+<div class="p-3 bg-slate-50 wire-border-2 flex items-center justify-between" id="modal-payment-banner">
+<div>
+<span class="wire-tag text-slate-500 block uppercase" id="checkout-badge">MEMBER ALLOCATION</span>
+<span class="font-bold text-xs text-slate-900" id="checkout-amount-summary">1 Credit will be deducted</span>
+</div>
+<button class="px-4 py-2 wire-border-2 bg-slate-900 text-white font-mono uppercase tracking-tight text-xs hover:bg-slate-800" id="btn-modal-checkout" type="submit">
+            Confirm Booking
+          </button>
+</div>
+</form>
+</div>
+</div>
+<!-- END: MentorBookingModal -->
+<!-- BEGIN: InvestorPitchModal (Whiteboard Spec: Short Pitch + Capital Looking For + Upload Pitch Deck) -->
+<div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-none hidden flex items-center justify-center p-4 font-mono" id="investor-modal">
+<div class="bg-white wire-border-2 max-w-lg w-full p-5 space-y-4 shadow-2xl">
+<div class="flex items-center justify-between pb-3 border-b-2 border-slate-900">
+<div>
+<span class="wire-tag text-slate-500 block uppercase">[INVESTOR_SUBMISSION_PIPELINE]</span>
+<h3 class="text-sm font-bold uppercase text-slate-900" id="investor-modal-name">Direct Pitch Submission</h3>
+</div>
+<button class="text-sm font-bold px-2 py-0.5 wire-border-1 bg-slate-100 hover:bg-slate-200" onclick="closeInvestorModal()">[X]</button>
+</div>
+<form class="space-y-4 text-xs" id="investor-pitch-form" onsubmit="handlePitchSubmission(event)">
+<!-- Ask amount -->
+<div>
+<label class="wire-tag text-slate-700 block mb-1 uppercase font-bold">
+            1. Capital Ask (How much are you looking for?) <span class="text-red-600">*</span>
+</label>
+<div class="flex wire-border-1 bg-slate-50">
+<span class="px-3 py-1.5 bg-slate-200 text-slate-800 font-bold border-r border-slate-400">₹</span>
+<input class="w-full text-xs font-mono bg-transparent p-1.5 focus:ring-0 border-0" placeholder="e.g. 1.25 Crore" required="" type="text"/>
+</div>
+</div>
+<!-- Short pitch -->
+<div>
+<label class="wire-tag text-slate-700 block mb-1 uppercase font-bold">
+            2. Short Pitch (Problem, Moat &amp; Traction) <span class="text-red-600">*</span>
+</label>
+<textarea class="w-full text-xs font-mono wire-border-1 bg-slate-50 p-2 focus:ring-0 focus:border-slate-900" placeholder="Summarize current ARR / GMV, target customer persona, and core differentiation..." required="" rows="3"></textarea>
+</div>
+<!-- Upload Pitch Deck Placeholder Box -->
+<div>
+<label class="wire-tag text-slate-700 block mb-1 uppercase font-bold">
+            3. Upload Pitch Deck (.pdf only) <span class="text-red-600">*</span>
+</label>
+<div class="wire-border-dashed p-4 text-center bg-slate-50">
+<div class="w-10 h-10 wire-placeholder wire-border-1 mx-auto mb-2 bg-white"></div>
+<label class="cursor-pointer text-xs font-bold underline block">
+<span>[Click to Select PDF from Computer]</span>
+<input accept=".pdf" class="sr-only" id="deck-upload-input" onchange="handleFileChosen(event)" required="" type="file"/>
+</label>
+<p class="wire-tag text-slate-500 mt-1" id="file-status-label">FILE: Seed_SeriesA_Dossier_2026.pdf (MAX 20MB)</p>
+</div>
+</div>
+<!-- Checkout resolution -->
+<div class="p-3 bg-slate-50 wire-border-2 flex items-center justify-between" id="modal-investor-payment-banner">
+<div>
+<span class="wire-tag text-slate-500 block uppercase" id="investor-checkout-badge">MEMBER ACCESS</span>
+<span class="font-bold text-xs text-slate-900" id="investor-checkout-amount">Included in Membership</span>
+</div>
+<button class="px-4 py-2 wire-border-2 bg-slate-900 text-white font-mono uppercase tracking-tight text-xs hover:bg-slate-800" type="submit">
+            Submit Dossier
+          </button>
+</div>
+</form>
+</div>
+</div>
+<!-- END: InvestorPitchModal -->
+<!-- BEGIN: Platform Tutorial Walkthrough Modal -->
+<div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-none hidden flex items-center justify-center p-4 font-mono" id="tutorial-modal">
+<div class="bg-white wire-border-2 max-w-lg w-full p-5 space-y-4 shadow-2xl">
+<div class="flex items-center justify-between pb-3 border-b-2 border-slate-900">
+<div>
+<span class="wire-tag text-slate-500 block uppercase">[SCHEMATIC_GUIDE]</span>
+<h3 class="text-sm font-bold uppercase text-slate-900">Whiteboard Workflow Architecture</h3>
+</div>
+<button class="text-sm font-bold px-2 py-0.5 wire-border-1 bg-slate-100 hover:bg-slate-200" onclick="toggleTutorialModal()">[X]</button>
+</div>
+<div class="space-y-3 text-xs">
+<div class="p-2 wire-border-1 bg-slate-50">
+<span class="font-bold block">[1] USER CHECK &amp; LOGIN:</span>
+<p class="text-slate-600 font-sans mt-0.5">Email check verifies member vs non-member identity. Direct login if registered, otherwise direct quick registration.</p>
+</div>
+<div class="p-2 wire-border-1 bg-slate-50">
+<span class="font-bold block">[2] CATEGORY SELECTION:</span>
+<p class="text-slate-600 font-sans mt-0.5">User profile tagged as Founder, Learner, or Mentee with specific stage details.</p>
+</div>
+<div class="p-2 wire-border-1 bg-slate-50">
+<span class="font-bold block">[3] FIND NEED &amp; FILTER:</span>
+<p class="text-slate-600 font-sans mt-0.5">Filter by sector (SaaS/Fintech/AI), immediate need (GTM/Capital), and preferred slot format.</p>
+</div>
+<div class="p-2 wire-border-1 bg-slate-50">
+<span class="font-bold block">[4] DUAL CHECKOUT ENGINE:</span>
+<p class="text-slate-600 font-sans mt-0.5">Members use allocated monthly credits (1 Online / 2 Offline). Non-members checkout directly in INR via escrow.</p>
+</div>
+</div>
+<div class="pt-2 border-t border-slate-200 flex justify-end">
+<button class="px-4 py-1.5 wire-border-2 bg-slate-900 text-white uppercase text-xs hover:bg-slate-800" onclick="toggleTutorialModal()">
+          Close Schematic
+        </button>
+</div>
+</div>
+</div>
+<!-- END: Platform Tutorial Walkthrough Modal -->
+<!-- BEGIN: Core Interactive Wireframe Controller -->
+<script data-purpose="wireframe-platform-controller">
+    let currentRole = 'member';
+    let selectedFormat = 'online';
+
+    function switchTab(tabKey) {
+      const tabs = ['mentors', 'investors', 'advisory', 'bookings', 'vault', 'governance'];
+      tabs.forEach(t => {
+        const viewEl = document.getElementById(`view-${t}`);
+        const navEl = document.getElementById(`tab-nav-${t}`);
+        if (viewEl) viewEl.classList.add('hidden');
+        if (navEl) {
+          navEl.classList.remove('bg-slate-900', 'text-white', 'font-bold');
+          navEl.classList.add('bg-white', 'text-slate-800', 'hover:bg-slate-100');
+        }
+      });
+
+      const activeView = document.getElementById(`view-${tabKey}`);
+      const activeNav = document.getElementById(`tab-nav-${tabKey}`);
+      if (activeView) activeView.classList.remove('hidden');
+      if (activeNav) {
+        activeNav.classList.add('bg-slate-900', 'text-white', 'font-bold');
+        activeNav.classList.remove('bg-white', 'text-slate-800', 'hover:bg-slate-100');
+      }
+    }
+
+    function switchRole(roleKey) {
+      currentRole = roleKey;
+      
+      document.querySelectorAll('.role-pill').forEach(btn => {
+        btn.classList.remove('bg-slate-900', 'text-white', 'border-slate-900');
+        btn.classList.add('bg-white', 'text-slate-700', 'border-transparent');
+      });
+
+      const activeBtn = document.getElementById(`role-${roleKey}`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-slate-900', 'text-white', 'border-slate-900');
+        activeBtn.classList.remove('bg-white', 'text-slate-700', 'border-transparent');
+      }
+
+      const creditBadge = document.getElementById('credit-badge');
+      const engineRule = document.getElementById('engine-rule-desc');
+      const userDisplay = document.getElementById('user-display-name');
+
+      if (roleKey === 'member') {
+        creditBadge.innerHTML = `<span class="w-1.5 h-1.5 bg-slate-900 inline-block"></span><span>ALLOCATION: 4 CREDITS</span>`;
+        engineRule.innerHTML = 'Member: 1 Credit (Online) / 2 Credits (Offline)<br/>Direct Deduct Enabled';
+        userDisplay.textContent = 'Jay Doe (Founder Member)';
+        switchTab('mentors');
+      } else if (roleKey === 'nonmember') {
+        creditBadge.innerHTML = `<span class="w-1.5 h-1.5 bg-slate-400 inline-block"></span><span>STATUS: NON-MEMBER (PAYG)</span>`;
+        engineRule.innerHTML = 'Non-Member: Direct Checkout (₹500 Online / ₹1,500 Offline)<br/>Escrow Gateway';
+        userDisplay.textContent = 'Guest Founder (Non-Member)';
+        switchTab('mentors');
+      } else if (roleKey === 'mentor') {
+        creditBadge.innerHTML = `<span>STATUS: ACTIVE MENTOR // 4.9★</span>`;
+        engineRule.innerHTML = 'Mentor Mode: Calendar Sync & Availability Controls';
+        userDisplay.textContent = 'Arjun Kulkarni (Mentor)';
+        switchTab('bookings');
+      } else if (roleKey === 'advisors') {
+        creditBadge.innerHTML = `<span>STATUS: ADVISORY BOARD</span>`;
+        engineRule.innerHTML = 'Advisor Mode: Fractional Retainers & Cap-Table Advisory';
+        userDisplay.textContent = 'Dr. Suresh Venkat (Advisor)';
+        switchTab('advisory');
+      } else if (roleKey === 'ops' || roleKey === 'fin' || roleKey === 'tech') {
+        creditBadge.innerHTML = `<span>PRIVILEGE: ADMIN HQ (${roleKey.toUpperCase()})</span>`;
+        engineRule.innerHTML = `Active HQ Diagnostic Console: ${roleKey.toUpperCase()}`;
+        userDisplay.textContent = 'Admin HQ Session';
+        switchTab('governance');
+      }
+    }
+
+    function openMentorBookingModal(mentorName, mentorRole, onlinePrice, offlinePrice) {
+      document.getElementById('modal-mentor-name').textContent = `Slot: ${mentorName}`;
+      document.getElementById('label-online-price').textContent = `₹${onlinePrice} / 1 Credit`;
+      document.getElementById('label-offline-price').textContent = `₹${offlinePrice} / 2 Credits`;
+      
+      updateModalPrice('online');
+      document.getElementById('booking-modal').classList.remove('hidden');
+    }
+
+    function closeMentorModal() {
+      document.getElementById('booking-modal').classList.add('hidden');
+    }
+
+    function updateModalPrice(type) {
+      selectedFormat = type;
+      const checkoutBadge = document.getElementById('checkout-badge');
+      const summary = document.getElementById('checkout-amount-summary');
+      const checkoutBtn = document.getElementById('btn-modal-checkout');
+
+      if (currentRole === 'member') {
+        checkoutBadge.textContent = 'MEMBER ALLOCATION';
+        if (type === 'online') {
+          summary.textContent = '1 Credit will be deducted';
+          checkoutBtn.textContent = 'Confirm (1 Credit)';
+        } else {
+          summary.textContent = '2 Credits will be deducted';
+          checkoutBtn.textContent = 'Confirm (2 Credits)';
+        }
+      } else {
+        checkoutBadge.textContent = 'NON-MEMBER ESCROW';
+        if (type === 'online') {
+          summary.textContent = '₹500 INR Direct Checkout';
+          checkoutBtn.textContent = 'Pay ₹500 (Online)';
+        } else {
+          summary.textContent = '₹1,500 INR Direct Checkout';
+          checkoutBtn.textContent = 'Pay ₹1,500 (Offline)';
+        }
+      }
+    }
+
+    function openInvestorPitchModal(investorName, checkSize) {
+      document.getElementById('investor-modal-name').textContent = `Pitch: ${investorName}`;
+      const badge = document.getElementById('investor-checkout-badge');
+      const amount = document.getElementById('investor-checkout-amount');
+
+      if (currentRole === 'member') {
+        badge.textContent = 'MEMBER PRIORITY ACCESS';
+        amount.textContent = 'Included in Membership (0 Credits)';
+      } else {
+        badge.textContent = 'NON-MEMBER REGISTRATION';
+        amount.textContent = '₹999 INR Verification Fee';
+      }
+
+      document.getElementById('investor-modal').classList.remove('hidden');
+    }
+
+    function closeInvestorModal() {
+      document.getElementById('investor-modal').classList.add('hidden');
+    }
+
+    function toggleTutorialModal() {
+      const modal = document.getElementById('tutorial-modal');
+      modal.classList.toggle('hidden');
+    }
+
+    function openOnboardingForm() {
+      alert('[BLUEPRINT ONBOARDING SPEC]:\n- Step 1: User Check (Email ID verified)\n- Step 2: Category: Founder (Seed Stage)\n- Step 3: Domain: SaaS / AI\n- Step 4: Mode: Online + Offline');
+    }
+
+    function handleFileChosen(e) {
+      if (e.target.files && e.target.files[0]) {
+        document.getElementById('file-status-label').textContent = `SELECTED: ${e.target.files[0].name.toUpperCase()}`;
+      }
+    }
+
+    function handleBookingSubmission(e) {
+      e.preventDefault();
+      alert(`[SLOT CONFIRMED]: Booked in ${selectedFormat.toUpperCase()} mode. Notification dispatched to founder and mentor.`);
+      closeMentorModal();
+      switchTab('bookings');
+    }
+
+    function handlePitchSubmission(e) {
+      e.preventDefault();
+      alert('[DOSSIER DISPATCHED]: Pitch deck submitted to investor queue with 48h SLA.');
+      closeInvestorModal();
+    }
+
+    function applyFilters() {
+      const sector = document.getElementById('mentor-filter-sector').value;
+      console.log('[FILTER APPLIED]: Sector =', sector);
+    }
+  </script>
+<!-- END: Core Interactive Wireframe Controller -->
+</body></html>

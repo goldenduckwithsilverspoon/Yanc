@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-surface" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vikramaditya Roy — Advisor Board | YANC 1-on-1 Connect</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Plus Jakarta Sans Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-dim": "#d8dadc",
+            "surface-container": "#eceef0",
+            "secondary-fixed": "#d8e3fb",
+            "surface-variant": "#e0e3e5",
+            "error-container": "#ffdad6",
+            "on-secondary-fixed-variant": "#3c475a",
+            "on-secondary": "#ffffff",
+            "tertiary": "#000000",
+            "surface-bright": "#f7f9fb",
+            "inverse-on-surface": "#eff1f3",
+            "surface-container-lowest": "#ffffff",
+            "inverse-primary": "#c7c6ca",
+            "surface": "#f7f9fb",
+            "surface-container-low": "#f2f4f6",
+            "outline": "#77777b",
+            "primary-fixed": "#e3e2e6",
+            "on-tertiary-fixed-variant": "#372abf",
+            "primary-fixed-dim": "#c7c6ca",
+            "on-primary-fixed": "#1b1b1f",
+            "on-secondary-fixed": "#111c2d",
+            "outline-variant": "#c7c6cb",
+            "secondary-container": "#d5e0f8",
+            "surface-tint": "#5e5e62",
+            "on-tertiary-fixed": "#100069",
+            "surface-container-high": "#e6e8ea",
+            "secondary": "#545f73",
+            "tertiary-fixed-dim": "#c3c0ff",
+            "on-secondary-container": "#586377",
+            "on-tertiary": "#ffffff",
+            "on-primary": "#ffffff",
+            "error": "#ba1a1a",
+            "on-surface": "#191c1e",
+            "inverse-surface": "#2d3133",
+            "tertiary-container": "#100069",
+            "on-primary-container": "#848387",
+            "on-tertiary-container": "#7771ff",
+            "on-error-container": "#93000a",
+            "primary": "#000000",
+            "background": "#f7f9fb",
+            "primary-container": "#1b1b1f",
+            "on-background": "#191c1e",
+            "secondary-fixed-dim": "#bcc7de",
+            "surface-container-highest": "#e0e3e5",
+            "on-primary-fixed-variant": "#46464a",
+            "on-error": "#ffffff",
+            "on-surface-variant": "#46464b",
+            "tertiary-fixed": "#e3dfff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter-tablet": "1.25rem",
+            "space-sm": "0.75rem",
+            "gutter-desktop": "1.5rem",
+            "space-xl": "2rem",
+            "container-max": "1200px",
+            "space-2xl": "3rem",
+            "space-lg": "1.5rem",
+            "space-2xs": "0.25rem",
+            "gutter-mobile": "1rem",
+            "space-3xl": "4.5rem",
+            "space-xs": "0.5rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "headline-sm": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "display-hero-mobile": ["Plus Jakarta Sans"],
+            "label-caps": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "caption-micro": ["Plus Jakarta Sans"],
+            "label-pill": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "display-hero": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "display-hero-mobile": ["32px", { "lineHeight": "38px", "letterSpacing": "-0.025em", "fontWeight": "700" }],
+            "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "-0.005em", "fontWeight": "400" }],
+            "caption-micro": ["11px", { "lineHeight": "14px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "label-pill": ["12px", { "lineHeight": "16px", "letterSpacing": "-0.005em", "fontWeight": "500" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "display-hero": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.03em", "fontWeight": "700" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .material-symbols-fill {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+    /* Hardware-finish micro-stroke styling */
+    .apple-glass-panel {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02), 0 4px 12px rgba(0, 0, 0, 0.015);
+      border: 1px solid rgba(15, 23, 42, 0.06);
+    }
+    .apple-hairline-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(15, 23, 42, 0.07);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .apple-hairline-card:hover {
+      border-color: rgba(15, 23, 42, 0.14);
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+    }
+    /* Switch toggle */
+    .toggle-checkbox:checked {
+      right: 0;
+      background-color: #090A0D;
+    }
+    .toggle-checkbox:checked + .toggle-label {
+      background-color: #ECEEF0;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md antialiased selection:bg-secondary-container selection:text-on-secondary-fixed">
+<!-- TopNavBar (Shared Component Execution) -->
+<header class="docked full-width top-0 sticky z-50 bg-surface-bright/80 backdrop-blur-xl shadow-sm">
+<div class="flex justify-between items-center w-full px-gutter-desktop max-w-container-max mx-auto h-16">
+<!-- Brand & Workspace Scope -->
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-on-primary font-bold font-headline-sm text-sm tracking-tighter">
+            Y
+          </span>
+<div class="flex flex-col">
+<span class="text-headline-sm font-headline-sm font-semibold tracking-tight text-on-surface">YANC 1-on-1 Connect</span>
+<span class="text-caption-micro font-caption-micro text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+              Institutional Syndicate • Mentor Workspace
+            </span>
+</div>
+</div>
+<!-- Desktop Navigation Cluster -->
+<nav class="hidden md:flex items-center gap-6 pl-4 border-l border-outline-variant/30">
+<a class="text-on-surface-variant font-medium hover:text-on-surface transition-colors text-body-sm font-body-sm" href="#">Gateway</a>
+<a class="text-on-surface-variant font-medium hover:text-on-surface transition-colors text-body-sm font-body-sm" href="#">Founder Deck</a>
+<a class="text-primary font-semibold border-b-2 border-primary pb-1 text-body-sm font-body-sm" href="#">Advisory Board</a>
+<a class="text-on-surface-variant font-medium hover:text-on-surface transition-colors text-body-sm font-body-sm" href="#">Governance</a>
+</nav>
+</div>
+<!-- Right Trailing Controls & Metrics -->
+<div class="flex items-center gap-4">
+<!-- Live Accepting Switch (Apple HIG Style) -->
+<div class="hidden sm:flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full border border-outline-variant/30">
+<span class="text-caption-micro font-caption-micro text-on-surface-variant font-medium">Availability</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="availabilityToggle" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+<span class="text-label-pill font-label-pill text-emerald-700 font-semibold" id="toggleLabel">Accepting</span>
+</div>
+<!-- Payout Pill in TopNav -->
+<div class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant/40 px-3 py-1.5 rounded-full shadow-xs">
+<span class="material-symbols-outlined text-base text-secondary font-light">account_balance_wallet</span>
+<div class="flex flex-col">
+<span class="text-caption-micro font-caption-micro text-on-surface-variant leading-none">Ready Escrow</span>
+<span class="text-label-pill font-label-pill font-bold text-on-surface">₹34,500</span>
+</div>
+</div>
+<!-- Quick Trailing Icons -->
+<div class="flex items-center gap-1 border-l border-outline-variant/30 pl-2">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors" title="Institutional Shield Active">
+<span class="material-symbols-outlined text-lg">verified_user</span>
+</button>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors relative" title="Alerts">
+<span class="material-symbols-outlined text-lg">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full"></span>
+</button>
+</div>
+<!-- Mentor Profile dropdown avatar -->
+<div class="flex items-center gap-2 pl-2 cursor-pointer group">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/60 group-hover:border-primary transition-colors">
+<img class="w-full h-full object-cover" data-alt="Sophisticated executive portrait of Vikramaditya Roy, an experienced South Asian technology leader wearing a tailored charcoal crewneck in an ambient, clean modern architectural office with subtle morning light reflecting executive poise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL5K9ZW2UhZnp_wjGBdEJ8fxR2hFEi5wpPjBqLJnYFU_w3UMQ5tqQcJpV7XAl2mlb5bdxh2KO1Qvsu1YH-l2nyE7gUNVnl2Itv82gZ8fcp_4sEPmrR9ueBwc8VgzCGrLswPbASODYEZRGfUz9H2U1rv_SmWKF17K8v0AKfsswt2cXhqVkfVKRHrih8o1uqujdJ6-oQJsvGtyOLslCHvNptGNJatOmk-czAkJxEtYVHTxaSP_fE4L0H7g"/>
+</div>
+<span class="material-symbols-outlined text-base text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Viewport Layout with 1200px Constrained Width -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-gutter-mobile sm:px-gutter-tablet md:px-gutter-desktop py-space-xl space-y-space-xl">
+<!-- Advisor Profile Header Block -->
+<section class="apple-glass-panel rounded-xl p-space-lg md:p-space-xl relative overflow-hidden">
+<div class="absolute -right-20 -top-20 w-80 h-80 bg-secondary-container/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+<!-- Identity Summary -->
+<div class="flex items-start md:items-center gap-5">
+<div class="relative shrink-0">
+<div class="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden border-2 border-surface-container-lowest shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Close-up headshot of Vikramaditya Roy, prominent veteran CTO, looking confident and composed against an understated executive minimalist backdrop with high dynamic range and crisp neutral lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgc4q0mTncIEMo6M6bXlXHznmftsnzjXP15bm4LibSfyGGmGHlEhg0fKN6pDv9_YM-gBjb3chj-djlZ3eI5zzTjicxnAWmCUeZV7Nfw8xoROotASXWUveWh_yG4Kke9Obm9Gzkp5rh6xi-2Icko6NbIQyXPIBWTjsLfefUnP9q26GZquIxgpnX3F1qEeccr5owfhQERnt1j462ordZ9eQUcYPIeMx27B7SFp-odJLzfC4XLgVn9-PvFg"/>
+</div>
+<span class="absolute -bottom-1 -right-1 bg-primary text-on-primary rounded-full p-1 border-2 border-surface-container-lowest flex items-center justify-center" title="Scaleup Verified Advisor">
+<span class="material-symbols-outlined text-xs material-symbols-fill">verified</span>
+</span>
+</div>
+<div class="space-y-1">
+<div class="flex flex-wrap items-center gap-2">
+<h1 class="font-headline-lg text-headline-lg md:text-headline-lg text-on-surface tracking-tight font-semibold">Vikramaditya Roy</h1>
+<span class="bg-secondary-container/50 border border-secondary/20 text-on-secondary-fixed text-label-pill font-label-pill px-2.5 py-0.5 rounded-full font-medium">
+                Ex-CTO @ FinFlow
+              </span>
+<span class="bg-surface-container-high text-on-surface-variant text-label-pill font-label-pill px-2.5 py-0.5 rounded-full">
+                Tier-1 Angel Syndicate
+              </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+              Architecting hyper-scale payments, ISO/SOC2 certification, and engineering leadership transition from Series A to C.
+            </p>
+<!-- Reputation & Session Credential Bar -->
+<div class="flex items-center gap-4 pt-1 text-body-sm font-body-sm text-on-surface">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-amber-500 text-sm material-symbols-fill">star</span>
+<span class="font-bold">4.98</span>
+<span class="text-on-surface-variant">(56 verified reviews)</span>
+</div>
+<span class="text-outline-variant">•</span>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-on-surface font-semibold">78</span> Completed Consultations
+              </div>
+<span class="text-outline-variant hidden sm:inline">•</span>
+<div class="hidden sm:flex items-center gap-1 text-emerald-700 font-medium">
+<span class="material-symbols-outlined text-sm">lock_clock</span> Instant Escrow Enabled
+              </div>
+</div>
+</div>
+</div>
+<!-- Secondary CTA Cluster -->
+<div class="flex sm:flex-col items-end justify-between sm:justify-center gap-3 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-outline-variant/30">
+<button class="bg-primary text-on-primary px-5 py-2.5 rounded-lg text-label-pill font-label-pill font-semibold hover:opacity-90 active:scale-[0.985] transition-all flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-sm">bolt</span>
+            Instant Escrow Lock
+          </button>
+<button class="bg-surface-container-low hover:bg-surface-container text-on-surface border border-outline-variant/40 px-4 py-2 rounded-lg text-label-pill font-label-pill font-medium transition-all flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">tune</span>
+            Consultation Rates &amp; SLA
+          </button>
+</div>
+</div>
+<!-- Quick Contextual Navigation Segment (Apple HIG Tabs) -->
+<div class="flex items-center gap-1 mt-8 border-b border-outline-variant/30 overflow-x-auto no-scrollbar">
+<button class="px-4 py-2.5 text-body-sm font-body-sm font-semibold text-primary border-b-2 border-primary shrink-0 flex items-center gap-2">
+<span class="material-symbols-outlined text-base">calendar_today</span>
+          Upcoming Consultations
+          <span class="w-5 h-5 rounded-full bg-primary text-on-primary text-[10px] flex items-center justify-center">2</span>
+</button>
+<button class="px-4 py-2.5 text-body-sm font-body-sm font-medium text-on-surface-variant hover:text-on-surface transition-colors shrink-0 flex items-center gap-2">
+<span class="material-symbols-outlined text-base">location_on</span>
+          Availability &amp; Venues
+        </button>
+<button class="px-4 py-2.5 text-body-sm font-body-sm font-medium text-on-surface-variant hover:text-on-surface transition-colors shrink-0 flex items-center gap-2">
+<span class="material-symbols-outlined text-base">article</span>
+          Pitch Decks to Review
+          <span class="w-5 h-5 rounded-full bg-surface-container-high text-on-surface-variant text-[10px] flex items-center justify-center font-bold">4</span>
+</button>
+<button class="px-4 py-2.5 text-body-sm font-body-sm font-medium text-on-surface-variant hover:text-on-surface transition-colors shrink-0 flex items-center gap-2">
+<span class="material-symbols-outlined text-base">receipt_long</span>
+          Payouts &amp; Escrow Ledger
+        </button>
+</div>
+</section>
+<!-- Operational & Financial Matrix Bento Grid (Section 3) -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Card 1: Payout Balance -->
+<div class="apple-hairline-card rounded-xl p-space-md flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="text-label-caps font-label-caps text-on-surface-variant tracking-wider uppercase">Payout Balance</span>
+<span class="w-7 h-7 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-base">payments</span>
+</span>
+</div>
+<div class="my-3">
+<div class="text-headline-lg font-headline-lg font-bold text-on-surface tracking-tight">₹34,500</div>
+<p class="text-caption-micro font-caption-micro text-on-surface-variant mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-emerald-600">check_circle</span>
+            Processed via Bank Transfer within 48h
+          </p>
+</div>
+<button class="w-full text-center py-1.5 bg-surface-container-low hover:bg-surface-container rounded-lg text-label-pill font-label-pill font-medium text-on-surface transition-colors border border-outline-variant/30">
+          Request Sweep to HDFC Bank (..4019)
+        </button>
+</div>
+<!-- Card 2: Escrow in Transit -->
+<div class="apple-hairline-card rounded-xl p-space-md flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="text-label-caps font-label-caps text-on-surface-variant tracking-wider uppercase">Escrow in Transit</span>
+<span class="w-7 h-7 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-base">hourglass_top</span>
+</span>
+</div>
+<div class="my-3">
+<div class="text-headline-lg font-headline-lg font-bold text-on-surface tracking-tight">₹3,000</div>
+<p class="text-caption-micro font-caption-micro text-on-surface-variant mt-1 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block"></span>
+            2 pending verification sessions
+          </p>
+</div>
+<div class="flex items-center justify-between text-caption-micro font-caption-micro text-on-surface-variant border-t border-outline-variant/20 pt-2">
+<span>Release Protocol: 4-digit code</span>
+<span class="font-semibold text-primary">Zero dispute risk</span>
+</div>
+</div>
+<!-- Card 3: This Month Consultations -->
+<div class="apple-hairline-card rounded-xl p-space-md flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="text-label-caps font-label-caps text-on-surface-variant tracking-wider uppercase">Consultation Volume</span>
+<span class="w-7 h-7 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-base">diversity_3</span>
+</span>
+</div>
+<div class="my-3">
+<div class="text-headline-lg font-headline-lg font-bold text-on-surface tracking-tight">14 Completed</div>
+<p class="text-caption-micro font-caption-micro text-emerald-700 mt-1 font-medium flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+            +3 consultations vs last month
+          </p>
+</div>
+<div class="flex items-center justify-between text-caption-micro font-caption-micro text-on-surface-variant border-t border-outline-variant/20 pt-2">
+<span>8 Online Video • 6 Offline</span>
+<span class="text-primary font-medium">100% SLA Met</span>
+</div>
+</div>
+<!-- Card 4: Acceptance Rate -->
+<div class="apple-hairline-card rounded-xl p-space-md flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="text-label-caps font-label-caps text-on-surface-variant tracking-wider uppercase">Advisory Acceptance</span>
+<span class="w-7 h-7 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-base">speed</span>
+</span>
+</div>
+<div class="my-3">
+<div class="text-headline-lg font-headline-lg font-bold text-on-surface tracking-tight">98%</div>
+<p class="text-caption-micro font-caption-micro text-on-surface-variant mt-1">
+            Avg. response time: 2.4 hours
+          </p>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 98%"></div>
+</div>
+</div>
+</section>
+<!-- Main Content Grid (Upcoming Action Queue & Venues) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- Left Column: Upcoming Sessions & Action Queue (7 Cols) -->
+<section class="lg:col-span-7 space-y-space-lg">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold tracking-tight">Upcoming Consultations</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Direct commitment sessions backed by instant escrow guarantee</p>
+</div>
+<span class="text-caption-micro font-caption-micro text-on-surface-variant bg-surface-container-low px-2.5 py-1 rounded-md border border-outline-variant/30">
+            Current Timezone: IST (GMT+5:30)
+          </span>
+</div>
+<!-- Session 1 Card: Online Zoom Consultation Today -->
+<article class="apple-hairline-card rounded-xl p-space-lg border-l-4 border-l-primary space-y-4">
+<div class="flex items-start justify-between gap-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded-xl overflow-hidden bg-surface-container shrink-0 border border-outline-variant/40">
+<img class="w-full h-full object-cover" data-alt="Professional corporate headshot of Priya Nair, female AI enterprise founder wearing formal dark blue blazer against a bright minimalist tech office background with warm, precise daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOIP1bBmZk7wNaH31KzjyZWu7IKAEBRfu45Sh_N_eBU2TosupcjDdkudhUSC1NRUVm54_M_MFUxlHvOgXRjNYIjCy3zsJ8HN-8wt-t0lavLj7n8QbxDIMX6cU3O0K-kJnLSWHQyirLTEBkEQaXDcLtWklZcMTSZqtCf3gDDlrhRJzQPQesMENyLRV2m7adDlUe9Xl6A5VFD40d2LRFZnIVEOwI4pQsITmxGQB3jdDThE4-3sMI0IjhIg"/>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Priya Nair</h3>
+<span class="bg-surface-container-low text-on-surface-variant text-[11px] px-2 py-0.5 rounded font-medium">NexaFlow AI</span>
+<span class="bg-emerald-50 text-emerald-800 text-[11px] px-2 py-0.5 rounded-full border border-emerald-200 font-semibold">Today • 6:00 PM</span>
+</div>
+<p class="text-caption-micro font-caption-micro text-on-surface-variant mt-0.5">
+                  Pre-Seed Stage • 45-Minute Advisory Window • Escrow Locked ₹500
+                </p>
+</div>
+</div>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-sm">videocam</span>
+<span class="text-label-pill font-label-pill font-medium">Remote HD</span>
+</div>
+</div>
+<!-- Agenda Deep-Dive -->
+<div class="bg-surface-container-low/70 rounded-lg p-3 border border-outline-variant/20 space-y-1.5">
+<span class="text-caption-micro font-caption-micro font-semibold text-on-surface uppercase tracking-wider">Advisory Objective:</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+              "Reviewing our distributed multi-region Kubernetes failover strategy and SOC2 readiness audit ahead of US health-tech enterprise contracts."
+            </p>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+<div class="flex items-center gap-2">
+<button class="bg-primary text-on-primary hover:opacity-90 px-4 py-2 rounded-lg text-label-pill font-label-pill font-semibold flex items-center gap-2 transition-all">
+<span class="material-symbols-outlined text-base">video_call</span>
+                Start Zoom Session
+              </button>
+<button class="bg-surface-container-lowest hover:bg-surface-container text-on-surface border border-outline-variant/40 px-3.5 py-2 rounded-lg text-label-pill font-label-pill font-medium transition-all flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">lock_open</span>
+                Review Pitch Deck (Audited Access)
+              </button>
+</div>
+<button class="text-on-surface-variant hover:text-error text-caption-micro font-caption-micro transition-colors p-1">
+              Reschedule Window
+            </button>
+</div>
+</article>
+<!-- Session 2 Card: Offline Tomorrow at Koramangala -->
+<article class="apple-hairline-card rounded-xl p-space-lg border-l-4 border-l-secondary space-y-4">
+<div class="flex items-start justify-between gap-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded-xl overflow-hidden bg-surface-container shrink-0 border border-outline-variant/40">
+<img class="w-full h-full object-cover" data-alt="Portrait of Aniket Sen, early stage Indian fintech entrepreneur with glasses and sharp smart-casual attire in a well-lit coffee shop setting with warm architectural lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGUpEjnq4GRlUXAOXVF1CN5DirGfLiKkTcxQtxBe0qQUIJFKltb1aC3SJ_Dkxx3VFMrz1t0y_r6y9qGVoqZhXUCQKcF3x6u4q9KyjDxclHiSdgj4FKe46Q-WX54C2eVeNyTkCD53JHjVfbxsWBErX0R3BuGZ_xLqIXRQb2p5S4qwAGUqheFmwQ529-aEWHcSyoOYnYnW9nW_rq9cngpu6Iwji9MxVTRI0wPaT1EOuIx5q09qdCWAHpQA"/>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Aniket Sen</h3>
+<span class="bg-surface-container-low text-on-surface-variant text-[11px] px-2 py-0.5 rounded font-medium">PayScale</span>
+<span class="bg-secondary-container/60 text-on-secondary-fixed text-[11px] px-2 py-0.5 rounded-full font-semibold">Tomorrow • 11:00 AM</span>
+</div>
+<p class="text-caption-micro font-caption-micro text-on-surface-variant mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-primary">storefront</span>
+                  Third Wave Coffee Koramangala (4th Block) • 60-Minute 1-on-1
+                </p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-label-pill font-label-pill font-bold text-on-surface">₹1,500</span>
+<div class="text-caption-micro font-caption-micro text-amber-600">Pending Code</div>
+</div>
+</div>
+<!-- Agenda Deep-Dive -->
+<div class="bg-surface-container-low/70 rounded-lg p-3 border border-outline-variant/20 space-y-1.5">
+<span class="text-caption-micro font-caption-micro font-semibold text-on-surface uppercase tracking-wider">Advisory Objective:</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+              "Structuring core transactional database sharding and PCI-DSS L1 compliance for our recurring payroll disbursements engine."
+            </p>
+</div>
+<!-- Offline Escrow Verification Widget (Apple HIG Input Component) -->
+<div class="bg-surface-bright p-3.5 rounded-lg border border-outline-variant/40 space-y-2">
+<div class="flex items-center justify-between">
+<label class="text-caption-micro font-caption-micro font-semibold text-on-surface flex items-center gap-1.5" for="escrowCode">
+<span class="material-symbols-outlined text-sm text-emerald-600">pin</span>
+                Enter Founder 4-digit Code to Release Escrow
+              </label>
+<span class="text-[11px] text-on-surface-variant">Supplied by Founder at venue</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="relative flex-1">
+<input class="w-full h-11 bg-surface-container-lowest border border-outline-variant/50 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg text-center font-bold text-headline-sm tracking-widest text-on-surface placeholder:text-outline-variant" id="escrowCode" maxlength="4" placeholder="• • • •" type="text"/>
+</div>
+<button class="h-11 px-5 bg-primary text-on-primary rounded-lg text-label-pill font-label-pill font-semibold hover:opacity-90 active:scale-[0.985] transition-all shrink-0 flex items-center gap-1.5" id="releaseBtn" onclick="simulateEscrowRelease()">
+<span class="material-symbols-outlined text-sm">lock_open</span>
+                Verify &amp; Disburse ₹1,500
+              </button>
+</div>
+<p class="text-caption-micro font-caption-micro text-emerald-700 hidden" id="releaseStatus">
+              ✓ Verification Code Accepted: ₹1,500 moved to 'Ready for Payout' ledger.
+            </p>
+</div>
+</article>
+<!-- Founder Review Feed (Section 6) -->
+<div class="space-y-3 pt-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight">Founder Review Feed</h3>
+<span class="text-caption-micro font-caption-micro text-on-surface-variant">Cryptographically Signed Reviews</span>
+</div>
+<!-- Review 1 -->
+<div class="apple-hairline-card rounded-xl p-4 space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center font-bold text-caption-micro text-on-surface">
+                  RK
+                </div>
+<div>
+<span class="text-body-sm font-body-sm font-semibold text-on-surface">Rohan Kulkarni</span>
+<span class="text-caption-micro font-caption-micro text-on-surface-variant ml-1.5">Co-Founder, DataDock (Seed)</span>
+</div>
+</div>
+<div class="flex items-center text-amber-500">
+<span class="material-symbols-outlined text-sm material-symbols-fill">star</span>
+<span class="material-symbols-outlined text-sm material-symbols-fill">star</span>
+<span class="material-symbols-outlined text-sm material-symbols-fill">star</span>
+<span class="material-symbols-outlined text-sm material-symbols-fill">star</span>
+<span class="material-symbols-outlined text-sm material-symbols-fill">star</span>
+</div>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant italic">
+              "Vikramaditya saved our engineering roadmap 4 months of refactoring. In 45 minutes, he pointed out our event-bus bottleneck that our team had been diagnosing for weeks. Worth 10x the advisory fee."
+            </p>
+<div class="text-[11px] text-on-surface-variant flex items-center gap-2 pt-1 border-t border-outline-variant/10">
+<span>Session completed 3 days ago</span>
+<span>•</span>
+<span class="text-emerald-700 font-medium">Verified On-Chain Attestation</span>
+</div>
+</div>
+<!-- Review 2 -->
+<div class="apple-hairline-card rounded-xl p-4 space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center font-bold text-caption-micro text-on-surface">
+                  TM
+                </div>
+<div>
+<span class="text-body-sm font-body-sm font-semibold text-on-surface">Tanvi Mehta</span>
+<span class="text-caption-micro font-caption-micro text-on-surface-variant ml-1.5">CTO, Kosh Pay</span>
+</div>
+</div>
+<div class="flex items-center text-amber-500">
+<span class="material-symbols-outlined text-sm material-symbols-fill">star</span>
+<span class="material-symbols-outlined text-sm material-symbols-fill">star</span>
+<span class="material-symbols-outlined text-sm material-symbols-fill">star</span>
+<span class="material-symbols-outlined text-sm material-symbols-fill">star</span>
+<span class="material-symbols-outlined text-sm material-symbols-fill">star</span>
+</div>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant italic">
+              "Met offline at Starbucks Reserve Indiranagar. Unfiltered, tactical advice on hiring our first VP of Infrastructure and handling RBI payment aggregator compliance without losing iteration speed."
+            </p>
+<div class="text-[11px] text-on-surface-variant flex items-center gap-2 pt-1 border-t border-outline-variant/10">
+<span>Session completed 1 week ago</span>
+<span>•</span>
+<span class="text-emerald-700 font-medium">Offline Koramangala Hub</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Column: Venue & Availability Manager (Apple Settings Style) (5 Cols) -->
+<aside class="lg:col-span-5 space-y-space-lg">
+<!-- Apple Settings Style Box for Venues -->
+<div class="apple-glass-panel rounded-xl p-space-md space-y-4">
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-3">
+<div>
+<h3 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Approved Offline Venues</h3>
+<p class="text-caption-micro font-caption-micro text-on-surface-variant">Curated meeting points with verified WiFi &amp; quiet acoustics</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-primary transition-colors" title="Add New Venue">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+<!-- Venues List Group -->
+<div class="space-y-2.5">
+<!-- Venue 1 -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-lowest border border-outline-variant/30 hover:border-primary/40 transition-colors">
+<div class="flex items-center gap-3">
+<span class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-lg">local_cafe</span>
+</span>
+<div>
+<h4 class="text-body-sm font-body-sm font-semibold text-on-surface">Third Wave Coffee Koramangala</h4>
+<p class="text-caption-micro font-caption-micro text-on-surface-variant">4th Block • Reserved Booth 3</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-semibold">
+                Active
+              </span>
+</div>
+<!-- Venue 2 -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-lowest border border-outline-variant/30 hover:border-primary/40 transition-colors">
+<div class="flex items-center gap-3">
+<span class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-lg">coffee</span>
+</span>
+<div>
+<h4 class="text-body-sm font-body-sm font-semibold text-on-surface">Starbucks Reserve Indiranagar</h4>
+<p class="text-caption-micro font-caption-micro text-on-surface-variant">100ft Road • Upper Mezzanine</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-semibold">
+                Active
+              </span>
+</div>
+<!-- Venue 3 -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-lowest border border-outline-variant/30 hover:border-primary/40 transition-colors">
+<div class="flex items-center gap-3">
+<span class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-lg">meeting_room</span>
+</span>
+<div>
+<h4 class="text-body-sm font-body-sm font-semibold text-on-surface">The Leela Palace Lounge</h4>
+<p class="text-caption-micro font-caption-micro text-on-surface-variant">Old Airport Rd • Library Bar</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-semibold">
+                Active
+              </span>
+</div>
+</div>
+<button class="w-full py-2 bg-surface-container-low hover:bg-surface-container rounded-lg text-body-sm font-body-sm font-medium text-on-surface flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/20">
+<span class="material-symbols-outlined text-base">domain_add</span>
+            Request New Syndicate Meeting Hub
+          </button>
+</div>
+<!-- Slot Management (Week View & Fee Structure) -->
+<div class="apple-glass-panel rounded-xl p-space-md space-y-4">
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-3">
+<div>
+<h3 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Advisory Slot Schedule</h3>
+<p class="text-caption-micro font-caption-micro text-on-surface-variant">Standardized pricing: 30m Online (₹500) | 60m Offline (₹1,500)</p>
+</div>
+<span class="text-label-pill font-label-pill font-semibold text-primary">May 2024</span>
+</div>
+<!-- Mini Calendar Week Matrix -->
+<div class="grid grid-cols-5 gap-2 text-center">
+<div class="p-2 rounded-lg bg-surface-container-low border border-outline-variant/30">
+<div class="text-[11px] text-on-surface-variant">MON</div>
+<div class="font-bold text-body-sm text-on-surface">20</div>
+<div class="mt-1 text-[10px] text-emerald-700 font-semibold">2 Slots</div>
+</div>
+<div class="p-2 rounded-lg bg-primary text-on-primary shadow-sm">
+<div class="text-[11px] text-on-primary-container">TUE</div>
+<div class="font-bold text-body-sm text-on-primary">21</div>
+<div class="mt-1 text-[10px] bg-surface-container-lowest/20 rounded px-1 font-semibold">Today</div>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low border border-outline-variant/30">
+<div class="text-[11px] text-on-surface-variant">WED</div>
+<div class="font-bold text-body-sm text-on-surface">22</div>
+<div class="mt-1 text-[10px] text-emerald-700 font-semibold">1 Offline</div>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low border border-outline-variant/30">
+<div class="text-[11px] text-on-surface-variant">THU</div>
+<div class="font-bold text-body-sm text-on-surface">23</div>
+<div class="mt-1 text-[10px] text-on-surface-variant">Blocked</div>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low border border-outline-variant/30">
+<div class="text-[11px] text-on-surface-variant">FRI</div>
+<div class="font-bold text-body-sm text-on-surface">24</div>
+<div class="mt-1 text-[10px] text-emerald-700 font-semibold">3 Slots</div>
+</div>
+</div>
+<!-- Quick Slot Allocator Pill Grid -->
+<div class="space-y-2 pt-1">
+<span class="text-caption-micro font-caption-micro font-semibold text-on-surface uppercase tracking-wider">Tomorrow's Windows (Wed 22nd):</span>
+<div class="grid grid-cols-2 gap-2">
+<div class="border border-outline-variant/40 bg-surface-container-lowest p-2.5 rounded-lg flex items-center justify-between">
+<div>
+<div class="text-body-sm font-body-sm font-semibold text-on-surface">11:00 AM</div>
+<div class="text-[11px] text-secondary font-medium">60m Offline (Booked)</div>
+</div>
+<span class="material-symbols-outlined text-base text-primary">lock</span>
+</div>
+<div class="border border-emerald-200 bg-emerald-50/50 p-2.5 rounded-lg flex items-center justify-between">
+<div>
+<div class="text-body-sm font-body-sm font-semibold text-on-surface">04:30 PM</div>
+<div class="text-[11px] text-emerald-700 font-medium">30m Online (Open)</div>
+</div>
+<span class="material-symbols-outlined text-base text-emerald-700">radio_button_unchecked</span>
+</div>
+</div>
+</div>
+<div class="p-3 bg-surface-container-low rounded-lg flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface-variant">Google / Apple Calendar Sync</span>
+<span class="flex items-center gap-1 text-emerald-700 font-semibold text-caption-micro">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              Live Synced
+            </span>
+</div>
+</div>
+<!-- Safe Harbor Compliance Banner -->
+<div class="apple-hairline-card p-4 rounded-xl flex items-start gap-3 bg-surface-container-low/60 border border-outline-variant/30">
+<span class="material-symbols-outlined text-on-surface-variant mt-0.5 text-lg">policy</span>
+<div class="space-y-1">
+<h4 class="text-body-sm font-body-sm font-semibold text-on-surface">Safe Harbor &amp; Institutional NDA</h4>
+<p class="text-caption-micro font-caption-micro text-on-surface-variant">
+              Every 1-on-1 session is governed by YANC Syndicate Protocol Rule 18B. All deck reviews are strictly confidential with watermark verification.
+            </p>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Persistent Executive Footer -->
+<footer class="mt-auto border-t border-outline-variant/30 bg-surface-container-lowest/80 py-6 text-caption-micro font-caption-micro text-on-surface-variant">
+<div class="max-w-container-max mx-auto px-gutter-desktop flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<span class="font-bold text-on-surface">YANC Connect</span>
+<span>•</span>
+<span>Institutional Syndicate Architecture v4.2</span>
+<span>•</span>
+<span>Encrypted Ledger Escrow (HDFC SmartHub Integration)</span>
+</div>
+<div class="flex items-center gap-4">
+<a class="hover:text-on-surface transition-colors" href="#">Safe Harbor Protocol</a>
+<a class="hover:text-on-surface transition-colors" href="#">Dispute Resolution</a>
+<a class="hover:text-on-surface transition-colors" href="#">API Keys</a>
+</div>
+</div>
+</footer>
+<!-- Micro-Interactions Script -->
+<script>
+    // Toggle Live Status
+    const toggle = document.getElementById('availabilityToggle');
+    const toggleLabel = document.getElementById('toggleLabel');
+
+    toggle.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        toggleLabel.textContent = 'Accepting';
+        toggleLabel.className = 'text-label-pill font-label-pill text-emerald-700 font-semibold';
+      } else {
+        toggleLabel.textContent = 'Paused';
+        toggleLabel.className = 'text-label-pill font-label-pill text-secondary font-semibold';
+      }
+    });
+
+    // Simulated 4-digit code release for offline meeting escrow
+    function simulateEscrowRelease() {
+      const codeInput = document.getElementById('escrowCode');
+      const releaseBtn = document.getElementById('releaseBtn');
+      const statusText = document.getElementById('releaseStatus');
+
+      if (codeInput.value.length === 4) {
+        releaseBtn.disabled = true;
+        releaseBtn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">refresh</span> Processing';
+        
+        setTimeout(() => {
+          releaseBtn.className = 'h-11 px-5 bg-emerald-600 text-white rounded-lg text-label-pill font-label-pill font-semibold shrink-0 flex items-center gap-1.5';
+          releaseBtn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> Disbursed';
+          statusText.classList.remove('hidden');
+          codeInput.disabled = true;
+        }, 600);
+      } else {
+        alert('Please enter a valid 4-digit verification code provided by Founder Aniket Sen.');
+      }
+    }
+  </script>
+</body></html>

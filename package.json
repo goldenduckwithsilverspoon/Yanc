@@ -1,0 +1,29 @@
+{
+  "name": "yanc-connect-userflow-demo",
+  "version": "1.0.0",
+  "description": "YANC 1-on-1 Connect \u2014 nine wireframe exports connected into one navigable user-flow demo.",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "python3 scripts/build.py && node scripts/vendor-tailwind.mjs && node scripts/vendor-fonts.mjs",
+    "serve": "python3 -m http.server -d docs 8000",
+    "test": "node scripts/smoke.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goldenduckwithsilverspoon/Yanc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/goldenduckwithsilverspoon/Yanc/issues"
+  },
+  "homepage": "https://github.com/goldenduckwithsilverspoon/Yanc#readme",
+  "devDependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.9",
+    "playwright": "^1.49.1",
+    "tailwindcss": "^3.4.17"
+  },
+  "private": true,
+  "type": "module"
+}

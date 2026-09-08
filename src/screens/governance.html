@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>YANC Connect — Super Admin Governance Board</title>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-dim": "#d8dadc",
+            "surface-container": "#eceef0",
+            "secondary-fixed": "#d8e3fb",
+            "surface-variant": "#e0e3e5",
+            "error-container": "#ffdad6",
+            "on-secondary-fixed-variant": "#3c475a",
+            "on-secondary": "#ffffff",
+            "tertiary": "#000000",
+            "surface-bright": "#f7f9fb",
+            "inverse-on-surface": "#eff1f3",
+            "surface-container-lowest": "#ffffff",
+            "inverse-primary": "#c7c6ca",
+            "surface": "#f7f9fb",
+            "surface-container-low": "#f2f4f6",
+            "outline": "#77777b",
+            "primary-fixed": "#e3e2e6",
+            "on-tertiary-fixed-variant": "#372abf",
+            "primary-fixed-dim": "#c7c6ca",
+            "on-primary-fixed": "#1b1b1f",
+            "on-secondary-fixed": "#111c2d",
+            "outline-variant": "#c7c6cb",
+            "secondary-container": "#d5e0f8",
+            "surface-tint": "#5e5e62",
+            "on-tertiary-fixed": "#100069",
+            "surface-container-high": "#e6e8ea",
+            "secondary": "#545f73",
+            "tertiary-fixed-dim": "#c3c0ff",
+            "on-secondary-container": "#586377",
+            "on-tertiary": "#ffffff",
+            "on-primary": "#ffffff",
+            "error": "#ba1a1a",
+            "on-surface": "#191c1e",
+            "inverse-surface": "#2d3133",
+            "tertiary-container": "#100069",
+            "on-primary-container": "#848387",
+            "on-tertiary-container": "#7771ff",
+            "on-error-container": "#93000a",
+            "primary": "#000000",
+            "background": "#f7f9fb",
+            "primary-container": "#1b1b1f",
+            "on-background": "#191c1e",
+            "secondary-fixed-dim": "#bcc7de",
+            "surface-container-highest": "#e0e3e5",
+            "on-primary-fixed-variant": "#46464a",
+            "on-error": "#ffffff",
+            "on-surface-variant": "#46464b",
+            "tertiary-fixed": "#e3dfff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter-tablet": "1.25rem",
+            "space-sm": "0.75rem",
+            "gutter-desktop": "1.5rem",
+            "space-xl": "2rem",
+            "container-max": "1200px",
+            "space-2xl": "3rem",
+            "space-lg": "1.5rem",
+            "space-2xs": "0.25rem",
+            "gutter-mobile": "1rem",
+            "space-3xl": "4.5rem",
+            "space-xs": "0.5rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "headline-sm": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "display-hero-mobile": ["Plus Jakarta Sans"],
+            "label-caps": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "caption-micro": ["Plus Jakarta Sans"],
+            "label-pill": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "display-hero": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "display-hero-mobile": ["32px", { "lineHeight": "38px", "letterSpacing": "-0.025em", "fontWeight": "700" }],
+            "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "-0.005em", "fontWeight": "400" }],
+            "caption-micro": ["11px", { "lineHeight": "14px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "label-pill": ["12px", { "lineHeight": "16px", "letterSpacing": "-0.005em", "fontWeight": "500" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "display-hero": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.03em", "fontWeight": "700" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #F8FAFC;
+      color: #191c1e;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      vertical-align: middle;
+      display: inline-block;
+      line-height: 1;
+    }
+    .subtle-glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
+    .hairline-border {
+      border: 1px solid rgba(15, 23, 42, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col antialiased selection:bg-secondary-container selection:text-on-secondary-fixed">
+<!-- ================= TOP APP BAR (Shared Component Execution) ================= -->
+<header class="docked full-width top-0 sticky z-50 bg-surface-bright/80 backdrop-blur-xl shadow-sm border-b border-outline-variant/30">
+<div class="flex justify-between items-center w-full px-gutter-desktop max-w-container-max mx-auto h-16">
+<!-- Left: Logo & Institutional Context -->
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center font-bold text-headline-sm">
+<span class="material-symbols-outlined text-body-lg" data-icon="shield">shield</span>
+</div>
+<span class="text-headline-sm font-headline-sm font-semibold tracking-tight text-on-surface">YANC 1-on-1 Connect</span>
+</div>
+<span class="text-outline-variant text-caption-micro hidden md:inline">/</span>
+<!-- Environment Badge -->
+<div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container border border-outline-variant/40">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+<span class="text-caption-micro font-caption-micro text-on-surface-variant font-medium">Production v2.4 (Simulated Escrow Mode)</span>
+</div>
+</div>
+<!-- Navigation Links from JSON (Gateway, Founder Deck, Advisory Board, Governance) -->
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-on-surface-variant font-medium hover:text-on-surface transition-colors text-label-pill font-label-pill" href="#gateway">Gateway</a>
+<a class="text-on-surface-variant font-medium hover:text-on-surface transition-colors text-label-pill font-label-pill" href="#founder-deck">Founder Deck</a>
+<a class="text-on-surface-variant font-medium hover:text-on-surface transition-colors text-label-pill font-label-pill" href="#advisory-board">Advisory Board</a>
+<!-- Governance active per Super Admin context -->
+<a class="text-primary font-semibold border-b-2 border-primary pb-1 text-label-pill font-label-pill" href="#governance">Governance</a>
+</nav>
+<!-- Trailing Action Cluster & Admin Clearance -->
+<div class="flex items-center gap-3">
+<!-- System Health Pill -->
+<div class="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/60">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified_user">verified_user</span>
+<span class="text-caption-micro font-caption-micro font-medium">Health 99.98%</span>
+</div>
+<!-- Trailing Icons from JSON: verified_user, notifications, account_balance_wallet -->
+<button class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-all" title="System Audit Ledger">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-all" title="Escrow Vault Status">
+<span class="material-symbols-outlined text-[20px]" data-icon="account_balance_wallet">account_balance_wallet</span>
+</button>
+<!-- Admin Identity & Avatar -->
+<div class="h-6 w-[1px] bg-outline-variant/30 hidden sm:block"></div>
+<div class="flex items-center gap-2 pl-1">
+<div class="relative">
+<img alt="Executive User Profile Avatar" class="w-8 h-8 rounded-full object-cover hairline-border" data-alt="Close up executive portrait of Devansh Malhotra in a crisp tailored navy suit with an institutional boardroom setting softly blurred in the background. Ultra high-end lighting with subtle soft highlights, portraying security authority and calm executive focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEFhLT0A3lxKn-QusLE98qVLtQVdOZ_VAN3UmxUYSMvUjxy-yZBoS30e_iK_U6WK_LZKa5L_5rj2mh6Meu7LbJYFMAj_kv-uYdrnJKrOrVab_giVVZZfNN46rwo1cKWQZM30LYeoulQNK8qSajvE5co_sfUvfywRj6-7b41e9jSzkfzaWz0vmJDt4blnxmmTEILka2rhu0TEmhxXuoPI1PpCkQ8r15LLIxoBFEG9-5bXfuIAT826y-5Q"/>
+<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full ring-2 ring-surface-bright"></span>
+</div>
+<div class="hidden xl:flex flex-col text-left">
+<span class="text-label-pill font-label-pill font-semibold text-on-surface leading-tight">Devansh Malhotra</span>
+<span class="text-caption-micro font-caption-micro text-secondary leading-none">Super Admin (Full Clearance)</span>
+</div>
+</div>
+<!-- Trailing Primary Action from JSON -->
+<button class="hidden sm:inline-flex items-center justify-center px-3.5 py-1.5 text-label-pill font-label-pill font-semibold text-on-primary bg-primary rounded-lg hover:opacity-90 active:scale-[0.985] transition-all shadow-sm">
+          Book Advisory
+        </button>
+</div>
+</div>
+</header>
+<!-- ================= SUB-HEADER / INSTITUTIONAL CLEARANCE BAR ================= -->
+<section class="bg-surface-container-lowest hairline-border border-x-0 border-t-0 py-space-sm px-gutter-desktop">
+<div class="max-w-container-max mx-auto flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 text-caption-micro font-caption-micro font-semibold rounded bg-primary-container text-on-primary text-[10px] tracking-wider uppercase">ROOT ACCESS</span>
+<h1 class="text-headline-sm font-headline-sm font-bold text-on-surface">Institutional Governance Console</h1>
+</div>
+<span class="text-outline-variant">|</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-emerald-600" data-icon="lock">lock</span>
+          Custody Multi-Sig Quorum Active (4 of 5 required)
+        </span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-1.5 text-caption-micro font-caption-micro text-secondary bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/30">
+<span class="material-symbols-outlined text-[15px]" data-icon="receipt_long">receipt_long</span>
+          Audit Stream: <span class="font-semibold text-on-surface">Real-Time Sync</span>
+</div>
+<button class="px-3 py-1.5 text-label-pill font-label-pill font-medium text-on-surface bg-surface-container-low hover:bg-surface-container rounded-lg border border-outline-variant/40 transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]" data-icon="tune">tune</span>
+          Role Switcher
+        </button>
+</div>
+</div>
+</section>
+<!-- ================= MAIN WRAPPER WITH BENTO ARCHITECTURE ================= -->
+<main class="max-w-container-max mx-auto w-full px-gutter-desktop py-space-xl flex-1 space-y-space-xl">
+<!-- 1. EXECUTIVE KPI OVERVIEW (BENTO 5-METRIC GRID) -->
+<section>
+<div class="flex items-center justify-between mb-3">
+<div>
+<h2 class="text-headline-sm font-headline-sm text-on-surface font-semibold">Executive KPI Overview</h2>
+<p class="text-caption-micro font-caption-micro text-secondary">Real-time ledger aggregation and compliance metrics</p>
+</div>
+<span class="text-caption-micro font-caption-micro text-on-surface-variant font-mono">Updated: 42s ago</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+<!-- KPI 1: Platform Volume -->
+<div class="bg-surface-container-lowest rounded-xl p-4 hairline-border hover:shadow-sm transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="text-caption-micro font-caption-micro font-semibold uppercase tracking-wider">Total Platform Volume</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="account_balance">account_balance</span>
+</div>
+<div class="mt-3">
+<div class="text-headline-lg font-headline-lg font-bold text-on-surface tracking-tight">₹42.8 Lakhs</div>
+<div class="flex items-center gap-1 mt-1 text-emerald-700 text-caption-micro font-caption-micro">
+<span class="material-symbols-outlined text-[14px]" data-icon="trending_up">trending_up</span>
+<span>+18.4% this quarter</span>
+</div>
+</div>
+<div class="mt-3 pt-2 hairline-border border-b-0 border-x-0 text-caption-micro text-secondary flex justify-between">
+<span>Gross advisory book</span>
+<span class="font-mono text-on-surface">Institutional</span>
+</div>
+</div>
+<!-- KPI 2: Escrow Locked -->
+<div class="bg-surface-container-lowest rounded-xl p-4 hairline-border hover:shadow-sm transition-all flex flex-col justify-between border-l-4 border-l-primary">
+<div class="flex items-center justify-between text-secondary">
+<span class="text-caption-micro font-caption-micro font-semibold uppercase tracking-wider">Escrow Locked</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="lock_clock">lock_clock</span>
+</div>
+<div class="mt-3">
+<div class="text-headline-lg font-headline-lg font-bold text-on-surface tracking-tight">₹1,85,000</div>
+<div class="flex items-center gap-1.5 mt-1 text-secondary text-caption-micro font-caption-micro">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+<span class="font-medium text-on-surface">34 active sessions held</span>
+</div>
+</div>
+<div class="mt-3 pt-2 hairline-border border-b-0 border-x-0 text-caption-micro text-secondary flex justify-between">
+<span>Safe Harbor v2.4</span>
+<span class="font-mono text-emerald-700">Protected</span>
+</div>
+</div>
+<!-- KPI 3: Active Advisors -->
+<div class="bg-surface-container-lowest rounded-xl p-4 hairline-border hover:shadow-sm transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="text-caption-micro font-caption-micro font-semibold uppercase tracking-wider">Active Advisors</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="badge">badge</span>
+</div>
+<div class="mt-3">
+<div class="text-headline-lg font-headline-lg font-bold text-on-surface tracking-tight">48 <span class="text-body-md font-normal text-secondary">Verified</span></div>
+<div class="flex items-center gap-1 mt-1 text-amber-700 text-caption-micro font-caption-micro">
+<span class="material-symbols-outlined text-[14px]" data-icon="pending">pending</span>
+<span class="font-medium">6 Pending Review</span>
+</div>
+</div>
+<div class="mt-3 pt-2 hairline-border border-b-0 border-x-0 text-caption-micro text-secondary flex justify-between">
+<span>Vetting pipeline</span>
+<span class="font-mono text-primary font-medium">Actionable</span>
+</div>
+</div>
+<!-- KPI 4: Member Credits Issued -->
+<div class="bg-surface-container-lowest rounded-xl p-4 hairline-border hover:shadow-sm transition-all flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="text-caption-micro font-caption-micro font-semibold uppercase tracking-wider">Credits Issued</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="generating_tokens">generating_tokens</span>
+</div>
+<div class="mt-3">
+<div class="text-headline-lg font-headline-lg font-bold text-on-surface tracking-tight">12,400</div>
+<div class="flex items-center gap-1 mt-1 text-secondary text-caption-micro font-caption-micro">
+<span>Par value: 1 Credit = ₹100</span>
+</div>
+</div>
+<div class="mt-3 pt-2 hairline-border border-b-0 border-x-0 text-caption-micro text-secondary flex justify-between">
+<span>Circulating supply</span>
+<span class="font-mono text-on-surface">₹12.40L</span>
+</div>
+</div>
+<!-- KPI 5: Active Disputes -->
+<div class="bg-surface-container-lowest rounded-xl p-4 hairline-border hover:shadow-sm transition-all flex flex-col justify-between bg-gradient-to-b from-surface-container-lowest to-rose-50/20">
+<div class="flex items-center justify-between text-secondary">
+<span class="text-caption-micro font-caption-micro font-semibold uppercase tracking-wider">Active Disputes</span>
+<span class="material-symbols-outlined text-[18px] text-rose-600" data-icon="gavel">gavel</span>
+</div>
+<div class="mt-3">
+<div class="text-headline-lg font-headline-lg font-bold text-rose-700 tracking-tight">1 <span class="text-body-sm font-normal text-rose-600">Pending</span></div>
+<div class="flex items-center gap-1 mt-1 text-rose-700 text-caption-micro font-caption-micro">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span>
+<span>1 Under Review (#YC-8821)</span>
+</div>
+</div>
+<div class="mt-3 pt-2 hairline-border border-b-0 border-x-0 text-caption-micro text-secondary flex justify-between">
+<span>SLA breach window</span>
+<span class="font-mono font-medium text-rose-700">03h 42m</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. PRIMARY TWO-COLUMN WORKFLOW: ADVISOR PIPELINE & SIMULATED ESCROW CONSOLE -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- LEFT / MAIN: ADVISOR APPROVAL PIPELINE (7 Cols) -->
+<section class="lg:col-span-7 space-y-space-md">
+<div class="bg-surface-container-lowest rounded-xl hairline-border p-space-md flex flex-col gap-4">
+<div class="flex items-center justify-between border-b border-outline-variant/30 pb-3">
+<div class="flex items-center gap-2.5">
+<div class="p-2 rounded-lg bg-surface-container text-on-surface">
+<span class="material-symbols-outlined text-[20px]" data-icon="admin_panel_settings">admin_panel_settings</span>
+</div>
+<div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface">Advisor Approval Pipeline &amp; Governance Center</h3>
+<p class="text-caption-micro font-caption-micro text-secondary">Strict institutional screening protocol &amp; partner vetting</p>
+</div>
+</div>
+<span class="px-2.5 py-1 text-caption-micro font-caption-micro font-semibold rounded-full bg-surface-container text-on-surface">
+              2 Pending Action
+            </span>
+</div>
+<!-- Application 1: Dr. Kavita Raman -->
+<div class="p-4 rounded-xl bg-surface-bright hairline-border flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-start gap-3">
+<img alt="Dr. Kavita Raman Avatar" class="w-12 h-12 rounded-xl object-cover hairline-border shrink-0" data-alt="Sophisticated executive portrait of Dr. Kavita Raman, deep tech venture partner, set against a quiet minimalist architectural interior with subtle frosted glass and neutral architectural stone tones. Confident, authoritative expression, natural daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXMJ4P22CvHRnM3vbxV1DgWwu3biLX3xNtGCokLY0yRJa9VOyJsySt7PzntbqDL0RcN7LR1dtAIWMIKdoPTxj32s2j-WkgTvU7wYngoYZPOXVu_IeONiCxfpYkQvRF_xGn5_-Qno2InQLrLftvnUglQZ02Qu95KUbYYvG13cEU_X3WpNCZjpSCrmsL6B2TjYTernRjcvnNROYwoAPb4qyvIGzmJE7197x4qAhgDR3iTQqBzBZMKg37Sg"/>
+<div>
+<div class="flex items-center gap-2 flex-wrap">
+<h4 class="text-body-lg font-body-lg font-semibold text-on-surface">Dr. Kavita Raman</h4>
+<span class="px-2 py-0.5 text-caption-micro font-caption-micro font-medium rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                    Application Pending Review
+                  </span>
+</div>
+<p class="text-body-sm font-body-sm text-secondary mt-0.5">Partner, DeepTech Ventures • Focus: Quantum &amp; Semiconductor</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-caption-micro font-caption-micro text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified">verified</span>
+                    KYB Complete
+                  </span>
+<span class="text-outline-variant">•</span>
+<span class="text-caption-micro font-caption-micro text-on-surface-variant">Applied 6 hours ago</span>
+<span class="text-outline-variant">•</span>
+<span class="text-caption-micro font-caption-micro text-on-surface-variant font-mono">Tier-1 Angel Pool</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 shrink-0 self-end md:self-center">
+<button class="px-2.5 py-1.5 text-caption-micro font-caption-micro font-medium text-on-surface bg-surface-container-low hover:bg-surface-container rounded-lg hairline-border transition-colors">
+                Review Thesis
+              </button>
+<button class="px-3 py-1.5 text-caption-micro font-caption-micro font-semibold text-on-primary bg-primary rounded-lg hover:opacity-90 transition-opacity">
+                Approve
+              </button>
+<button class="px-2.5 py-1.5 text-caption-micro font-caption-micro font-medium text-error hover:bg-error-container/40 rounded-lg transition-colors">
+                Reject
+              </button>
+</div>
+</div>
+<!-- Application 2: Nikhil Verma -->
+<div class="p-4 rounded-xl bg-surface-bright hairline-border flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-start gap-3">
+<img alt="Nikhil Verma Avatar" class="w-12 h-12 rounded-xl object-cover hairline-border shrink-0" data-alt="Corporate headshot of Nikhil Verma, seasoned technology executive, modern minimalist office background with soft neutral lighting and gentle depth of field. High clarity and relaxed corporate gravitas." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOOk5HB2fCLjQu7H9bXzViCEDs-Ym8BvtSdl1QZFLD78BCOBq3aoUN2qvaWs9Jg-wmxTCRLmPiOBZBkDlU7LQUhDI1xBK9OhZjoxf1KbTmOvpHBNJrzgXsQvT9IfTaz5BImIyxkRxLoiHUpAxvm5F1lXKNy4Aj6ADLq7JOMeZDH2q60SEpDAoDABHTsLcbkCEdn6DDhTXWOodyWMb9ZKRCKssFrhc4OZh599P4v4K5wgfIGcUUjYg25w"/>
+<div>
+<div class="flex items-center gap-2 flex-wrap">
+<h4 class="text-body-lg font-body-lg font-semibold text-on-surface">Nikhil Verma</h4>
+<span class="px-2 py-0.5 text-caption-micro font-caption-micro font-medium rounded-full bg-blue-50 text-blue-800 border border-blue-200">
+                    Profile Setup
+                  </span>
+</div>
+<p class="text-body-sm font-body-sm text-secondary mt-0.5">Ex-VP Product at Swiggy • Scale &amp; Marketplace Systems</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-caption-micro font-caption-micro text-emerald-700 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                    Slot Matrix Configured
+                  </span>
+<span class="text-outline-variant">•</span>
+<span class="text-caption-micro font-caption-micro text-on-surface-variant">Fee: ₹15,000 / 45 min</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 shrink-0 self-end md:self-center">
+<button class="px-3 py-1.5 text-caption-micro font-caption-micro font-semibold text-on-primary bg-primary rounded-lg hover:opacity-90 transition-opacity flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]" data-icon="publish">publish</span>
+                Publish to Directory
+              </button>
+</div>
+</div>
+<!-- Footer hint -->
+<div class="pt-2 flex items-center justify-between text-caption-micro text-secondary border-t border-outline-variant/20">
+<span>Institutional SLA: 24h approval deadline</span>
+<a class="hover:underline flex items-center gap-1 font-medium text-on-surface" href="#advisory-board">
+              View all 48 active advisors
+              <span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+</div>
+<!-- 3. YANC MEMBER REGISTRY & CREDIT GRANT TOOL (NESTED UNDER ADVISOR PIPELINE) -->
+<div class="bg-surface-container-lowest rounded-xl hairline-border p-space-md">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30">
+<div class="flex items-center gap-2.5">
+<div class="p-2 rounded-lg bg-surface-container text-on-surface">
+<span class="material-symbols-outlined text-[20px]" data-icon="credit_score">credit_score</span>
+</div>
+<div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface">YANC Member Registry &amp; Credit Grant Tool</h3>
+<p class="text-caption-micro font-caption-micro text-secondary">Whitelisting verified venture cohorts &amp; direct ledger injections (1 Credit = ₹100)</p>
+</div>
+</div>
+<span class="text-caption-micro font-caption-micro text-secondary font-mono">Treasury Reserve: 48,000 CR</span>
+</div>
+<!-- Quick Grant Form -->
+<form class="mt-4 grid grid-cols-1 md:grid-cols-12 gap-3" onsubmit="event.preventDefault();">
+<div class="md:col-span-6">
+<label class="block text-caption-micro font-caption-micro font-semibold uppercase text-secondary mb-1">Approved Member Email / Domain</label>
+<input class="w-full h-11 px-3 rounded-lg bg-surface-container-low border border-outline-variant/40 text-body-sm focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-outline" placeholder="e.g. founder@nexaflow.ai, partner@stealthai.io" type="email"/>
+</div>
+<div class="md:col-span-3">
+<label class="block text-caption-micro font-caption-micro font-semibold uppercase text-secondary mb-1">Credit Allocation</label>
+<div class="relative">
+<input class="w-full h-11 px-3 pr-10 rounded-lg bg-surface-container-low border border-outline-variant/40 text-body-sm font-mono focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" min="1" type="number" value="50"/>
+<span class="absolute right-3 top-3 text-caption-micro text-secondary font-semibold">CR</span>
+</div>
+</div>
+<div class="md:col-span-3 flex items-end gap-2">
+<button class="w-full h-11 px-3 text-label-pill font-label-pill font-semibold text-on-primary bg-primary rounded-lg hover:opacity-90 active:scale-[0.985] transition-all flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="add_circle">add_circle</span>
+                Grant Credits
+              </button>
+</div>
+</form>
+<!-- Domain Whitelist Matrix Chips -->
+<div class="mt-4 pt-3 border-t border-outline-variant/20 flex flex-wrap items-center gap-2">
+<span class="text-caption-micro font-caption-micro font-semibold text-secondary">Active Cohort Domains:</span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface text-caption-micro font-caption-micro font-mono">
+              @nexaflow.ai
+              <span class="text-secondary">(Cohort 8 • 400 CR)</span>
+</span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface text-caption-micro font-caption-micro font-mono">
+              @stealthai.io
+              <span class="text-secondary">(Seed Batch • 250 CR)</span>
+</span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface text-caption-micro font-caption-micro font-mono">
+              @hypermatrix.ventures
+              <span class="text-secondary">(Partner Track)</span>
+</span>
+<button class="text-caption-micro font-caption-micro text-primary font-semibold hover:underline ml-auto">
+              + Add Whitelist Domain
+            </button>
+</div>
+</div>
+</section>
+<!-- RIGHT / CUSTODY: SIMULATED ESCROW & DISPUTE RESOLUTION CONSOLE (5 Cols) -->
+<section class="lg:col-span-5 space-y-space-md">
+<!-- DISPUTE RESOLUTION CARD (CRITICAL SLA) -->
+<div class="bg-surface-container-lowest rounded-xl hairline-border p-space-md border-t-4 border-t-rose-600 shadow-sm">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-rose-600 text-[20px]" data-icon="gavel">gavel</span>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface">Active Dispute #DISP-108</h3>
+</div>
+<span class="px-2 py-0.5 text-caption-micro font-caption-micro font-semibold rounded bg-rose-50 text-rose-800 border border-rose-200">
+              URGENT REVIEW
+            </span>
+</div>
+<div class="mt-3 bg-rose-50/40 p-3 rounded-lg border border-rose-200/50">
+<div class="flex justify-between items-center text-caption-micro text-secondary">
+<span>Related Booking: <span class="font-mono font-semibold text-on-surface">#YC-8821</span></span>
+<span class="font-mono text-rose-700 font-semibold">₹5,000 in Escrow</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface mt-1.5">
+<strong>Dispute Cause:</strong> Online consultation connectivity failure during Scheduled 45m Advisory Session with Adv. Vikram Shroff.
+            </p>
+<div class="mt-2 text-caption-micro text-secondary flex items-center gap-2">
+<span>Telemetry Check:</span>
+<span class="text-rose-700 font-mono font-medium">Session Dropped at 03m 12s</span>
+</div>
+</div>
+<!-- Dispute Actions -->
+<div class="mt-3.5 space-y-2">
+<div class="text-caption-micro font-caption-micro font-semibold uppercase text-secondary">Authorized Remediation:</div>
+<div class="grid grid-cols-3 gap-2">
+<button class="px-2 py-2 text-caption-micro font-caption-micro font-semibold text-on-surface bg-surface-container-low hover:bg-surface-container rounded-lg hairline-border transition-colors text-center">
+                50% Partial Refund
+              </button>
+<button class="px-2 py-2 text-caption-micro font-caption-micro font-semibold text-error bg-error-container/30 hover:bg-error-container/70 rounded-lg hairline-border transition-colors text-center">
+                Full Refund
+              </button>
+<button class="px-2 py-2 text-caption-micro font-caption-micro font-semibold text-on-primary bg-primary rounded-lg hover:opacity-90 transition-opacity text-center">
+                Release to Advisor
+              </button>
+</div>
+</div>
+</div>
+<!-- SIMULATED REAL-TIME ESCROW LEDGER -->
+<div class="bg-surface-container-lowest rounded-xl hairline-border p-space-md">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="event_seat">event_seat</span>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface">Real-time Escrow Ledger</h3>
+</div>
+<span class="font-mono text-caption-micro text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+              Live Lock
+            </span>
+</div>
+<!-- Escrow Entry: Booking ID #YC-9042 -->
+<div class="mt-3 p-3.5 rounded-lg bg-surface-bright hairline-border space-y-3">
+<div class="flex items-start justify-between">
+<div>
+<span class="text-caption-micro font-mono font-bold text-primary px-1.5 py-0.5 bg-surface-container rounded">#YC-9042</span>
+<h4 class="text-body-md font-body-md font-semibold text-on-surface mt-1">Founder Arjun Mehta × Aarav Singhania</h4>
+<p class="text-caption-micro font-caption-micro text-secondary">Session: Series-A Term Sheet Walkthrough (60 Min)</p>
+</div>
+<div class="text-right">
+<span class="text-body-lg font-body-lg font-bold text-on-surface font-mono">₹1,500</span>
+<span class="block text-caption-micro font-caption-micro text-amber-700 font-medium">Locked in Vault</span>
+</div>
+</div>
+<div class="text-caption-micro text-secondary bg-surface-container-lowest p-2 rounded hairline-border font-mono text-[11px] space-y-0.5">
+<div class="flex justify-between"><span>Smart Contract Hook:</span> <span class="text-on-surface">0x89F...77C9</span></div>
+<div class="flex justify-between"><span>Simulated Vault State:</span> <span class="text-emerald-700">ESCROW_HOLD_CLEAR</span></div>
+</div>
+<!-- Operational Buttons -->
+<div class="flex flex-wrap items-center gap-2 pt-1">
+<button class="flex-1 py-1.5 px-2 text-caption-micro font-caption-micro font-semibold text-on-primary bg-primary rounded-lg hover:opacity-90 transition-opacity">
+                Force Release Escrow
+              </button>
+<button class="py-1.5 px-2 text-caption-micro font-caption-micro font-medium text-on-surface bg-surface-container-low hover:bg-surface-container rounded-lg hairline-border transition-colors">
+                Refund Founder
+              </button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary rounded-lg hairline-border transition-colors" title="Audit Trace">
+<span class="material-symbols-outlined text-[16px]" data-icon="receipt_long">receipt_long</span>
+</button>
+</div>
+</div>
+<!-- Escrow Summary Footer -->
+<div class="mt-3 text-caption-micro text-secondary flex items-center justify-between pt-2 border-t border-outline-variant/20">
+<span>33 other vault locks normal</span>
+<button class="text-primary font-medium hover:underline text-caption-micro">
+              Export Escrow Ledger (.csv)
+            </button>
+</div>
+</div>
+</section>
+</div>
+<!-- 3. GRANULAR PERMISSION MATRIX & LIVE IMMUTABLE AUDIT LOG -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- GRANULAR PERMISSION MATRIX (5 Cols) -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-xl hairline-border p-space-md">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="security">security</span>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface">Custody Permission Matrix</h3>
+</div>
+<span class="text-caption-micro font-caption-micro font-mono text-secondary">v2.4 Policy</span>
+</div>
+<div class="mt-3 space-y-3">
+<!-- Permission Item 1 -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-bright hairline-border">
+<div>
+<div class="text-body-sm font-body-sm font-semibold text-on-surface">Escrow Forced Override</div>
+<div class="text-caption-micro font-caption-micro text-secondary">Bypasses founder &amp; advisor bilateral signatures</div>
+</div>
+<span class="px-2 py-0.5 text-caption-micro font-mono font-semibold rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
+              DEV-CLEARANCE
+            </span>
+</div>
+<!-- Permission Item 2 -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-bright hairline-border">
+<div>
+<div class="text-body-sm font-body-sm font-semibold text-on-surface">Syndicate Safe Harbor NDA Access</div>
+<div class="text-caption-micro font-caption-micro text-secondary">Decrypts confidential term sheet vault</div>
+</div>
+<span class="px-2 py-0.5 text-caption-micro font-mono font-semibold rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
+              UNRESTRICTED
+            </span>
+</div>
+<!-- Permission Item 3 -->
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-bright hairline-border">
+<div>
+<div class="text-body-sm font-body-sm font-semibold text-on-surface">Direct Token / Credit Minting</div>
+<div class="text-caption-micro font-caption-micro text-secondary">Treasury cap: 100,000 CR per calendar month</div>
+</div>
+<span class="px-2 py-0.5 text-caption-micro font-mono font-semibold rounded bg-amber-50 text-amber-800 border border-amber-200">
+              QUORUM-2/3
+            </span>
+</div>
+</div>
+<div class="mt-4 pt-2 text-caption-micro text-secondary flex items-center justify-between">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="lock">lock</span>
+            Admin HSM Hardware Key Synced
+          </span>
+<span class="text-on-surface font-mono">Devansh_YANC_Ed25519</span>
+</div>
+</div>
+<!-- LIVE IMMUTABLE AUDIT LOG (7 Cols) -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl hairline-border p-space-md">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="receipt_long">receipt_long</span>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface">Live Immutable Audit Log</h3>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+<span class="text-caption-micro font-caption-micro font-mono text-secondary">Cryptographically Verified</span>
+</div>
+</div>
+<!-- Audit Stream List -->
+<div class="mt-3 divide-y divide-outline-variant/20 font-mono text-caption-micro">
+<!-- Stream Entry 1 -->
+<div class="py-2.5 flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[16px] text-primary shrink-0 mt-0.5" data-icon="admin_panel_settings">admin_panel_settings</span>
+<div>
+<span class="font-semibold text-on-surface">Devansh Malhotra</span>
+<span class="text-secondary"> force-released Escrow </span>
+<span class="font-bold text-primary bg-surface-container px-1 py-0.5 rounded">#YC-8812</span>
+<div class="text-[10px] text-secondary font-sans mt-0.5">Bypassed cooling period per Founder &amp; Mentor mutual sign-off in Discord bridge.</div>
+</div>
+</div>
+<span class="text-secondary shrink-0">12:04:18 IST</span>
+</div>
+<!-- Stream Entry 2 -->
+<div class="py-2.5 flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[16px] text-secondary shrink-0 mt-0.5" data-icon="visibility">visibility</span>
+<div>
+<span class="font-semibold text-on-surface">Aarav Singhania</span>
+<span class="text-secondary"> viewed Pitch Deck </span>
+<span class="font-bold text-primary bg-surface-container px-1 py-0.5 rounded">#NEXA-3</span>
+<div class="text-[10px] text-secondary font-sans mt-0.5">Access token generated with dynamic custodial watermarking.</div>
+</div>
+</div>
+<span class="text-secondary shrink-0">11:58:02 IST</span>
+</div>
+<!-- Stream Entry 3 -->
+<div class="py-2.5 flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[16px] text-emerald-700 shrink-0 mt-0.5" data-icon="verified_user">verified_user</span>
+<div>
+<span class="font-semibold text-on-surface">Priya Nair</span>
+<span class="text-secondary"> signed Safe Harbor NDA </span>
+<span class="font-bold text-emerald-800 bg-emerald-50 px-1 py-0.5 rounded border border-emerald-200">v2.4</span>
+<div class="text-[10px] text-secondary font-sans mt-0.5">Biometric hardware attestation verified via Institutional passkey.</div>
+</div>
+</div>
+<span class="text-secondary shrink-0">11:42:30 IST</span>
+</div>
+<!-- Stream Entry 4 -->
+<div class="py-2.5 flex items-start justify-between gap-3">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[16px] text-amber-700 shrink-0 mt-0.5" data-icon="token">token</span>
+<div>
+<span class="font-semibold text-on-surface">System Governance Bot</span>
+<span class="text-secondary"> injected </span>
+<span class="font-semibold text-on-surface">50 CR</span>
+<span class="text-secondary"> to </span>
+<span class="text-primary font-sans">@nexaflow.ai</span>
+</div>
+</div>
+<span class="text-secondary shrink-0">10:15:00 IST</span>
+</div>
+</div>
+<div class="mt-3 pt-2 hairline-border border-b-0 border-x-0 flex items-center justify-between text-caption-micro text-secondary">
+<span>SHA-256 Block Height: #892,104</span>
+<button class="text-primary font-semibold hover:underline flex items-center gap-1 font-sans">
+            Launch Full Audit Ledger
+            <span class="material-symbols-outlined text-[14px]" data-icon="north_east">north_east</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- ================= INSTITUTIONAL FOOTER ================= -->
+<footer class="bg-surface-container-lowest hairline-border border-x-0 border-b-0 py-6 px-gutter-desktop mt-auto">
+<div class="max-w-container-max mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-caption-micro text-secondary">
+<div class="flex items-center gap-2">
+<span class="font-semibold text-on-surface">YANC Institutional Syndicate</span>
+<span>•</span>
+<span>Safe Harbor Protocol v2.4</span>
+<span>•</span>
+<span>Escrow Custody ID: YANC-IN-BLR-09</span>
+</div>
+<div class="flex items-center gap-4">
+<a class="hover:text-primary transition-colors" href="#audit-ledger">Audit Ledger</a>
+<a class="hover:text-primary transition-colors" href="#safe-harbor">Safe Harbor Protocol</a>
+<a class="hover:text-primary transition-colors" href="#system-settings">System Settings</a>
+<span class="text-outline-variant">|</span>
+<span class="text-on-surface font-medium">Logged in as Devansh Malhotra</span>
+</div>
+</div>
+</footer>
+</body></html>

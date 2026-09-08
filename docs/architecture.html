@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>YANC Connect — Startup Ecosystem &amp; Multi-Persona Flowchart</title>
+<meta name="description" content="The YANC Connect ecosystem in three layers: onboarding access per persona, the views each persona sees, and the core system architecture underneath."/>
+<link rel="stylesheet" href="assets/fonts.css"/>
+<link rel="stylesheet" href="assets/flow.css"/>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+<meta name="robots" content="noindex"/>
+<style>
+  :root {
+    --bg: #0b1020;
+    --bg-2: #111830;
+    --panel: #161e38;
+    --panel-2: #1b2444;
+    --line: rgba(148, 163, 184, 0.20);
+    --line-soft: rgba(148, 163, 184, 0.12);
+    --text: #e8edf7;
+    --text-2: #9aa8c4;
+    --text-3: #6d7c9c;
+
+    --member: #a78bfa;
+    --founder: #94a3b8;
+    --mentor: #34d399;
+    --investor: #22d3ee;
+    --ops: #60a5fa;
+    --finance: #fbbf24;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1100px 600px at 12% -10%, rgba(167, 139, 250, 0.10), transparent 60%),
+      radial-gradient(900px 500px at 92% 0%, rgba(34, 211, 238, 0.08), transparent 60%),
+      var(--bg);
+    color: var(--text);
+    font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- header ---------- */
+
+  header { border-bottom: 1px solid var(--line-soft); }
+  .head { display: flex; align-items: center; gap: 16px; height: 68px; }
+  .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+  .brand__mark {
+    width: 32px; height: 32px; border-radius: 9px;
+    background: linear-gradient(135deg, #a78bfa, #22d3ee);
+    color: #0b1020; display: grid; place-items: center; font-weight: 800; font-size: 16px;
+  }
+  .brand__name { font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
+  .brand__sub { font-size: 11.5px; color: var(--text-3); }
+  .head__spacer { flex: 1; }
+  .ghost {
+    font-size: 12.5px; font-weight: 600; text-decoration: none; color: var(--text-2);
+    border: 1px solid var(--line); border-radius: 9px; padding: 7px 13px; white-space: nowrap;
+  }
+  .ghost:hover { color: var(--text); border-color: rgba(148, 163, 184, 0.4); }
+
+  .intro { padding: 44px 0 8px; }
+  .kicker {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--investor);
+  }
+  h1 { font-size: 34px; line-height: 42px; letter-spacing: -0.02em; font-weight: 700; margin: 12px 0 0; }
+  .intro p { color: var(--text-2); max-width: 78ch; margin: 12px 0 0; font-size: 15px; }
+
+  /* ---------- swimlanes ---------- */
+
+  .board { margin: 36px 0 8px; display: grid; gap: 16px; }
+
+  .lane {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    border: 1px solid var(--line-soft);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(22, 30, 56, 0.9), rgba(17, 24, 48, 0.9));
+    overflow: hidden;
+  }
+  .lane__rail {
+    display: grid; place-items: center;
+    background: rgba(148, 163, 184, 0.05);
+    border-right: 1px solid var(--line-soft);
+  }
+  .lane__rail span {
+    writing-mode: vertical-rl; transform: rotate(180deg);
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-3); white-space: nowrap;
+  }
+  .lane__body { padding: 18px; overflow-x: auto; }
+
+  .cols { display: grid; grid-template-columns: repeat(6, minmax(178px, 1fr)); gap: 12px; min-width: 1080px; }
+
+  /* ---------- persona columns ---------- */
+
+  .persona {
+    border: 1px solid var(--line);
+    border-top: 2px solid var(--tone, var(--text-3));
+    border-radius: 12px;
+    background: var(--panel);
+    padding: 12px;
+    display: flex; flex-direction: column; gap: 10px;
+    text-decoration: none; color: inherit;
+    transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+  }
+  .persona:hover { transform: translateY(-2px); background: var(--panel-2); border-color: var(--tone); }
+  .persona__head { display: flex; align-items: center; gap: 8px; }
+  .persona__dot { width: 8px; height: 8px; border-radius: 999px; background: var(--tone); flex: none; }
+  .persona__name { font-size: 13px; font-weight: 700; letter-spacing: -0.01em; }
+  .persona__note { font-size: 11.5px; color: var(--text-3); line-height: 1.45; }
+
+  .gate {
+    font-size: 11px; color: var(--text-2);
+    border: 1px dashed var(--line); border-radius: 8px;
+    padding: 7px 9px; background: rgba(148, 163, 184, 0.04);
+  }
+  .gate b { color: var(--text); font-weight: 600; }
+  .go { font-size: 11.5px; font-weight: 700; color: var(--tone); margin-top: auto; }
+
+  /* ---------- view cards ---------- */
+
+  .view {
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--tone, var(--text-3));
+    border-radius: 10px;
+    background: var(--panel);
+    padding: 11px 12px;
+    display: flex; flex-direction: column; gap: 6px;
+    text-decoration: none; color: inherit;
+    transition: transform 0.16s ease, background 0.16s ease;
+  }
+  .view:hover { transform: translateY(-2px); background: var(--panel-2); }
+  .view__title { font-size: 12.5px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.35; }
+  .view__list { margin: 0; padding-left: 15px; font-size: 11px; color: var(--text-3); line-height: 1.6; }
+  .view__list li::marker { color: var(--tone); }
+
+  /* ---------- core services ---------- */
+
+  .core { display: grid; grid-template-columns: repeat(4, minmax(200px, 1fr)); gap: 12px; min-width: 1080px; }
+  .svc {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(27, 36, 68, 0.95), rgba(22, 30, 56, 0.95));
+    padding: 14px;
+  }
+  .svc__title { font-size: 13px; font-weight: 700; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
+  .svc__title i {
+    width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center;
+    background: rgba(148, 163, 184, 0.12); font-style: normal; font-size: 12px;
+  }
+  .svc__desc { font-size: 11.5px; color: var(--text-2); margin: 8px 0 0; line-height: 1.55; }
+  .svc__meta {
+    margin-top: 10px; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10.5px;
+    color: var(--text-3); border-top: 1px solid var(--line-soft); padding-top: 8px;
+  }
+
+  .flowkey {
+    display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center;
+    margin-top: 18px; font-size: 11.5px; color: var(--text-3);
+  }
+  .flowkey b { color: var(--text-2); font-weight: 600; }
+  .swatch { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch i { width: 9px; height: 9px; border-radius: 999px; display: inline-block; }
+
+  /* ---------- rules strip ---------- */
+
+  section { padding: 44px 0; border-top: 1px solid var(--line-soft); margin-top: 36px; }
+  h2 { font-size: 24px; letter-spacing: -0.015em; font-weight: 700; margin: 0 0 6px; }
+  section > .wrap > p, .sub { color: var(--text-2); font-size: 14px; margin: 0 0 22px; max-width: 76ch; }
+  .rules { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .rule { border: 1px solid var(--line-soft); border-radius: 12px; padding: 14px 16px; background: rgba(22, 30, 56, 0.6); }
+  .rule__k { font-size: 10.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); }
+  .rule__v { font-size: 19px; font-weight: 700; letter-spacing: -0.015em; margin-top: 5px; }
+  .rule__n { font-size: 12px; color: var(--text-2); margin-top: 4px; line-height: 1.5; }
+
+  .source { margin-top: 26px; border: 1px solid var(--line-soft); border-radius: 14px; overflow: hidden; background: rgba(22, 30, 56, 0.6); }
+  .source__cap { padding: 12px 16px; font-size: 12px; color: var(--text-3); border-bottom: 1px solid var(--line-soft); }
+  .source img { display: block; width: 100%; height: auto; }
+
+  footer { border-top: 1px solid var(--line-soft); padding: 26px 0 96px; font-size: 12.5px; color: var(--text-3); }
+
+  @media (max-width: 900px) {
+    h1 { font-size: 27px; line-height: 34px; }
+    .rules { grid-template-columns: repeat(2, 1fr); }
+    .lane { grid-template-columns: 34px 1fr; }
+  }
+</style>
+</head>
+<body data-yanc-screen="architecture">
+
+<header>
+  <div class="wrap head">
+    <a class="brand" href="index.html">
+      <span class="brand__mark">Y</span>
+      <span>
+        <span class="brand__name">YANC Connect</span><br/>
+        <span class="brand__sub">Startup ecosystem &amp; multi-persona flowchart</span>
+      </span>
+    </a>
+    <span class="head__spacer"></span>
+    <a class="ghost" href="journey.html">Booking journey spec</a>
+    <a class="ghost" href="index.html">← Journey map</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="intro">
+    <div class="kicker">System architecture</div>
+    <h1>Six personas, one escrow ledger.</h1>
+    <p>
+      Three layers: how each persona gets in, what they see once they are in, and the services that
+      hold the whole thing together. Every card in the top two lanes opens the screen that implements it.
+    </p>
+  </div>
+
+  <div class="board">
+
+    <!-- ============ LANE 1 ============ -->
+    <div class="lane">
+      <div class="lane__rail"><span>Onboarding access</span></div>
+      <div class="lane__body">
+        <div class="cols">
+
+          <a class="persona" href="gateway.html?persona=member" style="--tone: var(--member)">
+            <span class="persona__head"><i class="persona__dot"></i><span class="persona__name">YANC Member</span></span>
+            <span class="gate"><b>Whitelist verification</b> → OTP challenge → member console</span>
+            <span class="persona__note">Cohort-funded. Credits drawn from the member wallet.</span>
+            <span class="go">Sign in →</span>
+          </a>
+
+          <a class="persona" href="gateway.html?persona=founder" style="--tone: var(--founder)">
+            <span class="persona__head"><i class="persona__dot"></i><span class="persona__name">Non-Member Founder</span></span>
+            <span class="gate"><b>Application review</b> → direct checkout, no wallet</span>
+            <span class="persona__note">Pays per session in INR; funds land in escrow immediately.</span>
+            <span class="go">Sign in →</span>
+          </a>
+
+          <a class="persona" href="gateway.html?persona=mentor" style="--tone: var(--mentor)">
+            <span class="persona__head"><i class="persona__dot"></i><span class="persona__name">Verified Mentor</span></span>
+            <span class="gate"><b>Credential vetting</b> → advisor directory listing</span>
+            <span class="persona__note">Publishes slots, rates and approved offline venues.</span>
+            <span class="go">Open advisor board →</span>
+          </a>
+
+          <a class="persona" href="gateway.html?persona=investor" style="--tone: var(--investor)">
+            <span class="persona__head"><i class="persona__dot"></i><span class="persona__name">Tiered Investor</span></span>
+            <span class="gate"><b>Tier verification</b> → dealflow + deck vault access</span>
+            <span class="persona__note">Cheque-size tier gates which dossiers are visible.</span>
+            <span class="go">Open advisor board →</span>
+          </a>
+
+          <a class="persona" href="console.html?role=ops&amp;tab=governance" style="--tone: var(--ops)">
+            <span class="persona__head"><i class="persona__dot"></i><span class="persona__name">Ops Admin</span></span>
+            <span class="gate"><b>Staff provisioning</b> → session pipeline queue</span>
+            <span class="persona__note">Confirms slots, resolves venue and scheduling conflicts.</span>
+            <span class="go">Open ops console →</span>
+          </a>
+
+          <a class="persona" href="console.html?role=fin&amp;tab=governance" style="--tone: var(--finance)">
+            <span class="persona__head"><i class="persona__dot"></i><span class="persona__name">Finance Admin</span></span>
+            <span class="gate"><b>Staff provisioning</b> → escrow &amp; payout controls</span>
+            <span class="persona__note">Runs release audits and batch wires to provider wallets.</span>
+            <span class="go">Open finance console →</span>
+          </a>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ LANE 2 ============ -->
+    <div class="lane">
+      <div class="lane__rail"><span>UI views &amp; what they see</span></div>
+      <div class="lane__body">
+        <div class="cols">
+
+          <a class="view" href="console.html?tab=mentors" style="--tone: var(--member)">
+            <span class="view__title">Directory discovery</span>
+            <ul class="view__list">
+              <li>Mentor &amp; investor directory</li>
+              <li>Team lookup</li>
+              <li>Members &amp; companies</li>
+            </ul>
+          </a>
+
+          <a class="view" href="console.html?role=nonmember&amp;tab=mentors" style="--tone: var(--founder)">
+            <span class="view__title">100% escrow checkout &amp; deck upload</span>
+            <ul class="view__list">
+              <li>Pre-session escrow hold</li>
+              <li>Deck upload, watermarked</li>
+              <li>Safe Harbor NDA on open</li>
+            </ul>
+          </a>
+
+          <a class="view" href="mentor.html" style="--tone: var(--mentor)">
+            <span class="view__title">Scheduled calls · 48h SLA</span>
+            <ul class="view__list">
+              <li>Online 45m / offline 60m</li>
+              <li>48-hour response window</li>
+              <li>Venue + 4-digit release code</li>
+            </ul>
+          </a>
+
+          <a class="view" href="console.html?tab=investors" style="--tone: var(--investor)">
+            <span class="view__title">3-point teardown memo</span>
+            <ul class="view__list">
+              <li>Thesis fit · traction · risk</li>
+              <li>Submitted post-session</li>
+              <li>Routed to the partner queue</li>
+            </ul>
+          </a>
+
+          <a class="view" href="console.html?tab=advisory" style="--tone: var(--ops)">
+            <span class="view__title">Advisory board matching</span>
+            <ul class="view__list">
+              <li>Sector · stage · need matrix</li>
+              <li>Board retainer requests</li>
+              <li>Introduction routing</li>
+            </ul>
+          </a>
+
+          <a class="view" href="governance.html#audit-ledger" style="--tone: var(--finance)">
+            <span class="view__title">Escrow release audit &amp; wallet payouts</span>
+            <ul class="view__list">
+              <li>Release audit trail</li>
+              <li>Provider wallet sweeps</li>
+              <li>Dispute remediation</li>
+            </ul>
+          </a>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ LANE 3 ============ -->
+    <div class="lane">
+      <div class="lane__rail"><span>Core system architecture</span></div>
+      <div class="lane__body">
+        <div class="core">
+
+          <div class="svc">
+            <div class="svc__title"><i>◈</i> RBAC security engine</div>
+            <p class="svc__desc">
+              Resolves persona → permission set on every request. Decides which directory rows, decks and
+              admin consoles a session may even see.
+            </p>
+            <div class="svc__meta">6 personas · 7 console roles</div>
+          </div>
+
+          <div class="svc">
+            <div class="svc__title"><i>₹</i> Escrow &amp; credit ledger</div>
+            <p class="svc__desc">
+              Single source of truth for money. Holds session funds from checkout to release, and converts
+              member credits at a fixed rate.
+            </p>
+            <div class="svc__meta">1 credit = ₹100 · dual-key release</div>
+          </div>
+
+          <div class="svc">
+            <div class="svc__title"><i>⇄</i> Event-driven PubSub</div>
+            <p class="svc__desc">
+              Every booking, deck view, escrow move and admin action is emitted as an event — which is what
+              makes the audit log immutable and replayable.
+            </p>
+            <div class="svc__meta">append-only · SHA-256 chained</div>
+          </div>
+
+          <div class="svc">
+            <div class="svc__title"><i>⚖</i> Advisory board governance</div>
+            <p class="svc__desc">
+              Advisor vetting, SLA enforcement, dispute remediation and multi-sig custody policy for
+              anything that overrides a bilateral signature.
+            </p>
+            <div class="svc__meta">quorum 4 of 5 · 24h approval SLA</div>
+          </div>
+
+        </div>
+
+        <div class="flowkey">
+          <b>Read it as:</b>
+          <span class="swatch"><i style="background: var(--member)"></i> Member</span>
+          <span class="swatch"><i style="background: var(--founder)"></i> Non-member founder</span>
+          <span class="swatch"><i style="background: var(--mentor)"></i> Verified mentor</span>
+          <span class="swatch"><i style="background: var(--investor)"></i> Tiered investor</span>
+          <span class="swatch"><i style="background: var(--ops)"></i> Ops admin</span>
+          <span class="swatch"><i style="background: var(--finance)"></i> Finance admin</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>The rules the ledger enforces</h2>
+    <p class="sub">These are the constants every screen in the demo is priced and gated against.</p>
+    <div class="rules">
+      <div class="rule">
+        <div class="rule__k">Credit rate</div>
+        <div class="rule__v">1 credit = ₹100</div>
+        <div class="rule__n">Members spend 1 credit for a 45m online call, 2 for a 60m offline session.</div>
+      </div>
+      <div class="rule">
+        <div class="rule__k">Non-member pricing</div>
+        <div class="rule__v">₹500 / ₹1,500</div>
+        <div class="rule__n">Direct INR checkout, 100% held in escrow before the session is confirmed.</div>
+      </div>
+      <div class="rule">
+        <div class="rule__k">Response SLA</div>
+        <div class="rule__v">48 hours</div>
+        <div class="rule__n">Mentor must accept, reschedule or decline before the hold auto-reverses.</div>
+      </div>
+      <div class="rule">
+        <div class="rule__k">Release protocol</div>
+        <div class="rule__v">Dual-key</div>
+        <div class="rule__n">Founder's 4-digit venue code plus advisor confirmation. Override needs quorum.</div>
+      </div>
+    </div>
+
+    <div class="source">
+      <div class="source__cap">Source flowchart this page was drawn from — supplied as the reference model for the demo.</div>
+      <img alt="Original YANC Connect startup ecosystem and multi-persona flowchart" src="reference/ecosystem-flowchart.jpg"/>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">YANC Connect · prototype only — no real capital, custody or personal data.</div>
+</footer>
+
+<script src="assets/flow.js" defer></script>
+</body>
+</html>

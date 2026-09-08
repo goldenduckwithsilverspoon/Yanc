@@ -1,0 +1,7 @@
+node_modules/
+.smoke-shots/
+.font-cache/
+.tw-*/
+__pycache__/
+dbg.mjs
+.DS_Store

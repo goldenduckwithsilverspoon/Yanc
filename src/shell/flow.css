@@ -1,0 +1,367 @@
+/* ------------------------------------------------------------------
+   YANC 1-on-1 Connect — demo shell chrome.
+   Scoped to .yanc-* so it never collides with a screen's own Tailwind
+   config (the screens ship four different colour systems).
+   ------------------------------------------------------------------ */
+
+:root {
+  --yanc-ink: #0b1220;
+  --yanc-ink-soft: #5b6b7f;
+  --yanc-line: rgba(15, 23, 42, 0.10);
+  --yanc-surface: rgba(255, 255, 255, 0.86);
+  --yanc-accent: #ff5c35;
+  --yanc-ok: #00a389;
+  --yanc-warn: #f5a623;
+  --yanc-font: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.yanc-has-chrome { padding-bottom: 76px !important; }
+
+/* ---------------- chrome bar ------------------------------------- */
+
+.yanc-chrome {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 2147483000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100vw - 24px);
+  padding: 8px 10px;
+  border-radius: 14px;
+  border: 1px solid var(--yanc-line);
+  background: var(--yanc-surface);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.14), 0 2px 6px rgba(15, 23, 42, 0.06);
+  font-family: var(--yanc-font);
+  color: var(--yanc-ink);
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.yanc-chrome__brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+  color: inherit;
+  padding-right: 10px;
+  border-right: 1px solid var(--yanc-line);
+}
+
+.yanc-chrome__mark {
+  width: 22px; height: 22px;
+  border-radius: 7px;
+  background: #0b1220;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.yanc-chrome__brandtext { font-weight: 700; letter-spacing: -0.01em; }
+
+.yanc-chrome__where { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.yanc-chrome__step {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--yanc-accent);
+}
+.yanc-chrome__title {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.yanc-chrome__spacer { flex: 1 1 auto; min-width: 4px; }
+
+.yanc-chrome__persona {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--yanc-line);
+  background: rgba(15, 23, 42, 0.03);
+  color: var(--yanc-ink-soft);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.yanc-chrome__persona:hover { background: rgba(15, 23, 42, 0.06); }
+.yanc-chrome__dot {
+  width: 6px; height: 6px; border-radius: 999px;
+  background: #cbd5e1;
+}
+.yanc-chrome.is-authed .yanc-chrome__dot { background: var(--yanc-ok); }
+.yanc-chrome.is-authed .yanc-chrome__persona { color: var(--yanc-ink); }
+
+.yanc-chrome__nav { display: flex; align-items: center; gap: 6px; }
+
+.yanc-chrome__btn {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9px;
+  border: 1px solid var(--yanc-line);
+  background: #fff;
+  color: var(--yanc-ink);
+  padding: 6px 11px;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+}
+.yanc-chrome__btn:hover { background: #f6f8fa; border-color: rgba(15, 23, 42, 0.2); }
+.yanc-chrome__btn:active { transform: scale(0.985); }
+.yanc-chrome__btn--primary { background: #0b1220; color: #fff; border-color: #0b1220; }
+.yanc-chrome__btn--primary:hover { background: #1b2436; border-color: #1b2436; }
+.yanc-chrome__btn--ghost { background: transparent; }
+.yanc-chrome__btn.is-disabled { opacity: 0.4; cursor: default; }
+
+/* ---------------- screen menu ------------------------------------ */
+
+.yanc-menu {
+  position: absolute;
+  right: 8px;
+  bottom: calc(100% + 10px);
+  width: 288px;
+  padding: 6px;
+  border-radius: 14px;
+  border: 1px solid var(--yanc-line);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.16);
+  max-height: 62vh;
+  overflow: auto;
+}
+.yanc-menu[hidden] { display: none; }
+.yanc-menu__group {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--yanc-ink-soft);
+  padding: 9px 10px 5px;
+}
+.yanc-menu__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  text-decoration: none;
+  color: var(--yanc-ink);
+  font-weight: 600;
+}
+.yanc-menu__item em {
+  font-style: normal;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--yanc-ink-soft);
+}
+.yanc-menu__item:hover { background: rgba(15, 23, 42, 0.05); }
+.yanc-menu__item.is-current { background: rgba(255, 92, 53, 0.10); color: #b8340f; }
+.yanc-menu__item.is-current em { color: #b8340f; }
+
+/* ---------------- toasts ------------------------------------------ */
+
+.yanc-toast-host {
+  position: fixed;
+  right: 16px;
+  bottom: 84px;
+  z-index: 2147483001;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: min(360px, calc(100vw - 32px));
+  font-family: var(--yanc-font);
+  pointer-events: none;
+}
+
+.yanc-toast {
+  position: relative;
+  pointer-events: auto;
+  padding: 12px 34px 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--yanc-line);
+  border-left: 3px solid var(--yanc-ink);
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.16);
+  color: var(--yanc-ink);
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  transition: opacity 0.24s ease, transform 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.yanc-toast.is-in { opacity: 1; transform: none; }
+.yanc-toast--ok   { border-left-color: var(--yanc-ok); }
+.yanc-toast--warn { border-left-color: var(--yanc-warn); }
+.yanc-toast--info { border-left-color: #4338ca; }
+
+.yanc-toast__title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--yanc-ink-soft);
+  margin-bottom: 3px;
+}
+.yanc-toast__body { font-size: 13px; line-height: 1.45; white-space: pre-line; }
+.yanc-toast__action {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #4338ca;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(67, 56, 202, 0.35);
+}
+.yanc-toast__action:hover { border-bottom-color: #4338ca; }
+.yanc-toast__close {
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 22px; height: 22px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--yanc-ink-soft);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+.yanc-toast__close:hover { background: rgba(15, 23, 42, 0.06); }
+
+/* ---------------- injected cross-screen state --------------------- */
+
+.yanc-injected {
+  font-family: var(--yanc-font);
+  margin: 18px auto;
+  max-width: 1200px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(67, 56, 202, 0.22);
+  background: linear-gradient(180deg, rgba(67, 56, 202, 0.05), rgba(67, 56, 202, 0.015));
+  color: var(--yanc-ink);
+}
+.yanc-injected--tight { padding: 10px 16px; }
+.yanc-injected__head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.yanc-injected__tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: #4338ca;
+  border: 1px solid rgba(67, 56, 202, 0.28);
+  background: rgba(67, 56, 202, 0.06);
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+.yanc-injected__sub { font-size: 12px; color: var(--yanc-ink-soft); }
+.yanc-injected__list { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; }
+.yanc-injected__row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: #fff;
+  border: 1px solid var(--yanc-line);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.yanc-injected__row div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.yanc-injected__row strong { font-size: 13px; font-weight: 700; }
+.yanc-injected__row span { font-size: 11.5px; color: var(--yanc-ink-soft); }
+.yanc-injected__quote {
+  font-size: 11.5px; font-style: italic; color: var(--yanc-ink-soft);
+  margin-top: 4px; max-width: 70ch;
+}
+.yanc-injected__row a { font-size: 12px; font-weight: 700; color: #4338ca; text-decoration: none; white-space: nowrap; }
+.yanc-injected__pill {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  color: #8a5a00; background: #fef6e9; border: 1px solid rgba(245, 166, 35, 0.35);
+  border-radius: 999px; padding: 4px 9px; white-space: nowrap;
+}
+
+/* ---------------- injected vault view ----------------------------- */
+
+.yanc-vault { font-family: var(--yanc-font); }
+.yanc-vault__card {
+  background: #fff;
+  border: 1px solid #cbd6e2;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.yanc-vault__head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  padding: 20px; border-bottom: 1px solid #dfe3eb; background: #f5f8fa;
+}
+.yanc-vault__head h2 { margin: 0; font-size: 18px; font-weight: 700; color: #001e3d; }
+.yanc-vault__head p { margin: 4px 0 0; font-size: 13px; color: #66788a; max-width: 62ch; }
+.yanc-vault__chip {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: #00a389; background: #e6f8f5; border: 1px solid rgba(0, 163, 137, 0.3);
+  border-radius: 999px; padding: 4px 10px; white-space: nowrap;
+}
+.yanc-vault__table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.yanc-vault__table th {
+  text-align: left; font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: #2d3e50; background: #f5f8fa; padding: 10px 20px; border-bottom: 1px solid #dfe3eb;
+}
+.yanc-vault__table td { padding: 14px 20px; border-bottom: 1px solid #dfe3eb; color: #486082; vertical-align: middle; }
+.yanc-vault__table tr:hover td { background: #f5f8fa; }
+.yanc-vault__table strong { color: #001e3d; font-weight: 600; }
+.yanc-vault__badge {
+  font-size: 10.5px; font-weight: 700; border-radius: 999px; padding: 3px 9px;
+  color: #2d3e50; background: #eef2f6; border: 1px solid #dfe3eb; white-space: nowrap;
+}
+.yanc-vault__foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 14px 20px; font-size: 12px; color: #66788a;
+}
+.yanc-vault__foot a { color: #ff5c35; font-weight: 700; text-decoration: none; }
+
+/* ---------------- injected audit entry ---------------------------- */
+
+.yanc-audit {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "tag title time" "tag detail detail";
+  gap: 2px 10px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.07);
+  font-family: var(--yanc-font);
+  animation: yanc-fade 0.4s ease;
+}
+@keyframes yanc-fade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.yanc-audit__tag {
+  grid-area: tag;
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: #00a389; background: #e6f8f5; border: 1px solid rgba(0, 163, 137, 0.3);
+  border-radius: 999px; padding: 3px 8px;
+}
+.yanc-audit__title { grid-area: title; font-size: 13px; font-weight: 700; color: #0b1220; }
+.yanc-audit__detail { grid-area: detail; font-size: 12px; color: #5b6b7f; }
+.yanc-audit__time { grid-area: time; font-size: 11px; color: #8a97a8; font-variant-numeric: tabular-nums; }
+
+/* ---------------- link affordances -------------------------------- */
+
+.yanc-stub { cursor: help; }
+
+@media (max-width: 860px) {
+  .yanc-chrome { gap: 8px; padding: 7px 8px; font-size: 11px; }
+  .yanc-chrome__brandtext,
+  .yanc-chrome__where { display: none; }
+  .yanc-chrome__title { max-width: 120px; }
+}

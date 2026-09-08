@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="stylesheet" href="assets/tw/gateway.css"/>
+<title>Authentication Gateway | YANC 1-on-1 Connect</title>
+<link rel="stylesheet" href="assets/fonts.css"/>
+
+
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      vertical-align: middle;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .custom-backdrop {
+      backdrop-filter: blur(28px) saturate(190%);
+      -webkit-backdrop-filter: blur(28px) saturate(190%);
+    }
+    .apple-shadow {
+      box-shadow: 0 20px 48px -12px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.02);
+    }
+  </style>
+<link rel="stylesheet" href="assets/flow.css"/>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+<meta name="robots" content="noindex"/>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md min-h-full flex flex-col antialiased selection:bg-secondary-container selection:text-on-secondary-fixed" data-yanc-screen="gateway">
+<!-- Apple Frosted Glass Top Navigation Anchor (Shared Component Execution) -->
+<header class="docked full-width top-0 sticky z-50 bg-surface-bright/80 backdrop-blur-xl shadow-sm border-b border-outline-variant/30">
+<div class="flex justify-between items-center w-full px-gutter-desktop max-w-container-max mx-auto h-16">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center font-bold text-sm tracking-tighter">
+          Y
+        </div>
+<div class="flex flex-col">
+<span class="text-headline-sm font-headline-sm font-semibold tracking-tight text-on-surface leading-none">YANC Connect</span>
+<span class="text-caption-micro font-caption-micro text-secondary font-medium tracking-tight">connect.yanc.in</span>
+</div>
+</div>
+<!-- Safe Harbor Protocol Status & Actions -->
+<div class="flex items-center gap-space-md">
+<div class="hidden sm:flex items-center gap-2 px-space-sm py-1 rounded-full bg-surface-container-low border border-outline-variant/40">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="text-label-pill font-label-pill text-on-surface-variant font-medium">Safe Harbor Protocol v2.4 Active</span>
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="verified_user">verified_user</span>
+</div>
+<a class="hidden md:flex items-center gap-1 text-label-pill font-label-pill text-secondary hover:text-on-surface transition-colors py-1 px-space-xs" href="#compliance">
+<span>Help &amp; Compliance</span>
+<span class="material-symbols-outlined text-sm" data-icon="help_outline">help_outline</span>
+</a>
+<div class="h-4 w-px bg-outline-variant/30 hidden md:block"></div>
+<button class="text-label-pill font-label-pill font-semibold px- space-sm py-1.5 rounded-lg border border-outline-variant/50 hover:bg-surface-container-high/50 text-on-surface transition-all active:scale-[0.985]">
+          Institutional Access
+        </button>
+</div>
+</div>
+</header>
+<!-- Main Split Canvas -->
+<main class="flex-1 max-w-container-max w-full mx-auto px-gutter-mobile md:px-gutter-tablet lg:px-gutter-desktop py-space-xl flex items-center">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-2xl w-full items-center">
+<!-- Left Hero Column: Venture Security & Ecosystem Depth -->
+<div class="lg:col-span-6 flex flex-col space-y-space-xl">
+<div class="space-y-space-sm">
+<div class="inline-flex items-center gap-2 px-space-sm py-1 rounded-full bg-secondary-container/40 border border-secondary-container text-on-secondary-fixed text-label-pill font-label-pill">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="lock">lock</span>
+<span>Cryptographic Role-Aware Gateway</span>
+</div>
+<h1 class="text-display-hero-mobile lg:text-display-hero font-display-hero font-bold tracking-tight text-on-surface leading-tight">
+            Institutional-grade 1-on-1 advisory &amp; capital access.
+          </h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-lg">
+            High-trust infrastructure connecting venture founders with tier-one angels, scaleup mentors, and institutional syndicate partners under mutual legal protection.
+          </p>
+</div>
+<!-- Verified Credibility Track Badges -->
+<div class="space-y-space-xs">
+<p class="text-caption-micro font-caption-micro text-secondary font-semibold uppercase tracking-wider">Verified Credibility Architecture</p>
+<div class="flex flex-wrap gap-2">
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant/40 shadow-sm text-label-pill font-label-pill text-on-surface">
+<span class="material-symbols-outlined text-base text-secondary" data-icon="verified">verified</span>
+<span>Angel Investors</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant/40 shadow-sm text-label-pill font-label-pill text-on-surface">
+<span class="material-symbols-outlined text-base text-secondary" data-icon="domain">domain</span>
+<span>Scaleup Mentors</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant/40 shadow-sm text-label-pill font-label-pill text-on-surface">
+<span class="material-symbols-outlined text-base text-amber-600" data-icon="hotel_class">hotel_class</span>
+<span>YC Alumni Cohort</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant/40 shadow-sm text-label-pill font-label-pill text-on-surface">
+<span class="material-symbols-outlined text-base text-secondary" data-icon="shield">shield</span>
+<span>Mutual Safe Harbor NDA</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant/40 shadow-sm text-label-pill font-label-pill text-on-surface">
+<span class="material-symbols-outlined text-base text-secondary" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span>Simulated Escrow Protection</span>
+</div>
+</div>
+</div>
+<!-- Institutional High-Trust Metric Bento -->
+<div class="grid grid-cols-3 gap-3 p-space-md rounded-2xl bg-surface-container-lowest border border-outline-variant/30 apple-shadow">
+<div class="space-y-1">
+<span class="text-caption-micro font-caption-micro text-secondary block font-medium">Secured Capital</span>
+<span class="text-headline-md font-headline-md font-bold text-on-surface tracking-tight">₹14.8 Cr+</span>
+<span class="text-caption-micro font-caption-micro text-emerald-700 flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs" data-icon="security">security</span> Escrow Protected
+            </span>
+</div>
+<div class="space-y-1 border-x border-outline-variant/20 px-3">
+<span class="text-caption-micro font-caption-micro text-secondary block font-medium">Completed Calls</span>
+<span class="text-headline-md font-headline-md font-bold text-on-surface tracking-tight">450+</span>
+<span class="text-caption-micro font-caption-micro text-secondary">Verified Sessions</span>
+</div>
+<div class="space-y-1">
+<span class="text-caption-micro font-caption-micro text-secondary block font-medium">Satisfaction</span>
+<span class="text-headline-md font-headline-md font-bold text-on-surface tracking-tight">4.94</span>
+<span class="text-caption-micro font-caption-micro text-secondary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs text-amber-500" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span> Avg Advisor Rating
+            </span>
+</div>
+</div>
+<!-- System Governance Micro Bar -->
+<div class="flex items-center gap-3 text-caption-micro font-caption-micro text-secondary">
+<span class="flex h-2 w-2 rounded-full bg-outline"></span>
+<span>Dual-key Escrow Release Protocol enforced on all advisory bookings.</span>
+</div>
+</div>
+<!-- Right Column: Apple-styled Frosted Glass Authentication Pod -->
+<div class="lg:col-span-6">
+<div class="bg-surface-container-lowest/80 custom-backdrop rounded-3xl border border-outline-variant/30 p-6 md:p-8 apple-shadow relative overflow-hidden">
+<!-- Card Header & Identity Prompt -->
+<div class="flex items-start justify-between mb-space-md">
+<div>
+<h2 class="text-headline-md font-headline-md font-bold text-on-surface tracking-tight">Sign In</h2>
+<p class="text-body-sm font-body-sm text-secondary mt-0.5">Choose your assigned clearance to continue to console.</p>
+</div>
+<div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center border border-outline-variant/30 text-on-surface">
+<span class="material-symbols-outlined text-xl" data-icon="fingerprint">fingerprint</span>
+</div>
+</div>
+<!-- Cupertino Segmented Role Picker -->
+<div class="mb-space-md">
+<label class="block text-caption-micro font-caption-micro uppercase tracking-wider font-semibold text-secondary mb-2">Select Security Persona</label>
+<div class="grid grid-cols-3 sm:grid-cols-5 p-1 bg-surface-container-low rounded-xl border border-outline-variant/30 gap-1 text-center" id="role-selector">
+<button class="role-btn py-1.5 px-2 text-label-pill font-label-pill font-semibold rounded-lg bg-surface-container-lowest text-on-surface shadow-sm transition-all" id="role-founder" onclick="setRole('founder')" type="button">Founder</button>
+<button class="role-btn py-1.5 px-2 text-label-pill font-label-pill text-secondary hover:text-on-surface rounded-lg transition-all" id="role-member" onclick="setRole('member')" type="button">Member</button>
+<button class="role-btn py-1.5 px-2 text-label-pill font-label-pill text-secondary hover:text-on-surface rounded-lg transition-all" id="role-investor" onclick="setRole('investor')" type="button">Investor</button>
+<button class="role-btn py-1.5 px-2 text-label-pill font-label-pill text-secondary hover:text-on-surface rounded-lg transition-all" id="role-mentor" onclick="setRole('mentor')" type="button">Mentor</button>
+<button class="role-btn py-1.5 px-2 text-label-pill font-label-pill text-secondary hover:text-on-surface rounded-lg transition-all col-span-3 sm:col-span-1" id="role-admin" onclick="setRole('admin')" type="button">Super Admin</button>
+</div>
+</div>
+<!-- Seeded Personas Demo Selector (Apple HIG quick-fill card) -->
+<div class="mb-space-md bg-surface-container-low/60 rounded-xl p-3 border border-outline-variant/30">
+<div class="flex items-center justify-between mb-2">
+<span class="text-caption-micro font-caption-micro font-semibold text-secondary uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="bolt">bolt</span>
+                Interactive Demo Auto-Fill
+              </span>
+<span class="text-caption-micro font-caption-micro text-secondary" id="active-persona-badge">YC W26 Cohort</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="persona-grid">
+<!-- Persona 1: Founder -->
+<button class="persona-card text-left p-2 rounded-lg bg-surface-container-lowest border border-outline-variant/30 hover:border-outline transition-all group" onclick="fillCredentials('arjun.m@stealthai.io', 'StealthAI•2025', 'founder', 'Arjun Mehta')" type="button">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center font-bold text-xs">AM</div>
+<div class="overflow-hidden">
+<p class="text-label-pill font-label-pill font-semibold text-on-surface truncate">Arjun Mehta</p>
+<p class="text-caption-micro font-caption-micro text-secondary truncate">Stealth AI Founder</p>
+</div>
+</div>
+</button>
+<!-- Persona 2: YANC Member (YC) -->
+<button class="persona-card text-left p-2 rounded-lg bg-surface-container-lowest border border-outline-variant/30 hover:border-outline transition-all group border-secondary" onclick="fillCredentials('priya@nexaflow.ai', 'NexaYC•W26Secure', 'member', 'Priya Nair')" type="button">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary-fixed flex items-center justify-center font-bold text-xs">PN</div>
+<div class="overflow-hidden">
+<p class="text-label-pill font-label-pill font-semibold text-on-surface truncate">Priya Nair (250 Cr)</p>
+<p class="text-caption-micro font-caption-micro text-secondary truncate">YC W26 NexaFlow</p>
+</div>
+</div>
+</button>
+<!-- Persona 3: Investor -->
+<button class="persona-card text-left p-2 rounded-lg bg-surface-container-lowest border border-outline-variant/30 hover:border-outline transition-all group" onclick="fillCredentials('aarav@singhania.vc', 'Singhania•Cap2025', 'investor', 'Aarav Singhania')" type="button">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center font-bold text-xs">AS</div>
+<div class="overflow-hidden">
+<p class="text-label-pill font-label-pill font-semibold text-on-surface truncate">Aarav Singhania</p>
+<p class="text-caption-micro font-caption-micro text-secondary truncate">Singhania Ventures</p>
+</div>
+</div>
+</button>
+<!-- Persona 4: Scaleup Mentor -->
+<button class="persona-card text-left p-2 rounded-lg bg-surface-container-lowest border border-outline-variant/30 hover:border-outline transition-all group" onclick="fillCredentials('vikram@ex-finflow.com', 'MentorPass•V9', 'mentor', 'Vikramaditya Roy')" type="button">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center font-bold text-xs">VR</div>
+<div class="overflow-hidden">
+<p class="text-label-pill font-label-pill font-semibold text-on-surface truncate">Vikramaditya Roy</p>
+<p class="text-caption-micro font-caption-micro text-secondary truncate">Ex-CTO @ FinFlow</p>
+</div>
+</div>
+</button>
+</div>
+<!-- Persona 5: Super Admin -->
+<button class="w-full mt-2 text-left p-2 rounded-lg bg-surface-container-lowest border border-outline-variant/30 hover:border-outline transition-all flex items-center justify-between" onclick="fillCredentials('devansh@yanc.in', 'Custody•Protocol•99', 'admin', 'Devansh Malhotra')" type="button">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-xs">DM</div>
+<div>
+<span class="text-label-pill font-label-pill font-semibold text-on-surface">Devansh Malhotra</span>
+<span class="text-caption-micro font-caption-micro text-secondary ml-1">— Governance &amp; Custody Lead (Super Admin)</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="admin_panel_settings">admin_panel_settings</span>
+</button>
+</div>
+<!-- Authentication Form Elements -->
+<form class="space-y-space-md" onsubmit="handleFormSubmit(event)">
+<div>
+<label class="block text-label-pill font-label-pill font-semibold text-on-surface mb-1" for="email">Corporate Email Address</label>
+<div class="relative rounded-xl shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-lg" data-icon="mail">mail</span>
+</div>
+<input class="block w-full pl-10 pr-3 h-11 bg-surface-container-lowest border border-outline-variant/50 rounded-xl text-body-md font-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-150" id="email" placeholder="founder@venture.co" required="" type="email" value="priya@nexaflow.ai"/>
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-1">
+<label class="block text-label-pill font-label-pill font-semibold text-on-surface" for="password">Cryptographic Passphrase</label>
+<a class="text-caption-micro font-caption-micro font-medium text-secondary hover:text-on-surface transition-colors" href="#reset">Emergency Recovery</a>
+</div>
+<div class="relative rounded-xl shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-lg" data-icon="key">key</span>
+</div>
+<input class="block w-full pl-10 pr-10 h-11 bg-surface-container-lowest border border-outline-variant/50 rounded-xl text-body-md font-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-150" id="password" placeholder="••••••••••••••••" required="" type="password" value="NexaYC•W26Secure"/>
+<button class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-secondary hover:text-on-surface" onclick="togglePasswordVisibility()" type="button">
+<span class="material-symbols-outlined text-lg" data-icon="visibility" id="pw-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember Me & Security Policy -->
+<div class="flex items-center justify-between pt-1">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-0 border-outline-variant" type="checkbox"/>
+<span class="text-caption-micro font-caption-micro text-secondary select-none">Remember hardware key for 30 days</span>
+</label>
+<span class="text-caption-micro font-caption-micro text-emerald-800 flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-xs" data-icon="enhanced_encryption">enhanced_encryption</span>
+                256-bit TLS
+              </span>
+</div>
+<!-- Primary Submission Action -->
+<button class="w-full h-11 bg-primary text-on-primary rounded-xl font-label-pill text-label-pill font-semibold flex items-center justify-center gap-2 shadow-sm hover:opacity-90 active:scale-[0.985] transition-all duration-100" id="submit-btn" type="submit">
+<span id="btn-text">Sign in to Member Console</span>
+<span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</form>
+<!-- Routing Indicator Pill -->
+<div class="mt-3 p-2 rounded-lg bg-surface-container-low text-center flex items-center justify-center gap-1 text-caption-micro font-caption-micro text-secondary">
+<span>Target Destination:</span>
+<span class="font-semibold text-on-surface" id="target-route">connect.yanc.in/cohort/w26-mentee</span>
+</div>
+<!-- Bottom Micro Policy & Directory Link -->
+<div class="mt- space-md pt-4 border-t border-outline-variant/20 flex flex-col sm:flex-row items-center justify-between text-caption-micro font-caption-micro text-secondary gap-2">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-secondary" data-icon="gavel">gavel</span>
+              Safe Harbor NDA Active
+            </span>
+<a class="text-secondary hover:text-on-surface font-semibold underline underline-offset-2 flex items-center gap-0.5 transition-colors" href="#directory">
+              Browse Public Advisor Directory
+              <span class="material-symbols-outlined text-xs" data-icon="north_east">north_east</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Minimal Footer Dock -->
+<footer class="w-full border-t border-outline-variant/30 py-space-md bg-surface-container-lowest/50">
+<div class="max-w-container-max mx-auto px-gutter-desktop flex flex-col md:flex-row items-center justify-between text-caption-micro font-caption-micro text-secondary gap-2">
+<div class="flex items-center gap-4">
+<span>© 2025 YANC Institutional Syndicate.</span>
+<span>Escrow Custody Reg ID: #IND-VC-88219</span>
+</div>
+<div class="flex items-center gap-6">
+<a class="hover:text-on-surface transition-colors" href="#safe-harbor">Safe Harbor Protocol</a>
+<a class="hover:text-on-surface transition-colors" href="#escrow-rules">Audit Ledger Verification</a>
+<a class="hover:text-on-surface transition-colors flex items-center gap-1" href="#status">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          Cluster 1-DEL Operational
+        </a>
+</div>
+</div>
+</footer>
+<!-- Interactive Logic for Demo Switching -->
+<script>
+    let currentRole = 'member';
+
+    const roleData = {
+      founder: {
+        label: 'Founder / Guest',
+        buttonText: 'Sign in to Founder Portal',
+        route: 'connect.yanc.in/founder/deck-pitch',
+        badge: 'Stealth AI Founder'
+      },
+      member: {
+        label: 'YANC Member',
+        buttonText: 'Sign in to Member Console',
+        route: 'connect.yanc.in/cohort/w26-mentee',
+        badge: 'YC W26 Cohort'
+      },
+      investor: {
+        label: 'Investor',
+        buttonText: 'Access Syndicate Room',
+        route: 'connect.yanc.in/syndicate/dealflow',
+        badge: 'Institutional Partner'
+      },
+      mentor: {
+        label: 'Mentor',
+        buttonText: 'Access Advisor Calendar',
+        route: 'connect.yanc.in/advisory/calendar',
+        badge: 'Scaleup Mentor'
+      },
+      admin: {
+        label: 'Super Admin',
+        buttonText: 'Initialize Custody Ledger',
+        route: 'connect.yanc.in/gov/escrow-custody',
+        badge: 'Root Governance'
+      }
+    };
+
+    function setRole(role) {
+      currentRole = role;
+      
+      // Update role buttons
+      const buttons = document.querySelectorAll('.role-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-sm');
+        btn.classList.add('text-secondary');
+      });
+
+      const activeBtn = document.getElementById(`role-${role}`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-sm');
+        activeBtn.classList.remove('text-secondary');
+      }
+
+      // Update UI components
+      const data = roleData[role];
+      document.getElementById('btn-text').textContent = data.buttonText;
+      document.getElementById('target-route').textContent = data.route;
+      document.getElementById('active-persona-badge').textContent = data.badge;
+    }
+
+    function fillCredentials(email, password, role, name) {
+      document.getElementById('email').value = email;
+      document.getElementById('password').value = password;
+      setRole(role);
+      
+      // Micro-flash effect on submit button
+      const btn = document.getElementById('submit-btn');
+      btn.classList.add('scale-[0.985]');
+      setTimeout(() => btn.classList.remove('scale-[0.985]'), 150);
+    }
+
+    function togglePasswordVisibility() {
+      const pwInput = document.getElementById('password');
+      const icon = document.getElementById('pw-icon');
+      if (pwInput.type === 'password') {
+        pwInput.type = 'text';
+        icon.textContent = 'visibility_off';
+      } else {
+        pwInput.type = 'password';
+        icon.textContent = 'visibility';
+      }
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const originalText = document.getElementById('btn-text').textContent;
+      document.getElementById('btn-text').textContent = 'Validating Safe Harbor Token...';
+      btn.disabled = true;
+      btn.classList.add('opacity-80');
+
+      setTimeout(() => {
+        alert(`Authentication Successful. Redirecting session to: ${roleData[currentRole].route}`);
+        document.getElementById('btn-text').textContent = originalText;
+        btn.disabled = false;
+        btn.classList.remove('opacity-80');
+      }, 700);
+    }
+  </script>
+<script src="assets/flow.js" defer></script>
+</body></html>

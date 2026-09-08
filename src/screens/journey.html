@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>YANC Platform Spec &amp; Interactive Flow Diagram | Direction 3: Architectural Wireframe</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+          },
+          colors: {
+            blueprint: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              200: '#e2e8f0',
+              300: '#cbd5e1',
+              400: '#94a3b8',
+              500: '#64748b',
+              600: '#475569',
+              700: '#334155',
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#020617',
+            },
+            figma: {
+              purple: '#7c3aed',
+              blue: '#2563eb',
+              cyan: '#0891b2',
+              emerald: '#059669',
+              amber: '#d97706',
+              rose: '#e11d48'
+            }
+          },
+          boxShadow: {
+            node: '0 4px 14px 0 rgba(15, 23, 42, 0.06), 0 1px 2px 0 rgba(15, 23, 42, 0.04)',
+            nodeHover: '0 10px 25px -3px rgba(15, 23, 42, 0.1), 0 4px 6px -2px rgba(15, 23, 42, 0.05)',
+            callout: '0 8px 20px rgba(0,0,0,0.06)',
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    /* Technical Grid Paper Background (FigJam / System Architecture feel) */
+    .figjam-grid {
+      background-color: #f8fafc;
+      background-image: 
+        radial-gradient(circle, #cbd5e1 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    
+    /* Flow Connector Line SVG styling */
+    .connector-line {
+      stroke-dasharray: 4;
+      animation: dash 30s linear infinite;
+    }
+    @keyframes dash {
+      to {
+        stroke-dashoffset: -1000;
+      }
+    }
+
+    /* Custom thin scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Interactive state highlighting */
+    .active-branch {
+      border-color: #2563eb !important;
+      background-color: #ffffff !important;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-blueprint-900 figjam-grid flex flex-col antialiased selection:bg-blueprint-900 selection:text-white">
+<!-- ================= TOP ARCHITECTURAL CONTROL BAR ================= -->
+<header class="bg-white/95 backdrop-blur-md border-b border-blueprint-200 sticky top-0 z-40 px-4 lg:px-8 py-2.5">
+<div class="max-w-[1700px] mx-auto flex flex-wrap items-center justify-between gap-4">
+<!-- Brand & Spec Metadata -->
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-lg bg-blueprint-950 flex items-center justify-center text-white font-mono font-bold text-sm shadow-xs">
+          Y3
+        </div>
+<div>
+<div class="flex items-center space-x-2">
+<h1 class="font-bold text-sm tracking-tight text-blueprint-950 font-mono">YANC System Architecture • Direction 3</h1>
+<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 font-semibold">FIGJAM USER-FLOW SPEC</span>
+<span class="hidden sm:inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">Interactive Runtime</span>
+</div>
+<p class="text-[11px] text-blueprint-500 mt-0.5">Whiteboard Translation: Master-Mentee Module Flow &amp; Decision Matrix</p>
+</div>
+</div>
+<!-- Live Interactive Mode Switcher (Syncs the dynamic flow simulation) -->
+<div class="flex items-center gap-1.5 p-1 bg-blueprint-100/90 rounded-xl border border-blueprint-200 text-xs">
+<span class="text-[10px] font-mono font-semibold text-blueprint-500 uppercase px-2">Flow Mode:</span>
+<button class="px-2.5 py-1 rounded-lg text-xs font-medium bg-white text-blueprint-900 shadow-xs border border-blueprint-200 font-mono transition-all" id="sim-member" onclick="setFlowSim('member')">
+          ✓ Member (4 Credits)
+        </button>
+<button class="px-2.5 py-1 rounded-lg text-xs font-medium text-blueprint-600 hover:text-blueprint-900 font-mono transition-all" id="sim-guest" onclick="setFlowSim('guest')">
+          Unregistered Guest (INR)
+        </button>
+<button class="px-2.5 py-1 rounded-lg text-xs font-medium text-blueprint-600 hover:text-blueprint-900 font-mono transition-all" id="sim-investor" onclick="setFlowSim('investor_flow')">
+          Investor Pipeline (Deck S3)
+        </button>
+</div>
+<!-- Viewport & Legend Controls -->
+<div class="flex items-center space-x-3 text-xs">
+<div class="hidden md:flex items-center gap-2 border-r border-blueprint-200 pr-3">
+<span class="inline-flex items-center gap-1 text-[11px] font-mono text-blueprint-600">
+<span class="w-2 h-2 rounded-full bg-blue-500"></span> Decision
+          </span>
+<span class="inline-flex items-center gap-1 text-[11px] font-mono text-blueprint-600">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span> Escrow Hook
+          </span>
+<span class="inline-flex items-center gap-1 text-[11px] font-mono text-blueprint-600">
+<span class="w-2 h-2 rounded-full bg-figma-purple"></span> Role Gate
+          </span>
+</div>
+<button class="px-3 py-1 text-[11px] font-mono rounded-lg border border-blueprint-300 hover:bg-blueprint-100 bg-white text-blueprint-700 transition-colors" onclick="resetFlowDefaults()">
+          Reset Flow
+        </button>
+</div>
+</div>
+</header>
+<!-- ================= FLOW CANVAS WRAPPER ================= -->
+<main class="max-w-[1700px] w-full mx-auto px-4 lg:px-8 py-6 flex-1 flex flex-col space-y-6">
+<!-- Top Architecture Flow Banner & Whiteboard Reference Callout -->
+<div class="bg-white/90 backdrop-blur rounded-2xl border border-blueprint-200 p-4 lg:p-5 shadow-node flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-blueprint-900 text-white uppercase tracking-wider">FIGJAM / SPEC BOARD</span>
+<span class="text-xs text-blueprint-500 font-mono">Synced to Whiteboard: Login/Signup → Category Selection → Side Tab [Mentors | Investors | ABAS]</span>
+</div>
+<h2 class="text-lg font-bold tracking-tight text-blueprint-950 font-sans">
+          Interactive User-Journey &amp; Logic Decision Tree Matrix
+        </h2>
+<p class="text-xs text-blueprint-600 max-w-3xl">
+          Click the steps or flow branches below to simulate real-time routing from identity validation down to online video room generation or offline venue reservations.
+        </p>
+</div>
+<!-- Quick Step Jump Tabs directly reflecting the whiteboard layout -->
+<div class="flex items-center gap-1 p-1 bg-blueprint-100 rounded-xl border border-blueprint-200 text-xs font-mono shrink-0">
+<a class="px-2.5 py-1 rounded-lg bg-white shadow-xs text-blueprint-950 font-medium" href="#node-entry">1. Entry Logic</a>
+<span class="text-blueprint-300">→</span>
+<a class="px-2.5 py-1 rounded-lg hover:bg-white/60 text-blueprint-600 font-medium" href="#node-category">2. Category</a>
+<span class="text-blueprint-300">→</span>
+<a class="px-2.5 py-1 rounded-lg hover:bg-white/60 text-blueprint-600 font-medium" href="#node-matching">3. Matrix</a>
+<span class="text-blueprint-300">→</span>
+<a class="px-2.5 py-1 rounded-lg hover:bg-white/60 text-blueprint-600 font-medium" href="#node-terminal">4. Terminal</a>
+</div>
+</div>
+<!-- ================= THE INTERACTIVE ARCHITECTURAL FLOWGRAPH ================= -->
+<div class="space-y-8">
+<!-- ================= 1. ENTRY LOGIC & USER AUTHENTICATION DECISION ================= -->
+<section class="space-y-3" id="node-entry">
+<!-- Section Header with FigJam Tag -->
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-blueprint-900 text-white flex items-center justify-center font-mono font-bold text-xs">1</span>
+<h3 class="text-sm font-bold font-mono text-blueprint-900 uppercase tracking-wide">
+            Entry Logic • Email Identification &amp; Membership Gate
+          </h3>
+<span class="text-[11px] font-mono text-blueprint-500">Node: [AUTH_CHECK_ROUTER]</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+<!-- Step 1.A: User Check Input Node (Wireframe Component) -->
+<div class="lg:col-span-4 bg-white rounded-2xl border-2 border-blueprint-300 p-5 shadow-node flex flex-col justify-between relative group">
+<div class="absolute -top-3 left-4 bg-blueprint-900 text-white font-mono text-[10px] px-2 py-0.5 rounded font-medium uppercase tracking-wider">
+              Step 1.0 • Entry Point
+            </div>
+<div class="space-y-3 pt-1">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-blueprint-900 font-mono">User Check (Email / Auth)</span>
+<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">POST /api/v1/auth/check</span>
+</div>
+<p class="text-xs text-blueprint-600 leading-relaxed">
+                Whiteboard trigger: Input founder work email. Engine evaluates identity state against YANC Member Registry.
+              </p>
+<!-- Interactive Simulated Email Input -->
+<div class="space-y-2 pt-2">
+<label class="block text-[11px] font-mono text-blueprint-500 font-semibold uppercase">Simulate Founder Email:</label>
+<div class="flex gap-2">
+<input class="text-xs font-mono w-full rounded-xl border-blueprint-300 focus:border-blueprint-900 focus:ring-blueprint-900 bg-blueprint-50/50" id="user-email-input" type="email" value="jay@stealthfounder.com"/>
+<button class="px-3 py-1.5 rounded-xl bg-blueprint-900 text-white hover:bg-blueprint-800 text-xs font-mono font-semibold transition-all shrink-0" onclick="runAuthCheck()">
+                    Verify
+                  </button>
+</div>
+</div>
+</div>
+<!-- Flow Annotation Sticky Note -->
+<div class="mt-4 p-2.5 rounded-xl bg-amber-50 border border-amber-200/80 text-[11px] font-mono text-amber-900 flex items-start gap-2">
+<span class="text-amber-600 font-bold">✎ Spec:</span>
+<span>Direct login if session valid; routes to split logic path for credit allocation vs payment capture.</span>
+</div>
+</div>
+<!-- Connector SVG Visual (Desktop) -->
+<div class="hidden lg:flex lg:col-span-1 items-center justify-center">
+<div class="flex flex-col items-center justify-center w-full">
+<svg class="text-blueprint-400" fill="none" height="60" viewbox="0 0 48 60" width="48">
+<path d="M0 30H36M36 30L26 22M36 30L26 38" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[10px] font-mono text-blueprint-500 mt-1">eval()</span>
+</div>
+</div>
+<!-- Step 1.B: Split Logic Tree (Member vs Guest Branch) -->
+<div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Branch 1: Registered Member (Uses Credits) -->
+<div class="cursor-pointer bg-white rounded-2xl border-2 border-emerald-400 p-4 shadow-node hover:shadow-nodeHover transition-all flex flex-col justify-between relative active-branch" id="branch-member" onclick="setFlowSim('member')">
+<div class="flex items-center justify-between pb-2 border-b border-blueprint-100">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="text-xs font-bold font-mono text-emerald-800">PATH A: Registered Member</span>
+</div>
+<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-semibold">Active Profile</span>
+</div>
+<div class="space-y-2 py-3 text-xs">
+<p class="font-medium text-blueprint-800">Auto-Detected: Verified Member Status</p>
+<div class="p-2 bg-emerald-50/60 rounded-xl border border-emerald-200 text-emerald-900 font-mono text-[11px] space-y-1">
+<div>• Entitlement: <strong>4 Monthly Credits</strong></div>
+<div>• Online Sync: <strong>1 Credit/Call (45m)</strong></div>
+<div>• Offline Sync: <strong>2 Credits/Café (60m)</strong></div>
+</div>
+<p class="text-[11px] text-blueprint-500">Zero frictionless checkout. Instant webhook slot reservation.</p>
+</div>
+<div class="pt-2 border-t border-blueprint-100 flex items-center justify-between text-[11px] font-mono">
+<span class="text-blueprint-500">Wallet State:</span>
+<span class="text-emerald-700 font-bold" id="auth-member-credits">4 Credits Ready</span>
+</div>
+</div>
+<!-- Branch 2: Unregistered Guest (Prompt Signup + INR Direct) -->
+<div class="cursor-pointer bg-white rounded-2xl border-2 border-blueprint-300 p-4 shadow-node hover:shadow-nodeHover transition-all flex flex-col justify-between relative" id="branch-guest" onclick="setFlowSim('guest')">
+<div class="flex items-center justify-between pb-2 border-b border-blueprint-100">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+<span class="text-xs font-bold font-mono text-blueprint-800">PATH B: Guest / Non-Member</span>
+</div>
+<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-semibold">Prompt Flow</span>
+</div>
+<div class="space-y-2 py-3 text-xs">
+<p class="font-medium text-blueprint-800">Unregistered Identity / Expired Tier</p>
+<div class="p-2 bg-blueprint-50 rounded-xl border border-blueprint-200 text-blueprint-800 font-mono text-[11px] space-y-1">
+<div>• Onboarding: <strong>Fast-Track Signup</strong></div>
+<div>• Online Cost: <strong>₹500 Direct Escrow</strong></div>
+<div>• Offline Cost: <strong>₹1,500 Direct Escrow</strong></div>
+</div>
+<p class="text-[11px] text-blueprint-500">Enforces Razorpay checkout &amp; GST receipting workflow.</p>
+</div>
+<div class="pt-2 border-t border-blueprint-100 flex items-center justify-between text-[11px] font-mono">
+<span class="text-blueprint-500">Pay Gateway:</span>
+<span class="text-amber-700 font-bold">Escrow Enabled</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= CONNECTOR DIVIDER 1 -> 2 ================= -->
+<div class="flex items-center justify-center my-2">
+<div class="flex items-center gap-3 text-blueprint-400 font-mono text-xs">
+<span class="h-6 w-px bg-blueprint-300"></span>
+<span class="px-3 py-0.5 rounded-full bg-blueprint-200 text-blueprint-700 text-[10px] font-semibold tracking-wide">
+            PASS IDENTITY TO ONBOARDING SCHEMA
+          </span>
+<span class="h-6 w-px bg-blueprint-300"></span>
+</div>
+</div>
+<!-- ================= 2. CATEGORY SELECTION NODE ================= -->
+<section class="space-y-3" id="node-category">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-blueprint-900 text-white flex items-center justify-center font-mono font-bold text-xs">2</span>
+<h3 class="text-sm font-bold font-mono text-blueprint-900 uppercase tracking-wide">
+              Category Selection Node • Persona Segmentation
+            </h3>
+<span class="text-[11px] font-mono text-blueprint-500">Node: [ROLE_SPLITTER_MODAL]</span>
+</div>
+<span class="text-xs font-mono text-blueprint-500 hidden sm:inline">Whiteboard note: "Fill in basic details (Founder / Learner / Mentee etc.)"</span>
+</div>
+<!-- Interactive 3-way Category Cards directly matching the spec -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<!-- Category 1: Founder (Active) -->
+<div class="cursor-pointer bg-white rounded-2xl border-2 border-blue-600 p-5 shadow-node hover:shadow-nodeHover transition-all relative" id="cat-founder" onclick="selectCategory('founder')">
+<div class="absolute -top-3 right-4 bg-blue-600 text-white text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase">
+              Selected Branch
+            </div>
+<div class="flex items-center space-x-3 mb-3">
+<div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-mono font-bold text-base border border-blue-200">
+                F0
+              </div>
+<div>
+<h4 class="text-sm font-bold text-blueprint-950 font-mono">1. Founder Persona</h4>
+<p class="text-[11px] text-blueprint-500">Pre-Seed to Series A Startups</p>
+</div>
+</div>
+<div class="space-y-2 text-xs text-blueprint-700">
+<p class="text-xs">Primary Goal: Product-market fit advisory, unit economics sanity checks, institutional investor intros.</p>
+<div class="pt-2 flex flex-wrap gap-1 font-mono text-[10px]">
+<span class="px-2 py-0.5 bg-blueprint-100 rounded text-blueprint-800">Seed Stage</span>
+<span class="px-2 py-0.5 bg-blueprint-100 rounded text-blueprint-800">Pitch Upload</span>
+<span class="px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 rounded">1-on-1 Slots</span>
+</div>
+</div>
+<!-- Wireframe Spec Metadata Bar -->
+<div class="mt-4 pt-3 border-t border-blueprint-100 flex items-center justify-between text-[10px] font-mono text-blueprint-500">
+<span>Directory Target:</span>
+<span class="font-bold text-blueprint-900">Mentors + Investors</span>
+</div>
+</div>
+<!-- Category 2: Mentee / Aspiring Operator -->
+<div class="cursor-pointer bg-white rounded-2xl border-2 border-blueprint-300 p-5 shadow-node hover:shadow-nodeHover transition-all relative" id="cat-mentee" onclick="selectCategory('mentee')">
+<div class="flex items-center space-x-3 mb-3">
+<div class="w-10 h-10 rounded-xl bg-blueprint-100 text-blueprint-800 flex items-center justify-center font-mono font-bold text-base border border-blueprint-200">
+                M1
+              </div>
+<div>
+<h4 class="text-sm font-bold text-blueprint-950 font-mono">2. Mentee / Operator</h4>
+<p class="text-[11px] text-blueprint-500">Functional Leads &amp; Tech Builders</p>
+</div>
+</div>
+<div class="space-y-2 text-xs text-blueprint-700">
+<p class="text-xs">Primary Goal: Functional mastery, architecture teardowns, 0-to-1 playbook scaling with seasoned CXOs.</p>
+<div class="pt-2 flex flex-wrap gap-1 font-mono text-[10px]">
+<span class="px-2 py-0.5 bg-blueprint-100 rounded text-blueprint-800">Engineering</span>
+<span class="px-2 py-0.5 bg-blueprint-100 rounded text-blueprint-800">GTM Funnels</span>
+<span class="px-2 py-0.5 bg-blueprint-100 rounded text-blueprint-800">45m Video</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-blueprint-100 flex items-center justify-between text-[10px] font-mono text-blueprint-500">
+<span>Directory Target:</span>
+<span class="font-bold text-blueprint-900">Mentors Exclusive</span>
+</div>
+</div>
+<!-- Category 3: Institutional Investor / Scout -->
+<div class="cursor-pointer bg-white rounded-2xl border-2 border-blueprint-300 p-5 shadow-node hover:shadow-nodeHover transition-all relative" id="cat-investor" onclick="selectCategory('investor')">
+<div class="flex items-center space-x-3 mb-3">
+<div class="w-10 h-10 rounded-xl bg-purple-50 text-figma-purple flex items-center justify-center font-mono font-bold text-base border border-purple-200">
+                IV
+              </div>
+<div>
+<h4 class="text-sm font-bold text-blueprint-950 font-mono">3. Investor / Fund Lead</h4>
+<p class="text-[11px] text-blueprint-500">Angels, Micro-VCs &amp; Syndicates</p>
+</div>
+</div>
+<div class="space-y-2 text-xs text-blueprint-700">
+<p class="text-xs">Primary Goal: Direct pipeline ingestion, pitch deck review with encrypted S3 vault access and 48-hr SLA.</p>
+<div class="pt-2 flex flex-wrap gap-1 font-mono text-[10px]">
+<span class="px-2 py-0.5 bg-blueprint-100 rounded text-blueprint-800">Dossier Vault</span>
+<span class="px-2 py-0.5 bg-blueprint-100 rounded text-blueprint-800">Check Size Filter</span>
+<span class="px-2 py-0.5 bg-purple-50 text-purple-700 border border-purple-200 rounded">Lead Syndicate</span>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-blueprint-100 flex items-center justify-between text-[10px] font-mono text-blueprint-500">
+<span>Directory Target:</span>
+<span class="font-bold text-blueprint-900">Vault &amp; Pitch Intake</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= CONNECTOR DIVIDER 2 -> 3 ================= -->
+<div class="flex items-center justify-center my-2">
+<div class="flex items-center gap-3 text-blueprint-400 font-mono text-xs">
+<span class="h-6 w-px bg-blueprint-300"></span>
+<span class="px-3 py-0.5 rounded-full bg-blueprint-200 text-blueprint-700 text-[10px] font-semibold tracking-wide">
+            ROUTE TO MATCHING &amp; DISCOVERY ENGINE
+          </span>
+<span class="h-6 w-px bg-blueprint-300"></span>
+</div>
+</div>
+<!-- ================= 3. MATCHING MATRIX & FORMAT RESOLUTION ================= -->
+<section class="space-y-3" id="node-matching">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-blueprint-900 text-white flex items-center justify-center font-mono font-bold text-xs">3</span>
+<h3 class="text-sm font-bold font-mono text-blueprint-900 uppercase tracking-wide">
+              Matching Matrix • Multi-Dimensional Filter &amp; Venue Logic
+            </h3>
+<span class="text-[11px] font-mono text-blueprint-500">Node: [DISCOVERY_FILTER_ENGINE]</span>
+</div>
+<span class="text-xs font-mono text-blueprint-500 hidden sm:inline">Whiteboard note: "Choose Slot (offline or online)"</span>
+</div>
+<div class="bg-white rounded-2xl border-2 border-blueprint-300 p-5 shadow-node space-y-5">
+<!-- Filters Toolbar Styled as System Attributes Matrix -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 rounded-xl bg-blueprint-50 border border-blueprint-200">
+<div>
+<label class="block text-[11px] font-mono font-bold text-blueprint-600 mb-1 uppercase">Filter 1: Sector / Domain</label>
+<select class="w-full text-xs font-mono rounded-xl border-blueprint-300 focus:ring-blueprint-900 focus:border-blueprint-900 bg-white" id="matrix-sector" onchange="filterMatrixSim()">
+<option value="all">All Sectors (Fintech, SaaS, AI)</option>
+<option value="fintech">Fintech &amp; Payments</option>
+<option value="saas">Enterprise B2B SaaS</option>
+<option value="ai">AI / DeepTech</option>
+</select>
+</div>
+<div>
+<label class="block text-[11px] font-mono font-bold text-blueprint-600 mb-1 uppercase">Filter 2: Founder Stage</label>
+<select class="w-full text-xs font-mono rounded-xl border-blueprint-300 focus:ring-blueprint-900 focus:border-blueprint-900 bg-white" id="matrix-stage" onchange="filterMatrixSim()">
+<option value="seed">Seed &amp; Pre-Seed (0-to-1)</option>
+<option value="early">Pre-Series A ($20k+ MRR)</option>
+<option value="growth">Series A+ Scaling</option>
+</select>
+</div>
+<div>
+<label class="block text-[11px] font-mono font-bold text-blueprint-600 mb-1 uppercase">Filter 3: Immediate Bottleneck</label>
+<select class="w-full text-xs font-mono rounded-xl border-blueprint-300 focus:ring-blueprint-900 focus:border-blueprint-900 bg-white" id="matrix-need" onchange="filterMatrixSim()">
+<option value="gtm">GTM &amp; Customer Acquisition</option>
+<option value="fundraising">Term Sheet Evaluation</option>
+<option value="tech">Scalable Architecture</option>
+</select>
+</div>
+<div>
+<label class="block text-[11px] font-mono font-bold text-blueprint-600 mb-1 uppercase">Sort Priority</label>
+<select class="w-full text-xs font-mono rounded-xl border-blueprint-300 focus:ring-blueprint-900 focus:border-blueprint-900 bg-white">
+<option>Highest Match Score (AI Vector)</option>
+<option>Earliest Slot Available</option>
+<option>Rating (5.0 ★)</option>
+</select>
+</div>
+</div>
+<!-- Format Choice Split: Online (30/45m) vs Offline (60m Approved Venues) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Online Mode Wireframe Block -->
+<div class="cursor-pointer p-4 rounded-xl border-2 border-blue-600 bg-blue-50/20 shadow-xs flex flex-col justify-between transition-all" id="format-online-card" onclick="selectFormat('online')">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+<h5 class="text-xs font-bold font-mono text-blueprint-900 uppercase">Format Option A: Online Video Room</h5>
+</div>
+<p class="text-xs text-blueprint-600 mt-1">Duration: <strong>30–45 mins</strong> • Google Meet Automated Provisioning</p>
+</div>
+<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold" id="badge-online-rate">1 Credit / ₹500</span>
+</div>
+<div class="mt-3 p-3 rounded-lg bg-white border border-blue-200 text-xs font-mono text-blueprint-700 space-y-1">
+<div class="flex items-center justify-between text-[11px]">
+<span>• Link Protocol:</span>
+<span class="text-blue-700 font-semibold">Calendar Bot API</span>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span>• Prep Material:</span>
+<span>Screen-share Enabled</span>
+</div>
+</div>
+<div class="mt-3 text-[11px] font-mono text-blue-700 flex items-center justify-between">
+<span>Status: Currently Selected</span>
+<span class="font-bold">✓ Active Mode</span>
+</div>
+</div>
+<!-- Offline Mode Wireframe Block (Starbucks / Third Wave Coffee) -->
+<div class="cursor-pointer p-4 rounded-xl border-2 border-blueprint-300 bg-white hover:border-amber-500 shadow-xs flex flex-col justify-between transition-all" id="format-offline-card" onclick="selectFormat('offline')">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+<h5 class="text-xs font-bold font-mono text-blueprint-900 uppercase">Format Option B: Offline Curated Venues</h5>
+</div>
+<p class="text-xs text-blueprint-600 mt-1">Duration: <strong>60 mins In-Person</strong> • Table Hold at Approved Cafés</p>
+</div>
+<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold" id="badge-offline-rate">2 Credits / ₹1,500</span>
+</div>
+<div class="mt-3 p-3 rounded-lg bg-blueprint-50 border border-blueprint-200 text-xs font-mono text-blueprint-700 space-y-1">
+<div class="flex items-center justify-between text-[11px]">
+<span>• Venue 1:</span>
+<span class="font-semibold text-blueprint-900">Third Wave Coffee, Koramangala / Indiranagar</span>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span>• Venue 2:</span>
+<span class="font-semibold text-blueprint-900">Starbucks Reserve, Church Street, Bengaluru</span>
+</div>
+</div>
+<div class="mt-3 text-[11px] font-mono text-blueprint-500 flex items-center justify-between">
+<span>Requires Ops concierge verification</span>
+<span class="font-semibold hover:underline">Click to switch →</span>
+</div>
+</div>
+</div>
+<!-- Matched Expert Entity Mock Wireframe -->
+<div class="border border-blueprint-200 rounded-xl p-4 bg-white flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+<div class="flex items-center space-x-3">
+<div class="w-12 h-12 rounded-xl bg-blueprint-900 text-white flex items-center justify-center font-mono font-bold text-sm">
+                AK
+              </div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="text-sm font-bold text-blueprint-900">Arjun Kulkarni</h4>
+<span class="text-[10px] font-mono px-2 py-0.2 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">4.9 ★ (38 Sessions)</span>
+</div>
+<p class="text-xs text-blueprint-500">Ex-Head of Growth, Razorpay • Fintech &amp; B2B SaaS GTM Specialist</p>
+</div>
+</div>
+<!-- Flow Data Passing Annotation -->
+<div class="text-xs font-mono text-blueprint-600 bg-blueprint-50 px-3 py-2 rounded-lg border border-blueprint-200">
+              Payload: <span class="font-bold text-blueprint-900">{ mentor_id: "AK_092", verified: true, slots: "10:00 AM | 04:00 PM" }</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= CONNECTOR DIVIDER 3 -> 4 ================= -->
+<div class="flex items-center justify-center my-2">
+<div class="flex items-center gap-3 text-blueprint-400 font-mono text-xs">
+<span class="h-6 w-px bg-blueprint-300"></span>
+<span class="px-3 py-0.5 rounded-full bg-blueprint-200 text-blueprint-700 text-[10px] font-semibold tracking-wide">
+            FORWARD PAYLOAD TO BOOKING TERMINAL
+          </span>
+<span class="h-6 w-px bg-blueprint-300"></span>
+</div>
+</div>
+<!-- ================= 4. DIRECT BOOKING TERMINAL WITH ESCROW LOCK ================= -->
+<section class="space-y-3" id="node-terminal">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-blueprint-900 text-white flex items-center justify-center font-mono font-bold text-xs">4</span>
+<h3 class="text-sm font-bold font-mono text-blueprint-900 uppercase tracking-wide">
+              Direct Booking Terminal • Escrow Lock &amp; Dispatch
+            </h3>
+<span class="text-[11px] font-mono text-blueprint-500">Node: [TRANSACTION_ESCROW_TERMINAL]</span>
+</div>
+<span class="text-xs font-mono text-blueprint-500 hidden sm:inline">Whiteboard note: "Add in details (Why, what they need) → Pay / Use Credits"</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+<!-- Terminal Input Panel (Founder Problem Statement & Slot Schedule) -->
+<div class="lg:col-span-7 bg-white rounded-2xl border-2 border-blueprint-300 p-5 shadow-node space-y-4">
+<div class="flex items-center justify-between pb-3 border-b border-blueprint-100">
+<span class="text-xs font-bold font-mono text-blueprint-900 uppercase">Consultation Brief &amp; Slot Lock</span>
+<span class="text-[10px] font-mono text-blueprint-500">FORM: REQ_ADVISORY_SLOT</span>
+</div>
+<!-- Why & What They Need -->
+<div class="space-y-1">
+<label class="block text-xs font-mono font-semibold text-blueprint-800">
+                1. What is your exact bottleneck? (Why &amp; What do you need?)
+              </label>
+<textarea class="w-full text-xs font-mono rounded-xl border-blueprint-300 focus:border-blueprint-900 focus:ring-blueprint-900 placeholder:text-blueprint-400" id="booking-problem-desc" placeholder="e.g. Scaling inbound B2B sales pipeline from $15k MRR, structuring founder equity vesting, preparing 2026 data room..." rows="3"></textarea>
+</div>
+<!-- Date & Time Picker Row -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div>
+<label class="block text-[11px] font-mono font-semibold text-blueprint-600 mb-1">Target Consultation Date</label>
+<input class="w-full text-xs font-mono rounded-xl border-blueprint-300 focus:border-blueprint-900 focus:ring-blueprint-900 bg-blueprint-50/40" type="date" value="2026-09-14"/>
+</div>
+<div>
+<label class="block text-[11px] font-mono font-semibold text-blueprint-600 mb-1">Slotted Window</label>
+<select class="w-full text-xs font-mono rounded-xl border-blueprint-300 focus:border-blueprint-900 focus:ring-blueprint-900 bg-blueprint-50/40">
+<option>10:00 AM – 10:45 AM (IST)</option>
+<option>02:30 PM – 03:15 PM (IST)</option>
+<option>05:00 PM – 06:00 PM (IST - Offline)</option>
+</select>
+</div>
+</div>
+<!-- Venue / Link Auto Preview -->
+<div class="p-3 rounded-xl bg-blue-50/60 border border-blue-200 text-xs font-mono text-blue-900 flex items-center justify-between" id="terminal-location-box">
+<div>
+<span class="text-[10px] text-blue-600 uppercase font-bold block">Automated Dispatch Protocol:</span>
+<span class="font-semibold" id="terminal-location-label">Google Meet Encrypted Room (Triggered upon confirmation)</span>
+</div>
+<span class="text-[10px] px-2 py-0.5 rounded bg-blue-200 text-blue-900 font-bold">AUTO_GEN</span>
+</div>
+</div>
+<!-- Escrow Lock & Settlement Inspector (Terminal Right) -->
+<div class="lg:col-span-5 bg-white rounded-2xl border-2 border-blueprint-900 p-5 shadow-node space-y-4 relative">
+<div class="flex items-center justify-between pb-3 border-b border-blueprint-100">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="text-xs font-bold font-mono text-blueprint-900 uppercase">Settlement &amp; Escrow Engine</span>
+</div>
+<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold border border-emerald-200" id="terminal-escrow-badge">Escrow Active</span>
+</div>
+<!-- Real-time Cost Breakdown -->
+<div class="space-y-2 text-xs font-mono">
+<div class="flex justify-between text-blueprint-600">
+<span>Base Consultation Rate:</span>
+<span class="font-bold text-blueprint-900" id="cost-base-rate">1 Credit (Member Subsidized)</span>
+</div>
+<div class="flex justify-between text-blueprint-600">
+<span>Platform Governance Fee:</span>
+<span class="font-bold text-emerald-700">₹0.00 (Zero Fee for Members)</span>
+</div>
+<div class="flex justify-between text-blueprint-600">
+<span>Venue Holding Escrow:</span>
+<span class="font-bold text-blueprint-900" id="cost-escrow-hold">None (Online Room)</span>
+</div>
+<div class="pt-2 border-t border-blueprint-200 flex justify-between text-sm font-bold text-blueprint-950">
+<span>Net Debit:</span>
+<span class="text-emerald-700 font-mono" id="cost-net-debit">1 Credit</span>
+</div>
+</div>
+<!-- Escrow Lock Indicator Box -->
+<div class="p-3 rounded-xl bg-blueprint-50 border border-blueprint-200 text-[11px] font-mono text-blueprint-700 space-y-1.5">
+<div class="flex items-center justify-between">
+<span class="font-bold text-blueprint-900 flex items-center gap-1.5">
+<svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+                  Escrow Lock Mechanism:
+                </span>
+<span class="text-[10px] text-emerald-700 font-bold">ENFORCED</span>
+</div>
+<p class="text-blueprint-500 text-[10px] leading-relaxed">
+                Funds or Member Credits are held in escrow until mentor check-in is logged by Ops Admin. 100% refund SLA if cancellation occurs &gt;2h prior.
+              </p>
+</div>
+<!-- Final Terminal Execution Button -->
+<button class="w-full py-2.5 px-4 rounded-xl bg-blueprint-900 hover:bg-blueprint-800 text-white font-mono text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2" id="btn-terminal-dispatch" onclick="dispatchBookingTerminal()">
+<span id="btn-terminal-text">Confirm Booking with 1 Credit</span>
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<!-- Success Notification (Hidden by default) -->
+<div class="hidden p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-mono space-y-1" id="booking-success-toast">
+<p class="font-bold">✓ Session Locked in Escrow (#SES-8491)</p>
+<p class="text-[11px]">Forwarded to Ops Admin Queue + Google Calendar dispatch initiated.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= 5. CROSS-ROLE GOVERNANCE DATA FLOW ================= -->
+<section class="bg-white rounded-2xl border-2 border-blueprint-300 p-5 shadow-node space-y-4">
+<div class="flex items-center justify-between pb-3 border-b border-blueprint-200">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-figma-purple text-white font-mono text-[10px] font-bold">HQ GOVERNANCE</span>
+<h3 class="text-xs font-bold font-mono text-blueprint-900 uppercase">
+              Role Data Flow Pipeline (Operations • Finance • Tech Admin)
+            </h3>
+</div>
+<span class="text-[11px] font-mono text-blueprint-500">Automated Webhooks &amp; Escrow Ledger</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+<!-- Ops Admin Data Node -->
+<div class="p-3.5 rounded-xl border border-blueprint-200 bg-blueprint-50/50 space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-bold text-blueprint-900 flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-blue-600"></span> Ops Admin Concierge
+              </span>
+<span class="text-[10px] text-blue-700 font-semibold">Queue (2 pending)</span>
+</div>
+<p class="text-[11px] text-blueprint-600">
+              Receives booking payload: verifies meeting link validity, confirms cafe table reservation for offline sessions at Third Wave/Starbucks.
+            </p>
+<div class="pt-2 text-[10px] text-blueprint-500 border-t border-blueprint-200">
+              Event: <span class="font-bold">onBookingCreated → notifyOps()</span>
+</div>
+</div>
+<!-- Finance Admin Data Node -->
+<div class="p-3.5 rounded-xl border border-blueprint-200 bg-blueprint-50/50 space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-bold text-blueprint-900 flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-600"></span> Finance Escrow Ledger
+              </span>
+<span class="text-[10px] text-emerald-700 font-semibold">₹42,500 Locked</span>
+</div>
+<p class="text-[11px] text-blueprint-600">
+              Manages escrow release post-session completion. Distributes mentor remuneration and balances non-member GST settlement.
+            </p>
+<div class="pt-2 text-[10px] text-blueprint-500 border-t border-blueprint-200">
+              Event: <span class="font-bold">onCallCompleted → releaseEscrow()</span>
+</div>
+</div>
+<!-- Tech & Super Admin Node -->
+<div class="p-3.5 rounded-xl border border-blueprint-200 bg-blueprint-50/50 space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-bold text-blueprint-900 flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-figma-purple"></span> Tech Vault &amp; Super Admin
+              </span>
+<span class="text-[10px] text-purple-700 font-semibold">99.98% Healthy</span>
+</div>
+<p class="text-[11px] text-blueprint-600">
+              Secures Pitch Deck S3 Vault with presigned expiration links. Monitors Calendly/Razorpay Webhook health and role permissioning.
+            </p>
+<div class="pt-2 text-[10px] text-blueprint-500 border-t border-blueprint-200">
+              Event: <span class="font-bold">onDeckUpload → encryptAES256()</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- ================= INTERACTIVE RUNTIME SCRIPTS ================= -->
+<script>
+    // State storage for the interactive architecture flow
+    let state = {
+      role: 'member',           // 'member' | 'guest' | 'investor_flow'
+      category: 'founder',      // 'founder' | 'mentee' | 'investor'
+      format: 'online',         // 'online' | 'offline'
+      sector: 'all',
+      stage: 'seed',
+      userEmail: 'jay@stealthfounder.com'
+    };
+
+    // Role Simulation Switcher
+    function setFlowSim(roleKey) {
+      state.role = roleKey;
+
+      // Update Top Switcher Buttons
+      ['member', 'guest', 'investor'].forEach(r => {
+        const btn = document.getElementById(`sim-${r}`);
+        if (btn) {
+          if (roleKey.startsWith(r)) {
+            btn.className = 'px-2.5 py-1 rounded-lg text-xs font-medium bg-white text-blueprint-900 shadow-xs border border-blueprint-200 font-mono transition-all';
+          } else {
+            btn.className = 'px-2.5 py-1 rounded-lg text-xs font-medium text-blueprint-600 hover:text-blueprint-900 font-mono transition-all';
+          }
+        }
+      });
+
+      // Update Path A / B Visuals
+      const branchMember = document.getElementById('branch-member');
+      const branchGuest = document.getElementById('branch-guest');
+
+      if (roleKey === 'member') {
+        branchMember.classList.add('active-branch');
+        branchGuest.classList.remove('active-branch');
+        document.getElementById('user-email-input').value = 'jay@stealthfounder.com';
+      } else if (roleKey === 'guest') {
+        branchGuest.classList.add('active-branch');
+        branchMember.classList.remove('active-branch');
+        document.getElementById('user-email-input').value = 'external.guest@gmail.com';
+      } else if (roleKey === 'investor_flow') {
+        selectCategory('investor');
+        return;
+      }
+
+      updateTerminalState();
+    }
+
+    // Category Selector
+    function selectCategory(catKey) {
+      state.category = catKey;
+
+      const cats = ['founder', 'mentee', 'investor'];
+      cats.forEach(c => {
+        const el = document.getElementById(`cat-${c}`);
+        if (el) {
+          if (c === catKey) {
+            el.className = 'cursor-pointer bg-white rounded-2xl border-2 border-blue-600 p-5 shadow-node hover:shadow-nodeHover transition-all relative';
+          } else {
+            el.className = 'cursor-pointer bg-white rounded-2xl border-2 border-blueprint-300 p-5 shadow-node hover:shadow-nodeHover transition-all relative';
+          }
+        }
+      });
+
+      updateTerminalState();
+    }
+
+    // Format Selector (Online vs Offline)
+    function selectFormat(fmtKey) {
+      state.format = fmtKey;
+
+      const onlineCard = document.getElementById('format-online-card');
+      const offlineCard = document.getElementById('format-offline-card');
+
+      if (fmtKey === 'online') {
+        onlineCard.className = 'cursor-pointer p-4 rounded-xl border-2 border-blue-600 bg-blue-50/20 shadow-xs flex flex-col justify-between transition-all';
+        offlineCard.className = 'cursor-pointer p-4 rounded-xl border-2 border-blueprint-300 bg-white hover:border-amber-500 shadow-xs flex flex-col justify-between transition-all';
+        
+        document.getElementById('terminal-location-label').textContent = 'Google Meet Encrypted Room (Triggered upon confirmation)';
+        document.getElementById('cost-escrow-hold').textContent = 'None (Online Room)';
+      } else {
+        offlineCard.className = 'cursor-pointer p-4 rounded-xl border-2 border-amber-500 bg-amber-50/20 shadow-xs flex flex-col justify-between transition-all';
+        onlineCard.className = 'cursor-pointer p-4 rounded-xl border-2 border-blueprint-300 bg-white hover:border-blue-600 shadow-xs flex flex-col justify-between transition-all';
+
+        document.getElementById('terminal-location-label').textContent = 'Reserved Table: Starbucks Reserve / Third Wave Coffee (Bengaluru)';
+        document.getElementById('cost-escrow-hold').textContent = 'Venue Concierge Verification Required';
+      }
+
+      updateTerminalState();
+    }
+
+    // Dynamic terminal pricing & status calculation
+    function updateTerminalState() {
+      const isMember = state.role === 'member';
+      const isOnline = state.format === 'online';
+
+      const costBaseRate = document.getElementById('cost-base-rate');
+      const costNetDebit = document.getElementById('cost-net-debit');
+      const btnTerminalText = document.getElementById('btn-terminal-text');
+      const badgeOnlineRate = document.getElementById('badge-online-rate');
+      const badgeOfflineRate = document.getElementById('badge-offline-rate');
+
+      if (isMember) {
+        badgeOnlineRate.textContent = '1 Credit / 45m';
+        badgeOfflineRate.textContent = '2 Credits / 60m';
+
+        if (isOnline) {
+          costBaseRate.textContent = '1 Credit (Member Subsidized)';
+          costNetDebit.textContent = '1 Credit';
+          btnTerminalText.textContent = 'Confirm Booking with 1 Credit';
+        } else {
+          costBaseRate.textContent = '2 Credits (In-Person Coffee)';
+          costNetDebit.textContent = '2 Credits';
+          btnTerminalText.textContent = 'Confirm Offline Slot with 2 Credits';
+        }
+      } else {
+        badgeOnlineRate.textContent = '₹500 Direct Escrow';
+        badgeOfflineRate.textContent = '₹1,500 Direct Escrow';
+
+        if (isOnline) {
+          costBaseRate.textContent = '₹500 INR (Direct Non-Member Pay)';
+          costNetDebit.textContent = '₹500 INR (Inc. Taxes)';
+          btnTerminalText.textContent = 'Proceed to Escrow Checkout (₹500)';
+        } else {
+          costBaseRate.textContent = '₹1,500 INR (Direct Non-Member Pay)';
+          costNetDebit.textContent = '₹1,500 INR (Inc. Taxes)';
+          btnTerminalText.textContent = 'Proceed to Escrow Checkout (₹1,500)';
+        }
+      }
+    }
+
+    // Email verify action
+    function runAuthCheck() {
+      const email = document.getElementById('user-email-input').value;
+      if (email.includes('founder') || email.includes('yanc')) {
+        setFlowSim('member');
+        alert(`Identity check verified: [${email}] is an Active Registered Member with 4 Allocated Credits.`);
+      } else {
+        setFlowSim('guest');
+        alert(`Identity check: [${email}] is not an active member. Routing to Guest Checkout & Signup Prompt.`);
+      }
+    }
+
+    // Dispatch button action
+    function dispatchBookingTerminal() {
+      const toast = document.getElementById('booking-success-toast');
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 50);
+    }
+
+    function filterMatrixSim() {
+      console.log('Matrix refreshed with criteria:', {
+        sector: document.getElementById('matrix-sector').value,
+        stage: document.getElementById('matrix-stage').value,
+        need: document.getElementById('matrix-need').value,
+      });
+    }
+
+    function resetFlowDefaults() {
+      setFlowSim('member');
+      selectCategory('founder');
+      selectFormat('online');
+      document.getElementById('booking-success-toast').classList.add('hidden');
+    }
+  </script>
+</body></html>
