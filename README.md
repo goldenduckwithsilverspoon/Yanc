@@ -2,7 +2,9 @@
 
 Nine standalone wireframe exports, connected into one navigable product walkthrough.
 
-**Live demo:** https://goldenduckwithsilverspoon.github.io/Yanc/
+**Live demo:** https://goldenduckwithsilverspoon.github.io/Yanc/ — *available once GitHub Pages
+is switched on for this repository; see [Deploying](#deploying). The site is committed at
+`docs/`, so enabling Pages is the only step left.*
 
 YANC 1-on-1 Connect is institutional-grade advisory infrastructure: founders book verified
 mentors and angel investors, session money sits in escrow until the meeting is proven, and
@@ -135,9 +137,16 @@ or horizontal overflow at mobile width. Screenshots land in `.smoke-shots/`.
 
 ### Deploying
 
-`.github/workflows/deploy.yml` rebuilds and publishes `docs/` to GitHub Pages on every push.
-If Actions is unavailable, Pages can serve the committed output directly: **Settings → Pages →
-Source: Deploy from a branch**, then pick this branch and the `/docs` folder.
+Pages has to be switched on once by a repository admin — the Actions token is not permitted to
+create the Pages site itself. Either option works, and the built site is already committed:
+
+- **Settings → Pages → Source: Deploy from a branch**, then pick this branch and the `/docs`
+  folder. Nothing else to run; the link goes live in a minute or two.
+- **Settings → Pages → Source: GitHub Actions.** `.github/workflows/deploy.yml` then rebuilds
+  and publishes `docs/` on every push, and fails the run if the committed build is stale.
+
+Until Pages is enabled the workflow still builds and verifies the site; it just skips the deploy
+step and leaves a note saying why.
 
 ---
 

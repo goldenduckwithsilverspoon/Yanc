@@ -447,26 +447,19 @@
     // Surface anything booked in the console on the dashboard.
     if (s.bookings.length) renderBookings(s.bookings);
 
-    // "Request" buttons on recommended advisors take you to the console
-    // pre-filtered to that mentor.
-    Array.prototype.forEach.call(document.querySelectorAll('button'), function (b) {
-      if (normalise(b) !== 'request') return;
-      var card = b.closest('div');
-      var name = '';
-      while (card && !name) {
-        var h = card.querySelector('p.font-semibold, p.font-bold, h4, h3');
-        if (h) name = h.textContent.trim();
-        card = card.parentElement;
-      }
-      b.addEventListener('click', function (ev) {
-        ev.preventDefault();
-        go('console.html?tab=mentors&mentor=' + encodeURIComponent(name));
-      });
-    });
-
-    // Join / Manage Session -> the mentor side of the same session.
     Array.prototype.forEach.call(document.querySelectorAll('button'), function (b) {
       var t = normalise(b);
+
+      // "Request" on a recommended advisor opens the directory on that mentor.
+      if (t === 'request') {
+        var name = advisorNameNear(b);
+        b.addEventListener('click', function (ev) {
+          ev.preventDefault();
+          go('console.html?tab=mentors&mentor=' + encodeURIComponent(name));
+        });
+        return;
+      }
+
       if (t === 'join / manage session' || t === 'zoom link ready') {
         b.addEventListener('click', function (ev) {
           ev.preventDefault();
@@ -474,7 +467,9 @@
             title: 'Session', tone: 'ok', action: 'Open Advisor Board →', href: 'mentor.html', sticky: true
           });
         });
+        return;
       }
+
       if (t === 'instant escrow lock') {
         b.addEventListener('click', function (ev) {
           ev.preventDefault();
@@ -484,6 +479,17 @@
         });
       }
     });
+
+    // Climb a few levels looking for the advisor card's name heading. Bounded
+    // so an unmatched button can't pick up an unrelated heading from the page.
+    function advisorNameNear(el) {
+      var node = el.parentElement;
+      for (var depth = 0; node && depth < 5; depth++, node = node.parentElement) {
+        var h = node.querySelector('p.font-semibold, p.font-bold, h4, h3');
+        if (h && h.textContent.trim()) return h.textContent.trim();
+      }
+      return '';
+    }
 
     function renderBookings(bookings) {
       var anchor = document.querySelector('h2, h3');
@@ -811,8 +817,8 @@
       var heading = Array.prototype.slice.call(document.querySelectorAll('h2, h3'))
         .filter(function (h) { return /audit log/i.test(h.textContent); })[0];
       if (!heading) return;
-      var card = heading.closest('div');
-      while (card && !card.querySelector('div > div')) card = card.parentElement;
+      // The export nests the entries in the card's last block, a couple of
+      // levels above the heading.
       var stream = heading.parentElement && heading.parentElement.parentElement;
       var list = stream && stream.querySelector('div:last-child');
       if (!list) return;
